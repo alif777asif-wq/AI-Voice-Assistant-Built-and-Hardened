@@ -1,0 +1,4 @@
+# Only needed to re-export the portfolio images (run_all.py does not use them).
+#   pip install -r requirements-export.txt && playwright install chromium
+# Pillow is already pinned in ../requirements.txt.
+playwright==1.63.0

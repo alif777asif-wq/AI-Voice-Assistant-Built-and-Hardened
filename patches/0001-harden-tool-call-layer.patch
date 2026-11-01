@@ -1,0 +1,689 @@
+diff -ruN --no-dereference baseline/src/l_assistant/pipeline/orchestrator.py hardened/src/l_assistant/pipeline/orchestrator.py
+--- baseline/src/l_assistant/pipeline/orchestrator.py
++++ hardened/src/l_assistant/pipeline/orchestrator.py
+@@ -89,6 +89,7 @@
+ from __future__ import annotations
+ 
+ import asyncio
++import functools
+ import logging
+ import time
+ from typing import Any, AsyncIterator, Dict, List, Optional
+@@ -639,11 +640,14 @@
+ 
+         self.state = AgentState.SPEAKING
+         if is_yes and not is_no:
+-            args = dict(pending.arguments)
+-            args["confirmed"] = True
+-            logger.info("Confirmation accepted: %s(%r)", pending.tool_name, args)
++            logger.info("Confirmation accepted: %s(%r)", pending.tool_name, pending.arguments)
++            # Confirmation travels out-of-band (keyword argument), never inside the
++            # model-controlled argument dict -- see ToolDispatcher.execute.
+             result_text = await asyncio.get_running_loop().run_in_executor(
+-                None, self._tool_dispatcher.execute, pending.tool_name, args
++                None,
++                functools.partial(
++                    self._tool_dispatcher.execute, pending.tool_name, pending.arguments, confirmed=True
++                ),
+             )
+             await self._speak_complete_text(result_text)
+         else:
+diff -ruN --no-dereference baseline/src/l_assistant/tools/registry.py hardened/src/l_assistant/tools/registry.py
+--- baseline/src/l_assistant/tools/registry.py
++++ hardened/src/l_assistant/tools/registry.py
+@@ -19,6 +19,7 @@
+ 
+ from __future__ import annotations
+ 
++import inspect
+ import logging
+ from typing import Any, Dict, List
+ 
+@@ -409,13 +410,19 @@
+ )
+ 
+ 
++# Arguments that only the trusted orchestrator may set, never the model: a model (or a prompt
++# injected into it) that emits "confirmed": true must not be able to answer "are you sure?"
++# on the user's behalf. The tool descriptions only *ask* the model not to; this enforces it.
++_RESERVED_ARGUMENTS = frozenset({"confirmed"})
++
++
+ class ToolDispatcher:
+     """Executes a parsed ToolCall against a SystemToolsEngine instance."""
+ 
+     def __init__(self, engine: SystemToolsEngine) -> None:
+         self._engine = engine
+ 
+-    def execute(self, tool_name: str, arguments: Dict[str, Any]) -> str:
++    def execute(self, tool_name: str, arguments: Dict[str, Any], *, confirmed: bool = False) -> str:
+         """
+         Returns the tool's result as a string (every OpenAI-compatible
+         `tool` message role expects string content). Only
+@@ -427,12 +434,30 @@
+         result string, because letting any of those propagate would crash
+         the whole turn instead of letting the model explain the failure
+         to the user in its own words.
++
++        `arguments` come from the model and are untrusted. Reserved names (see
++        `_RESERVED_ARGUMENTS`) are dropped; the only way to run an action as user-confirmed
++        is the keyword-only `confirmed=True`, which the orchestrator passes after the user
++        has actually said yes.
+         """
+         method = getattr(self._engine, tool_name, None)
+         if method is None or not callable(method) or tool_name.startswith("_"):
+             logger.warning("Model requested unknown tool '%s'", tool_name)
+             return f"Error: tool '{tool_name}' does not exist."
+ 
++        if not isinstance(arguments, dict):
++            return f"Error: invalid arguments for '{tool_name}': expected an object."
++        arguments = dict(arguments)
++        smuggled = sorted(_RESERVED_ARGUMENTS & arguments.keys())
++        if smuggled:
++            logger.warning(
++                "Model supplied reserved argument(s) %s to '%s'; ignoring them", smuggled, tool_name
++            )
++            for name in smuggled:
++                del arguments[name]
++        if confirmed is True and "confirmed" in inspect.signature(method).parameters:
++            arguments["confirmed"] = True
++
+         try:
+             return method(**arguments)
+         except ConfirmationRequired:
+diff -ruN --no-dereference baseline/src/l_assistant/tools/system_tools.py hardened/src/l_assistant/tools/system_tools.py
+--- baseline/src/l_assistant/tools/system_tools.py
++++ hardened/src/l_assistant/tools/system_tools.py
+@@ -40,6 +40,7 @@
+ 
+ from __future__ import annotations
+ 
++import ipaddress
+ import logging
+ import os
+ import re
+@@ -135,6 +136,95 @@
+     return value
+ 
+ 
++# ---- Hardening helpers (every rule below is covered by tests/test_hardening.py
++# and by the adversarial harness in the repository that ships this patch) ------
++
++# A bare program / process name: starts with a letter or digit, then letters, digits,
++# space and . _ + @ - only. No path separators, no drive letters, no leading '-', no
++# URL syntax, no wildcard or regular-expression operators except the literal '.' and '+'
++# (which close_application escapes before they reach pkill).
++_PROGRAM_NAME_RE = re.compile(r"^[^\W_][\w .+@-]*$")
++
++
++def _validate_program_name(value: str, field: str) -> str:
++    value = _validate_name(value, field)
++    if not _PROGRAM_NAME_RE.match(value):
++        raise ToolError(
++            f"'{field}' ({value!r}) isn't a plain application name (no paths, options, "
++            f"URLs or wildcards are accepted); refusing to run it."
++        )
++    return value
++
++
++def _escape_ere(text: str) -> str:
++    """Escape POSIX extended-regex operators so pkill treats `text` literally."""
++    return re.sub(r"([\\.^$*+?()\[\]{}|])", r"\\\1", text)
++
++
++_WEB_SCHEMES = ("http", "https")
++_HOST_LABEL_RE = re.compile(r"^[A-Za-z0-9\u00a1-\uffff](?:[A-Za-z0-9\u00a1-\uffff-]{0,61}[A-Za-z0-9\u00a1-\uffff])?$")
++
++
++def _validated_web_url(url: str) -> str:
++    """Only well-formed http(s) addresses may reach the browser: never another scheme
++    (file:, javascript:, smb: ...), never something a browser would parse as an option."""
++    if any(ord(ch) < 33 or ord(ch) == 127 for ch in url):
++        raise ToolError("That address contains spaces or control characters; refusing to open it.")
++    if url.startswith("-"):
++        raise ToolError("That address looks like a command-line option; refusing to open it.")
++    try:
++        parts = urllib.parse.urlsplit(url)
++        host = parts.hostname
++        parts.port  # noqa: B018 -- raises ValueError for a malformed port
++    except ValueError:
++        raise ToolError("That address is malformed; refusing to open it.")
++    if parts.scheme.lower() not in _WEB_SCHEMES:
++        raise ToolError(
++            f"Only http and https addresses can be opened (got {parts.scheme or 'no scheme'!r}); refusing."
++        )
++    if not host:
++        raise ToolError("That address has no host name; refusing to open it.")
++    try:
++        ipaddress.ip_address(host)
++    except ValueError:
++        if not all(_HOST_LABEL_RE.match(label) for label in host.rstrip(".").split(".")):
++            raise ToolError("That address has an invalid host name; refusing to open it.")
++    return url
++
++
++# Places inside an allowed root where a file written by the assistant is later executed or
++# trusted without anyone looking at it (shell/session startup, SSH, credentials, autostart).
++_PROTECTED_FILE_NAMES = {
++    ".bashrc", ".bash_profile", ".bash_login", ".bash_logout", ".profile", ".zshrc", ".zshenv",
++    ".zprofile", ".zlogin", ".xprofile", ".xinitrc", ".xsession", "authorized_keys", "authorized_keys2",
++    ".netrc", ".git-credentials", ".npmrc", ".pypirc", ".pgpass",
++}
++_PROTECTED_DIR_SEQUENCES = [
++    ((".ssh",), "SSH keys and configuration"),
++    ((".gnupg",), "GPG keys"),
++    ((".aws",), "cloud credentials"),
++    ((".kube",), "cluster credentials"),
++    ((".config", "autostart"), "desktop autostart entries"),
++    ((".config", "systemd"), "systemd user units"),
++    (("start menu", "programs", "startup"), "the Windows startup folder"),
++    (("library", "launchagents"), "macOS launch agents"),
++    ((".git", "hooks"), "Git hooks"),
++]
++
++
++def _protected_reason(*paths: Path) -> Optional[str]:
++    """Why any of `paths` (lexical and symlink-resolved forms) is a protected location, if it is."""
++    for path in paths:
++        parts = [part.lower() for part in path.parts]
++        if parts and parts[-1] in _PROTECTED_FILE_NAMES:
++            return "a shell-startup, SSH or credential file"
++        for sequence, reason in _PROTECTED_DIR_SEQUENCES:
++            width = len(sequence)
++            if any(tuple(parts[i : i + width]) == sequence for i in range(len(parts) - width + 1)):
++                return reason
++    return None
++
++
+ def _default_allowed_roots() -> List[Path]:
+     return [Path.home().resolve()]
+ 
+@@ -161,6 +251,13 @@
+     )
+ 
+ 
++def _same_file(a: Path, b: Path) -> bool:
++    try:
++        return os.path.samefile(a, b)
++    except OSError:
++        return False
++
++
+ class SystemToolsEngine:
+     """Executes OS-level automation: apps, volume, files, browser, search."""
+ 
+@@ -172,8 +269,13 @@
+         power_management_enabled: bool = False,
+         power_min_delay_seconds: int = 15,
+         user_profile: Optional[UserProfileStore] = None,
++        protect_sensitive_paths: bool = True,
+     ) -> None:
+         self._allowed_roots = _resolve_allowed_roots(allowed_roots)
++        # Refuse to create/copy/rename into or out of startup, SSH and credential locations
++        # (see _protected_reason). On by default; set False only if you really want the
++        # assistant managing those files.
++        self._protect_sensitive_paths = protect_sensitive_paths
+         self._require_confirmation = require_confirmation
+         # Both default OFF even when the rest of tools.* is on -- see
+         # sections 6/7 below for why these two are gated separately from
+@@ -191,7 +293,7 @@
+     # ---- 1. Application / window management --------------------------
+ 
+     def open_application(self, app_name: str) -> str:
+-        name = _validate_name(app_name, "app_name")
++        name = _validate_program_name(app_name, "app_name")
+         try:
+             if sys.platform == "win32":
+                 # The safe, shell-free Windows API for "launch this by
+@@ -211,7 +313,7 @@
+             raise ToolError(f"Failed to open '{name}': {exc}")
+ 
+     def close_application(self, app_name: str) -> str:
+-        name = _validate_name(app_name, "app_name")
++        name = _validate_program_name(app_name, "app_name")
+         if name.lower().endswith(".exe"):
+             name = name[: -len(".exe")]
+         try:
+@@ -225,7 +327,9 @@
+                 )
+             else:
+                 result = subprocess.run(
+-                    ["pkill", "-x", name],
++                    # pkill's pattern is a regular expression: escape it so "." or ".*" in a
++                    # name can never match processes other than the one named.
++                    ["pkill", "-x", "--", _escape_ere(name)],
+                     shell=False,
+                     capture_output=True,
+                     text=True,
+@@ -410,6 +514,8 @@
+ 
+         src = Path(source).expanduser().resolve()
+         _check_within_allowed_roots(src, self._allowed_roots)
++        if action != "list":
++            self._refuse_protected(source, src)
+ 
+         if action == "list":
+             # The only read-only action here, and deliberately the only
+@@ -445,7 +551,7 @@
+             return f"Contents of '{src}': " + "; ".join(parts)
+ 
+         if action == "create":
+-            if src.exists() and not confirmed and self._require_confirmation:
++            if src.exists() and confirmed is not True and self._require_confirmation:
+                 raise ConfirmationRequired(
+                     f"'{src.name}' already exists. Overwrite it?",
+                     action="create",
+@@ -460,7 +566,8 @@
+                 raise ToolError("file_operation 'copy' requires 'destination'.")
+             dst = Path(destination).expanduser().resolve()
+             _check_within_allowed_roots(dst, self._allowed_roots)
+-            if dst.exists() and not confirmed and self._require_confirmation:
++            self._refuse_protected(destination, dst)
++            if dst.exists() and confirmed is not True and self._require_confirmation:
+                 raise ConfirmationRequired(
+                     f"'{dst.name}' already exists at the destination. Overwrite it?",
+                     action="copy",
+@@ -481,22 +588,39 @@
+                 raise ToolError("file_operation 'rename' requires 'destination'.")
+             dst = Path(destination).expanduser().resolve()
+             _check_within_allowed_roots(dst, self._allowed_roots)
++            self._refuse_protected(destination, dst)
+             if not src.exists():
+                 raise ToolError(f"'{src}' doesn't exist.")
+-            if not confirmed and self._require_confirmation:
++            if self._is_allowed_root(src) or self._is_allowed_root(dst):
++                raise ToolError("Refusing to rename or replace an allowed root folder itself.")
++            replaces = os.path.lexists(dst) and not _same_file(src, dst)
++            if confirmed is not True and self._require_confirmation:
++                if replaces:
++                    raise ConfirmationRequired(
++                        f"'{dst.name}' already exists. Replace it with '{src.name}'? "
++                        f"The existing '{dst.name}' goes to the trash first, so it can be recovered.",
++                        action="rename",
++                        source=str(src),
++                        destination=str(dst),
++                    )
+                 raise ConfirmationRequired(
+                     f"Rename '{src.name}' to '{dst.name}'?",
+                     action="rename",
+                     source=str(src),
+                     destination=str(dst),
+                 )
++            if replaces:
++                # Path.rename silently destroys an existing target on POSIX; make it recoverable.
++                self._move_to_trash(dst)
+             src.rename(dst)
+             return f"Renamed {src.name} to {dst.name}."
+ 
+         # action == "delete"
+         if not src.exists():
+             raise ToolError(f"'{src}' doesn't exist.")
+-        if not confirmed and self._require_confirmation:
++        if self._is_allowed_root(src):
++            raise ToolError("Refusing to delete an allowed root folder itself.")
++        if confirmed is not True and self._require_confirmation:
+             kind = "folder" if src.is_dir() else "file"
+             raise ConfirmationRequired(
+                 f"Delete the {kind} '{src.name}'? It'll go to the trash, "
+@@ -512,10 +636,15 @@
+         # a *correctly heard* delete turning out to be the wrong file.
+         # Same allowed_roots/confirmation gate either way; the only change
+         # is where the bytes end up.
++        self._move_to_trash(src)
++        return f"Moved {src} to the trash."
++
++    @staticmethod
++    def _move_to_trash(path: Path) -> None:
+         try:
+             from send2trash import send2trash
+ 
+-            send2trash(str(src))
++            send2trash(str(path))
+         except ImportError:
+             raise ToolError(
+                 "The 'send2trash' package isn't installed, so delete is "
+@@ -524,8 +653,22 @@
+                 "(already in requirements.txt)."
+             )
+         except Exception as exc:
+-            raise ToolError(f"Couldn't move '{src}' to the trash: {exc}")
+-        return f"Moved {src} to the trash."
++            raise ToolError(f"Couldn't move '{path}' to the trash: {exc}")
++
++    def _is_allowed_root(self, path: Path) -> bool:
++        return any(path == root for root in self._allowed_roots)
++
++    def _refuse_protected(self, raw: str, resolved: Path) -> None:
++        if not self._protect_sensitive_paths:
++            return
++        lexical = Path(os.path.normpath(os.path.join(os.getcwd(), os.path.expanduser(raw))))
++        reason = _protected_reason(lexical, resolved)
++        if reason:
++            raise ToolError(
++                f"'{resolved.name}' is in a protected location ({reason}); refusing to read, create "
++                f"or change it by voice. Construct SystemToolsEngine(protect_sensitive_paths=False) "
++                f"if the assistant really should manage those files."
++            )
+ 
+     # ---- 4. Web search & browser tabs ------------------------------------
+ 
+@@ -596,7 +739,7 @@
+                     raise ToolError(f"Can't tell what site '{target}' refers to.")
+                 url = f"https://{slug}.com"
+ 
+-        webbrowser.open(url)
++        webbrowser.open(_validated_web_url(url))
+         return f"Opening {target}."
+ 
+     _SITE_SEARCH_URL_TEMPLATES: Dict[str, str] = {
+@@ -635,7 +778,7 @@
+             )
+             target = f"Google, scoped to {site_key}"
+ 
+-        webbrowser.open(url)
++        webbrowser.open(_validated_web_url(url))
+         return f"Searching {target} for: {query}"
+ 
+     _BROWSER_TAB_KEY_COMBOS: Dict[str, List[str]] = {
+@@ -895,7 +1038,7 @@
+             return self._cancel_power_action()
+ 
+         delay = max(self._power_min_delay_seconds, int(delay_seconds))
+-        if not confirmed and self._require_confirmation:
++        if confirmed is not True and self._require_confirmation:
+             verb = "Shut down" if action == "shutdown" else "Restart"
+             raise ConfirmationRequired(
+                 f"{verb} the computer in {delay} seconds? Say cancel any "
+@@ -1036,7 +1179,7 @@
+             if not cwd.is_dir():
+                 raise ToolError(f"'{cwd}' isn't a directory.")
+ 
+-        if not confirmed and self._require_confirmation:
++        if confirmed is not True and self._require_confirmation:
+             where = f" in {cwd}" if cwd else ""
+             why = f" ({reason})" if reason else ""
+             raise ConfirmationRequired(
+@@ -1155,6 +1298,6 @@
+         if not video_id:
+             raise ToolError(f"Found a result for '{query}' but couldn't get its video ID.")
+ 
+-        webbrowser.open(f"https://www.youtube.com/watch?v={video_id}")
++        webbrowser.open(_validated_web_url(f"https://www.youtube.com/watch?v={urllib.parse.quote(str(video_id))}"))
+         title = first.get("title") or query
+         return f"Playing '{title}' on YouTube."
+diff -ruN --no-dereference baseline/tests/test_hardening.py hardened/tests/test_hardening.py
+--- baseline/tests/test_hardening.py
++++ hardened/tests/test_hardening.py
+@@ -0,0 +1,205 @@
++"""Regression tests for the tool-layer hardening (one block per weakness found by the adversarial harness)."""
++import os
++import subprocess as real_subprocess
++import sys
++from pathlib import Path
++
++import pytest
++
++# L_ASSISTANT_SRC lets the repository's audit run this same file against the untouched baseline,
++# to show these tests really fail on the original code.
++sys.path.insert(0, os.environ.get("L_ASSISTANT_SRC") or str(Path(__file__).resolve().parent.parent / "src"))
++
++from l_assistant.tools import system_tools
++from l_assistant.tools.registry import ToolDispatcher
++from l_assistant.tools.system_tools import ConfirmationRequired, SystemToolsEngine, ToolError
++
++
++@pytest.fixture
++def home(tmp_path: Path) -> Path:
++    d = tmp_path / "home"
++    d.mkdir()
++    (d / "a.txt").write_text("A")
++    (d / "b.txt").write_text("B")
++    return d
++
++
++@pytest.fixture
++def trash(tmp_path, monkeypatch):
++    """Capture send2trash instead of touching a real trash can."""
++    moved = []
++
++    def fake_send2trash(path):
++        moved.append(Path(path))
++        p = Path(path)
++        p.unlink() if p.is_file() else __import__("shutil").rmtree(p)
++
++    import send2trash
++
++    monkeypatch.setattr(send2trash, "send2trash", fake_send2trash)
++    return moved
++
++
++# ---- 1. the model cannot confirm for itself --------------------------------------------------
++
++
++@pytest.mark.parametrize("value", [True, "true", "false", 1, "yes"])
++def test_model_supplied_confirmed_is_ignored(home, value, trash):
++    engine = SystemToolsEngine(allowed_roots=[str(home)])
++    dispatcher = ToolDispatcher(engine)
++    with pytest.raises(ConfirmationRequired):
++        dispatcher.execute("file_operation", {"action": "delete", "source": str(home / "a.txt"), "confirmed": value})
++    assert (home / "a.txt").exists() and not trash
++
++
++def test_trusted_keyword_confirmation_still_works(home, trash):
++    dispatcher = ToolDispatcher(SystemToolsEngine(allowed_roots=[str(home)]))
++    result = dispatcher.execute("file_operation", {"action": "delete", "source": str(home / "a.txt")}, confirmed=True)
++    assert "trash" in result.lower() and not (home / "a.txt").exists()
++
++
++def test_trusted_confirmation_is_dropped_for_tools_without_the_parameter(home):
++    dispatcher = ToolDispatcher(SystemToolsEngine(allowed_roots=[str(home)]))
++    assert dispatcher.execute("minimize_all_windows", {}, confirmed=True).startswith(("Error", "Minimized"))
++
++
++def test_engine_requires_exactly_true_not_a_truthy_value(home, trash):
++    engine = SystemToolsEngine(allowed_roots=[str(home)])
++    for truthy in ("false", 1, "yes", [1]):
++        with pytest.raises(ConfirmationRequired):
++            engine.file_operation(action="delete", source=str(home / "a.txt"), confirmed=truthy)
++    assert (home / "a.txt").exists()
++
++
++def test_non_dict_arguments_are_an_error_string_not_a_crash(home):
++    dispatcher = ToolDispatcher(SystemToolsEngine(allowed_roots=[str(home)]))
++    assert dispatcher.execute("open_website", ["x"]).startswith("Error")
++
++
++# ---- 2. close_application signals exactly the process named -------------------------------------
++
++
++def test_close_application_passes_an_escaped_pattern_after_double_dash(monkeypatch, home):
++    captured = {}
++
++    def fake_run(argv, **kwargs):
++        captured["argv"] = argv
++        return real_subprocess.CompletedProcess(argv, 0, "", "")
++
++    class _Sub:
++        run = staticmethod(fake_run)
++        TimeoutExpired = real_subprocess.TimeoutExpired
++        DEVNULL = real_subprocess.DEVNULL
++
++    monkeypatch.setattr(system_tools, "subprocess", _Sub)
++    monkeypatch.setattr(system_tools.sys, "platform", "linux")
++    SystemToolsEngine(allowed_roots=[str(home)]).close_application("nextpad++")
++    assert captured["argv"] == ["pkill", "-x", "--", r"nextpad\+\+"]
++
++
++# ---- 3. open_application takes a bare name, never a path or an option -------------------------------
++
++
++# ---- 4. only http(s) reaches the browser ----------------------------------------------------------------------
++
++
++def test_open_website_never_calls_the_browser_for_a_refused_target(monkeypatch, home):
++    opened = []
++    monkeypatch.setattr(system_tools.webbrowser, "open", lambda url: opened.append(url))
++    engine = SystemToolsEngine(allowed_roots=[str(home)])
++    with pytest.raises(ToolError):
++        engine.open_website("file:///home/u/.ssh/id_rsa")
++    with pytest.raises(ToolError):
++        engine.open_website("--renderer-cmd-prefix=calc://x.y")
++    assert opened == []
++    engine.open_website("example.com")
++    engine.open_website("github")
++    assert opened == ["https://example.com", "https://github.com"]
++
++
++# ---- 5. protected locations ------------------------------------------------------------------------------------
++
++
++@pytest.mark.parametrize(
++    "rel",
++    [".ssh/authorized_keys", ".ssh/config", ".config/autostart/x.desktop", ".config/systemd/user/x.service", ".profile",
++     ".zshrc", ".bash_profile", ".aws/credentials", ".netrc", ".git/hooks/pre-commit", ".npmrc",
++     "AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/run.bat", "Library/LaunchAgents/x.plist"],
++)
++@pytest.mark.parametrize("action", ["create", "copy", "rename"])
++def test_protected_locations_are_refused(home, rel, action):
++    (home / "src.txt").write_text("payload")
++    engine = SystemToolsEngine(allowed_roots=[str(home)])
++    kwargs = {
++        "create": {"action": "create", "source": str(home / rel), "content": "x"},
++        "copy": {"action": "copy", "source": str(home / "src.txt"), "destination": str(home / rel)},
++        "rename": {"action": "rename", "source": str(home / "src.txt"), "destination": str(home / rel), "confirmed": True},
++    }[action]
++    with pytest.raises(ToolError, match="protected location"):
++        engine.file_operation(**kwargs)
++    assert not (home / rel).exists()
++
++
++def test_copying_a_credential_file_out_is_refused(home):
++    (home / ".ssh").mkdir()
++    (home / ".ssh" / "id_ed25519").write_text("KEY")
++    engine = SystemToolsEngine(allowed_roots=[str(home)])
++    with pytest.raises(ToolError, match="protected location"):
++        engine.file_operation(action="copy", source=str(home / ".ssh" / "id_ed25519"), destination=str(home / "out.txt"))
++
++
++def test_protection_follows_symlinks(home, tmp_path):
++    (home / "dotfiles").mkdir()
++    (home / "dotfiles" / "zshrc").write_text("# real")
++    (home / ".zshrc").symlink_to(home / "dotfiles" / "zshrc")
++    engine = SystemToolsEngine(allowed_roots=[str(home)])
++    with pytest.raises(ToolError, match="protected location"):
++        engine.file_operation(action="create", source=str(home / ".zshrc"), content="evil", confirmed=True)
++    assert (home / "dotfiles" / "zshrc").read_text() == "# real"
++
++
++def test_ordinary_folders_that_merely_sound_similar_are_fine(home):
++    engine = SystemToolsEngine(allowed_roots=[str(home)])
++    for rel in ("Startup ideas/notes.txt", "projects/autostart/readme.md", "docs/ssh-tutorial.md", "my.git/notes.txt"):
++        assert "Created" in engine.file_operation(action="create", source=str(home / rel), content="ok")
++
++
++def test_protection_can_be_switched_off_explicitly(home):
++    engine = SystemToolsEngine(allowed_roots=[str(home)], protect_sensitive_paths=False)
++    assert "Created" in engine.file_operation(action="create", source=str(home / ".profile"), content="x")
++
++
++# ---- 6. root guard and rename-over-existing --------------------------------------------------------------------
++
++
++def test_the_allowed_root_itself_cannot_be_deleted_or_replaced(home, trash):
++    engine = SystemToolsEngine(allowed_roots=[str(home)])
++    with pytest.raises(ToolError, match="allowed root"):
++        engine.file_operation(action="delete", source=str(home), confirmed=True)
++    with pytest.raises(ToolError, match="allowed root"):
++        engine.file_operation(action="rename", source=str(home), destination=str(home / "inner"), confirmed=True)
++    assert not trash and (home / "a.txt").exists()
++
++
++def test_rename_over_existing_warns_then_trashes_the_replaced_item(home, trash):
++    engine = SystemToolsEngine(allowed_roots=[str(home)])
++    with pytest.raises(ConfirmationRequired, match="already exists"):
++        engine.file_operation(action="rename", source=str(home / "a.txt"), destination=str(home / "b.txt"))
++    assert (home / "b.txt").read_text() == "B"
++    engine.file_operation(action="rename", source=str(home / "a.txt"), destination=str(home / "b.txt"), confirmed=True)
++    assert [p.name for p in trash] == ["b.txt"]
++    assert (home / "b.txt").read_text() == "A" and not (home / "a.txt").exists()
++
++
++def test_rename_to_a_fresh_name_keeps_the_original_prompt(home):
++    engine = SystemToolsEngine(allowed_roots=[str(home)])
++    with pytest.raises(ConfirmationRequired, match=r"Rename 'a.txt' to 'c.txt'\?"):
++        engine.file_operation(action="rename", source=str(home / "a.txt"), destination=str(home / "c.txt"))
++
++
++def test_rename_that_only_changes_case_never_trashes_the_file(home, trash):
++    engine = SystemToolsEngine(allowed_roots=[str(home)])
++    # same file reached through two spellings (what a case-insensitive filesystem does)
++    (home / "link").symlink_to(home / "a.txt")
++    engine.file_operation(action="rename", source=str(home / "a.txt"), destination=str(home / "link"), confirmed=True)
++    assert not trash
+diff -ruN --no-dereference baseline/tests/test_hardening_helpers.py hardened/tests/test_hardening_helpers.py
+--- baseline/tests/test_hardening_helpers.py
++++ hardened/tests/test_hardening_helpers.py
+@@ -0,0 +1,63 @@
++"""Unit tests for the new validation helpers (these names do not exist in the baseline)."""
++import sys
++from pathlib import Path
++
++import pytest
++
++sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
++
++from l_assistant.tools.system_tools import ToolError, _escape_ere, _validated_web_url, _validate_program_name
++
++
++def test_escape_ere_makes_every_operator_literal():
++    assert _escape_ere("a.b+c") == r"a\.b\+c"
++    assert _escape_ere(".*") == r"\.\*"
++    assert _escape_ere("x[1](2){3}^$") == r"x\[1\]\(2\)\{3\}\^\$"
++
++
++
++
++@pytest.mark.parametrize("name", [".*", ".+", "[a-z]*", "(x)", "a*", "l?", "x{2}", "^x", "x$", "a|b"])
++def test_wildcard_and_regex_operator_names_are_refused(name):
++    with pytest.raises(ToolError):
++        _validate_program_name(name, "app_name")
++
++
++
++
++@pytest.mark.parametrize("name", ["notepad", "visual studio code", "nextpad++", "firefox@nightly", "1password-cli", "Bépo layout", "node.js"])
++def test_plain_application_names_are_accepted(name):
++    assert _validate_program_name(name, "app_name") == name
++
++
++@pytest.mark.parametrize(
++    "name",
++    ["/bin/sh", "./run.sh", "../x", "~/bin/x", "-h", "--gpu-launcher=x", "..", ".", ".hidden", "C:\\Windows\\cmd.exe",
++     "\\\\host\\share\\x.exe", "http://example.com/x.exe", "file:///etc/passwd", "ms-msdt:/id", "_x", ""],
++)
++def test_paths_options_and_urls_are_refused_as_application_names(name):
++    with pytest.raises(ToolError):
++        _validate_program_name(name, "app_name")
++
++
++
++
++@pytest.mark.parametrize(
++    "url",
++    ["https://www.example.com/", "http://example.com", "https://localhost:8080/x?y=1#z", "https://[::1]/", "https://münchen.de/x"],
++)
++def test_web_urls_are_passed_through_unchanged(url):
++    assert _validated_web_url(url) == url
++
++
++@pytest.mark.parametrize(
++    "url",
++    ["file:///home/u/.ssh/id_rsa", "javascript://a.com/%0aalert(1)", "ftp://a.com/x", "smb://h/s", "data://text/html;x.y",
++     "--gpu-launcher=sh://x.y", "-new-window://x.y", "https://a.example\n--incognito", "https://exa mple.com", "https://x/\x07",
++     "https:///nohost", "https://:80", "https://a..b", "//example.com", "example.com", "https://[bad"],
++)
++def test_non_web_or_malformed_addresses_are_refused(url):
++    with pytest.raises(ToolError):
++        _validated_web_url(url)
++
++

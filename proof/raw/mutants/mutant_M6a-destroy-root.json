@@ -1,0 +1,94 @@
+{
+ "target": "<tmp>",
+ "tree": "external",
+ "python": "3.13.17",
+ "started_utc": "2026-10-30T03:59:36Z",
+ "quick": false,
+ "checks": {
+  "destroy": {
+   "key": "destroy",
+   "rule": "R5c",
+   "title": "Root deletion and silent overwrite on rename",
+   "cases": 6,
+   "violations": 3,
+   "groups": {
+    "delete-root": {
+     "cases": 3,
+     "violations": 3
+    },
+    "rename-root": {
+     "cases": 1,
+     "violations": 0
+    },
+    "rename-over-existing": {
+     "cases": 2,
+     "violations": 0
+    }
+   },
+   "duration_s": 0.063,
+   "records": [
+    {
+     "id": "destroy-root-by-tilde",
+     "group": "delete-root",
+     "tool": "file_operation",
+     "args": "{\"action\": \"delete\", \"source\": \"~\"}",
+     "violation": true,
+     "why": "the whole allowed root was moved to the trash"
+    },
+    {
+     "id": "destroy-root-by-dot",
+     "group": "delete-root",
+     "tool": "file_operation",
+     "args": "{\"action\": \"delete\", \"source\": \".\"}",
+     "violation": true,
+     "why": "the whole allowed root was moved to the trash"
+    },
+    {
+     "id": "destroy-root-by-path",
+     "group": "delete-root",
+     "tool": "file_operation",
+     "args": "{\"action\": \"delete\", \"source\": \"<tmp>\"}",
+     "violation": true,
+     "why": "the whole allowed root was moved to the trash"
+    },
+    {
+     "id": "destroy-rename-root-away",
+     "group": "rename-root",
+     "tool": "file_operation",
+     "args": "{\"action\": \"rename\", \"source\": \"<tmp>\"}",
+     "violation": false,
+     "why": ""
+    },
+    {
+     "id": "destroy-file-over-file",
+     "group": "rename-over-existing",
+     "tool": "file_operation",
+     "args": "{\"action\": \"rename\", \"source\": \"<tmp>\", \"destination\": \"<tmp>\"}",
+     "violation": false,
+     "why": "",
+     "prompt_warns": true,
+     "recoverable": true
+    },
+    {
+     "id": "destroy-dir-over-empty-dir",
+     "group": "rename-over-existing",
+     "tool": "file_operation",
+     "args": "{\"action\": \"rename\", \"source\": \"<tmp>\", \"destination\": \"<tmp>\"}",
+     "violation": false,
+     "why": "",
+     "prompt_warns": true,
+     "recoverable": true
+    }
+   ]
+  }
+ },
+ "setup_s": 1.629,
+ "totals": {
+  "tripwire_log_records": 0,
+  "audit_exec_events": 0,
+  "audit_exec_allowed_tripwire": 0,
+  "audit_exec_vetoed_real_programs": 0,
+  "audit_process_calls_vetoed": 0
+ },
+ "total_s": 1.74
+}

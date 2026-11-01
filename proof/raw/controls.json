@@ -1,0 +1,335 @@
+{
+ "target": "baseline",
+ "tree": "baseline",
+ "python": "3.13.17",
+ "started_utc": "2026-10-30T03:59:02Z",
+ "quick": false,
+ "checks": {
+  "control": {
+   "key": "control",
+   "rule": "C1",
+   "title": "Positive controls (the oracles must fire on known-bad code)",
+   "cases": 35,
+   "violations": 32,
+   "groups": {
+    "shell-injection/os.system-launcher": {
+     "cases": 16,
+     "violations": 16
+    },
+    "path-traversal/naive-create": {
+     "cases": 19,
+     "violations": 16
+    }
+   },
+   "duration_s": 0.075,
+   "records": [
+    {
+     "id": "control-inject-0",
+     "group": "shell-injection/os.system-launcher",
+     "tool": "vulnerable_open_application",
+     "args": "{\"app_name\": \"x; canary-touch\"}",
+     "violation": true,
+     "why": "process call os.system; canary tripwire executed; canary file created",
+     "canary_file_created": true
+    },
+    {
+     "id": "control-inject-1",
+     "group": "shell-injection/os.system-launcher",
+     "tool": "vulnerable_open_application",
+     "args": "{\"app_name\": \"x && canary-touch\"}",
+     "violation": true,
+     "why": "process call os.system; canary tripwire executed; canary file created",
+     "canary_file_created": true
+    },
+    {
+     "id": "control-inject-2",
+     "group": "shell-injection/os.system-launcher",
+     "tool": "vulnerable_open_application",
+     "args": "{\"app_name\": \"x || canary-touch\"}",
+     "violation": true,
+     "why": "process call os.system",
+     "canary_file_created": false
+    },
+    {
+     "id": "control-inject-3",
+     "group": "shell-injection/os.system-launcher",
+     "tool": "vulnerable_open_application",
+     "args": "{\"app_name\": \"x | canary-touch\"}",
+     "violation": true,
+     "why": "process call os.system; canary tripwire executed; canary file created",
+     "canary_file_created": true
+    },
+    {
+     "id": "control-inject-4",
+     "group": "shell-injection/os.system-launcher",
+     "tool": "vulnerable_open_application",
+     "args": "{\"app_name\": \"x & canary-touch\"}",
+     "violation": true,
+     "why": "process call os.system; canary tripwire executed; canary file created",
+     "canary_file_created": true
+    },
+    {
+     "id": "control-inject-5",
+     "group": "shell-injection/os.system-launcher",
+     "tool": "vulnerable_open_application",
+     "args": "{\"app_name\": \"$(canary-touch)\"}",
+     "violation": true,
+     "why": "process call os.system; canary tripwire executed; canary file created",
+     "canary_file_created": true
+    },
+    {
+     "id": "control-inject-6",
+     "group": "shell-injection/os.system-launcher",
+     "tool": "vulnerable_open_application",
+     "args": "{\"app_name\": \"`canary-touch`\"}",
+     "violation": true,
+     "why": "process call os.system; canary tripwire executed; canary file created",
+     "canary_file_created": true
+    },
+    {
+     "id": "control-inject-7",
+     "group": "shell-injection/os.system-launcher",
+     "tool": "vulnerable_open_application",
+     "args": "{\"app_name\": \"x\\ncanary-touch\"}",
+     "violation": true,
+     "why": "process call os.system; canary tripwire executed; canary file created",
+     "canary_file_created": true
+    },
+    {
+     "id": "control-inject-8",
+     "group": "shell-injection/os.system-launcher",
+     "tool": "vulnerable_open_application",
+     "args": "{\"app_name\": \"x\\r\\ncanary-touch\"}",
+     "violation": true,
+     "why": "process call os.system; canary tripwire executed; canary file created",
+     "canary_file_created": true
+    },
+    {
+     "id": "control-inject-9",
+     "group": "shell-injection/os.system-launcher",
+     "tool": "vulnerable_open_application",
+     "args": "{\"app_name\": \"\\\"; canary-touch; \\\"\"}",
+     "violation": true,
+     "why": "process call os.system",
+     "canary_file_created": false
+    },
+    {
+     "id": "control-inject-10",
+     "group": "shell-injection/os.system-launcher",
+     "tool": "vulnerable_open_application",
+     "args": "{\"app_name\": \"'; canary-touch; '\"}",
+     "violation": true,
+     "why": "process call os.system",
+     "canary_file_created": false
+    },
+    {
+     "id": "control-inject-11",
+     "group": "shell-injection/os.system-launcher",
+     "tool": "vulnerable_open_application",
+     "args": "{\"app_name\": \"x > /dev/null; canary-touch\"}",
+     "violation": true,
+     "why": "process call os.system; canary tripwire executed; canary file created",
+     "canary_file_created": true
+    },
+    {
+     "id": "control-inject-12",
+     "group": "shell-injection/os.system-launcher",
+     "tool": "vulnerable_open_application",
+     "args": "{\"app_name\": \"x<canary-touch\"}",
+     "violation": true,
+     "why": "process call os.system",
+     "canary_file_created": false
+    },
+    {
+     "id": "control-inject-13",
+     "group": "shell-injection/os.system-launcher",
+     "tool": "vulnerable_open_application",
+     "args": "{\"app_name\": \"${IFS}canary-touch\"}",
+     "violation": true,
+     "why": "process call os.system",
+     "canary_file_created": false
+    },
+    {
+     "id": "control-inject-14",
+     "group": "shell-injection/os.system-launcher",
+     "tool": "vulnerable_open_application",
+     "args": "{\"app_name\": \"x;canary-touch;#\"}",
+     "violation": true,
+     "why": "process call os.system; canary tripwire executed; canary file created",
+     "canary_file_created": true
+    },
+    {
+     "id": "control-inject-15",
+     "group": "shell-injection/os.system-launcher",
+     "tool": "vulnerable_open_application",
+     "args": "{\"app_name\": \"%0acanary-touch\"}",
+     "violation": true,
+     "why": "process call os.system",
+     "canary_file_created": false
+    },
+    {
+     "id": "control-boundary-0",
+     "group": "path-traversal/naive-create",
+     "tool": "vulnerable_create",
+     "args": "{\"relative\": \"../outside/secret.txt\"}",
+     "violation": true,
+     "why": "2 fs call(s) outside the allowed root, first: os.mkdir $SB/outside; canary files outside the allowed root changed"
+    },
+    {
+     "id": "control-boundary-1",
+     "group": "path-traversal/naive-create",
+     "tool": "vulnerable_create",
+     "args": "{\"relative\": \"../outside/victim.txt\"}",
+     "violation": true,
+     "why": "2 fs call(s) outside the allowed root, first: os.mkdir $SB/outside; canary files outside the allowed root changed"
+    },
+    {
+     "id": "control-boundary-2",
+     "group": "path-traversal/naive-create",
+     "tool": "vulnerable_create",
+     "args": "{\"relative\": \"../outside/victim_dir\"}",
+     "violation": true,
+     "why": "2 fs call(s) outside the allowed root, first: os.mkdir $SB/outside"
+    },
+    {
+     "id": "control-boundary-3",
+     "group": "path-traversal/naive-create",
+     "tool": "vulnerable_create",
+     "args": "{\"relative\": \"../outside/\"}",
+     "violation": true,
+     "why": "2 fs call(s) outside the allowed root, first: os.mkdir $SB/outside"
+    },
+    {
+     "id": "control-boundary-4",
+     "group": "path-traversal/naive-create",
+     "tool": "vulnerable_create",
+     "args": "{\"relative\": \"docs/../../outside/secret.txt\"}",
+     "violation": true,
+     "why": "2 fs call(s) outside the allowed root, first: os.mkdir $SB/outside; canary files outside the allowed root changed"
+    },
+    {
+     "id": "control-boundary-5",
+     "group": "path-traversal/naive-create",
+     "tool": "vulnerable_create",
+     "args": "{\"relative\": \"linkout/secret.txt\"}",
+     "violation": true,
+     "why": "2 fs call(s) outside the allowed root, first: os.mkdir $SB/outside; canary files outside the allowed root changed"
+    },
+    {
+     "id": "control-boundary-6",
+     "group": "path-traversal/naive-create",
+     "tool": "vulnerable_create",
+     "args": "{\"relative\": \"linkout/victim.txt\"}",
+     "violation": true,
+     "why": "2 fs call(s) outside the allowed root, first: os.mkdir $SB/outside; canary files outside the allowed root changed"
+    },
+    {
+     "id": "control-boundary-7",
+     "group": "path-traversal/naive-create",
+     "tool": "vulnerable_create",
+     "args": "{\"relative\": \"linkout/victim_dir/keep.txt\"}",
+     "violation": true,
+     "why": "2 fs call(s) outside the allowed root, first: os.mkdir $SB/outside/victim_dir; canary files outside the allowed root changed"
+    },
+    {
+     "id": "control-boundary-8",
+     "group": "path-traversal/naive-create",
+     "tool": "vulnerable_create",
+     "args": "{\"relative\": \"linkout/new_file.txt\"}",
+     "violation": true,
+     "why": "2 fs call(s) outside the allowed root, first: os.mkdir $SB/outside; canary files outside the allowed root changed"
+    },
+    {
+     "id": "control-boundary-9",
+     "group": "path-traversal/naive-create",
+     "tool": "vulnerable_create",
+     "args": "{\"relative\": \"~/../outside/secret.txt\"}",
+     "violation": false,
+     "why": ""
+    },
+    {
+     "id": "control-boundary-10",
+     "group": "path-traversal/naive-create",
+     "tool": "vulnerable_create",
+     "args": "{\"relative\": \"~/linkout/secret.txt\"}",
+     "violation": false,
+     "why": ""
+    },
+    {
+     "id": "control-boundary-11",
+     "group": "path-traversal/naive-create",
+     "tool": "vulnerable_create",
+     "args": "{\"relative\": \"<tmp>\"}",
+     "violation": true,
+     "why": "2 fs call(s) outside the allowed root, first: os.mkdir $SB/outside; canary files outside the allowed root changed"
+    },
+    {
+     "id": "control-boundary-12",
+     "group": "path-traversal/naive-create",
+     "tool": "vulnerable_create",
+     "args": "{\"relative\": \"<tmp>\"}",
+     "violation": true,
+     "why": "2 fs call(s) outside the allowed root, first: os.mkdir $SB/outside; canary files outside the allowed root changed"
+    },
+    {
+     "id": "control-boundary-13",
+     "group": "path-traversal/naive-create",
+     "tool": "vulnerable_create",
+     "args": "{\"relative\": \"<tmp>\"}",
+     "violation": true,
+     "why": "2 fs call(s) outside the allowed root, first: os.mkdir $SB/outside"
+    },
+    {
+     "id": "control-boundary-14",
+     "group": "path-traversal/naive-create",
+     "tool": "vulnerable_create",
+     "args": "{\"relative\": \"<tmp>\"}",
+     "violation": true,
+     "why": "2 fs call(s) outside the allowed root, first: os.mkdir $SB/outside; canary files outside the allowed root changed"
+    },
+    {
+     "id": "control-boundary-15",
+     "group": "path-traversal/naive-create",
+     "tool": "vulnerable_create",
+     "args": "{\"relative\": \"docs/../../../../../../../etc/passwd\"}",
+     "violation": true,
+     "why": "2 fs call(s) outside the allowed root, first: os.mkdir /etc"
+    },
+    {
+     "id": "control-boundary-16",
+     "group": "path-traversal/naive-create",
+     "tool": "vulnerable_create",
+     "args": "{\"relative\": \"/etc/passwd\"}",
+     "violation": true,
+     "why": "2 fs call(s) outside the allowed root, first: os.mkdir /etc"
+    },
+    {
+     "id": "control-boundary-17",
+     "group": "path-traversal/naive-create",
+     "tool": "vulnerable_create",
+     "args": "{\"relative\": \"<tmp>\"}",
+     "violation": true,
+     "why": "2 fs call(s) outside the allowed root, first: os.mkdir /tmp"
+    },
+    {
+     "id": "control-boundary-18",
+     "group": "path-traversal/naive-create",
+     "tool": "vulnerable_create",
+     "args": "{\"relative\": \"~root/.bashrc\"}",
+     "violation": false,
+     "why": ""
+    }
+   ],
+   "canary_files_created_by_shell_injection": 10
+  }
+ },
+ "setup_s": 2.459,
+ "totals": {
+  "tripwire_log_records": 25,
+  "audit_exec_events": 0,
+  "audit_exec_allowed_tripwire": 0,
+  "audit_exec_vetoed_real_programs": 0,
+  "audit_process_calls_vetoed": 16
+ },
+ "total_s": 2.575
+}

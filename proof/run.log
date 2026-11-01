@@ -1,0 +1,109 @@
+[2026-10-30T03:54:31Z] run_all.py starting (python 3.13.17)
+[2026-10-30T03:54:31Z] == stage: environment
+[2026-10-30T03:54:32Z] claim env-pins: PASS - installed package versions equal the pins in requirements.txt (expected 0, observed 0)
+[2026-10-30T03:54:32Z] == stage done: environment (0.3s)
+[2026-10-30T03:54:32Z] == stage: inputs
+[2026-10-30T03:54:32Z] claim inputs-corpora: PASS - every corpus file matches its recorded SHA-256 (expected 13, observed 13)
+[2026-10-30T03:54:32Z] claim inputs-baseline: PASS - baseline/ is byte-identical to the audited source (60 files) (expected 60, observed 60)
+[2026-10-30T03:54:32Z] == stage done: inputs (0.0s)
+[2026-10-30T03:54:32Z] == stage: patch
+[2026-10-30T03:54:32Z] claim patch-reproduces: PASS - baseline + patch equals hardened byte for byte (expected True, observed True)
+[2026-10-30T03:54:32Z] == stage done: patch (0.0s)
+[2026-10-30T03:54:32Z] == stage: original-suite+hardening-tests
+[2026-10-30T03:54:32Z] $ <repo>/.venv/bin/python -m pytest -q -p no:cacheprovider
+[2026-10-30T03:54:36Z] $ <repo>/.venv/bin/python -m pytest -q -p no:cacheprovider
+[2026-10-30T03:54:40Z] $ <repo>/.venv/bin/python -m pytest -q -p no:cacheprovider tests/test_hardening.py tests/test_hardening_helpers.py
+[2026-10-30T03:54:41Z] $ <repo>/.venv/bin/python -m pytest -q -p no:cacheprovider tests/test_hardening.py
+[2026-10-30T03:54:42Z] claim suite-original: PASS - the project's own suite passes unchanged on the original code (expected 223 passed, 0 failed, observed {'passed': 223, 'failed': 0, 'errors': 0, 'skipped': 0})
+[2026-10-30T03:54:42Z] claim suite-no-regression: PASS - the whole suite (original 223 + new tests) passes on the hardened code (expected 223 + 113 passed, 0 failed, observed {'passed': 336, 'failed': 0, 'errors': 0, 'skipped': 0})
+[2026-10-30T03:54:42Z] claim tests-can-fail: PASS - the new behaviour tests FAIL on the original code (they detect the weaknesses) (expected failed > 0, observed {'passed': 4, 'failed': 54, 'errors': 0, 'skipped': 0})
+[2026-10-30T03:54:42Z] == stage done: original-suite+hardening-tests (10.4s)
+[2026-10-30T03:54:42Z] == stage: repo-tests
+[2026-10-30T03:54:42Z] $ <repo>/.venv/bin/python -m pytest tests -q -p no:cacheprovider
+[2026-10-30T03:55:10Z] claim harness-tests: PASS - the harness's own tests pass (expected 0 failed, observed {'passed': 31, 'failed': 0, 'errors': 0, 'skipped': 0})
+[2026-10-30T03:55:10Z] == stage done: repo-tests (28.1s)
+[2026-10-30T03:55:10Z] == stage: audit-baseline
+[2026-10-30T03:55:10Z] $ <repo>/.venv/bin/python -m harness.worker --target baseline --checks all --out <repo>/proof/raw/audit_baseline.json
+[2026-10-30T03:57:10Z] baseline: running inject ...
+[2026-10-30T03:57:10Z] baseline: inject done: 1024 cases, 0 violations, 0.1s
+[2026-10-30T03:57:10Z] baseline: running overmatch ...
+[2026-10-30T03:57:10Z] baseline: overmatch done: 513 cases, 15 violations, 10.1s
+[2026-10-30T03:57:10Z] baseline: running pathexec ...
+[2026-10-30T03:57:10Z] baseline: pathexec done: 1756 cases, 1701 violations, 11.8s
+[2026-10-30T03:57:10Z] baseline: running browser ...
+[2026-10-30T03:57:10Z] baseline: browser done: 646 cases, 56 violations, 41.2s
+[2026-10-30T03:57:10Z] baseline: running fsboundary ...
+[2026-10-30T03:57:10Z] baseline: fsboundary done: 12292 cases, 0 violations, 52.5s
+[2026-10-30T03:57:10Z] baseline: running sensitive ...
+[2026-10-30T03:57:10Z] baseline: sensitive done: 60 cases, 41 violations, 0.4s
+[2026-10-30T03:57:10Z] baseline: running confirm ...
+[2026-10-30T03:57:10Z] baseline: confirm done: 56 cases, 40 violations, 0.2s
+[2026-10-30T03:57:10Z] baseline: running destroy ...
+[2026-10-30T03:57:10Z] baseline: destroy done: 6 cases, 5 violations, 0.0s
+[2026-10-30T03:57:10Z] baseline: running robust ...
+[2026-10-30T03:57:10Z] baseline: robust done: 385 cases, 0 violations, 0.1s
+[2026-10-30T03:57:10Z] == stage done: audit-baseline (120.1s)
+[2026-10-30T03:57:10Z] == stage: audit-hardened
+[2026-10-30T03:57:10Z] $ <repo>/.venv/bin/python -m harness.worker --target hardened --checks all --out <repo>/proof/raw/audit_hardened.json
+[2026-10-30T03:58:59Z] hardened: running inject ...
+[2026-10-30T03:58:59Z] hardened: inject done: 1024 cases, 0 violations, 0.0s
+[2026-10-30T03:58:59Z] hardened: running overmatch ...
+[2026-10-30T03:58:59Z] hardened: overmatch done: 513 cases, 0 violations, 9.7s
+[2026-10-30T03:58:59Z] hardened: running pathexec ...
+[2026-10-30T03:58:59Z] hardened: pathexec done: 1756 cases, 0 violations, 11.5s
+[2026-10-30T03:58:59Z] hardened: running browser ...
+[2026-10-30T03:58:59Z] hardened: browser done: 646 cases, 0 violations, 21.5s
+[2026-10-30T03:58:59Z] hardened: running fsboundary ...
+[2026-10-30T03:58:59Z] hardened: fsboundary done: 12292 cases, 0 violations, 62.5s
+[2026-10-30T03:58:59Z] hardened: running sensitive ...
+[2026-10-30T03:58:59Z] hardened: sensitive done: 60 cases, 0 violations, 0.4s
+[2026-10-30T03:58:59Z] hardened: running confirm ...
+[2026-10-30T03:58:59Z] hardened: confirm done: 56 cases, 0 violations, 0.1s
+[2026-10-30T03:58:59Z] hardened: running destroy ...
+[2026-10-30T03:58:59Z] hardened: destroy done: 6 cases, 0 violations, 0.0s
+[2026-10-30T03:58:59Z] hardened: running robust ...
+[2026-10-30T03:58:59Z] hardened: robust done: 385 cases, 0 violations, 0.1s
+[2026-10-30T03:58:59Z] == stage done: audit-hardened (108.8s)
+[2026-10-30T03:58:59Z] == stage: controls
+[2026-10-30T03:58:59Z] $ <repo>/.venv/bin/python -m harness.worker --target baseline --checks control --out <repo>/proof/raw/controls.json
+[2026-10-30T03:59:02Z] claim control-injection: PASS - the shell-injection oracle fires on a deliberately vulnerable os.system launcher (expected 16/16 flagged, observed 16/16 flagged)
+[2026-10-30T03:59:02Z] claim control-traversal: PASS - the path-boundary oracle fires on a deliberately naive file-create (expected flagged > 0, observed 16/19 flagged)
+[2026-10-30T03:59:02Z] == stage done: controls (2.8s)
+[2026-10-30T03:59:02Z] == stage: mutants
+[2026-10-30T03:59:06Z] mutant M1-confirm: confirm -> 8 violation(s) of 56 cases (DETECTED; expected: detected)
+[2026-10-30T03:59:08Z] mutant M2-overmatch: overmatch -> 2 violation(s) of 513 cases (DETECTED; expected: detected)
+[2026-10-30T03:59:10Z] mutant M3-pathexec: pathexec -> 1701 violation(s) of 1756 cases (DETECTED; expected: detected)
+[2026-10-30T03:59:33Z] mutant M4-browser: browser -> 56 violation(s) of 646 cases (DETECTED; expected: detected)
+[2026-10-30T03:59:34Z] mutant M5-sensitive: sensitive -> 41 violation(s) of 60 cases (DETECTED; expected: detected)
+[2026-10-30T03:59:36Z] mutant M6a-destroy-root: destroy -> 3 violation(s) of 6 cases (DETECTED; expected: detected)
+[2026-10-30T03:59:38Z] mutant M6b-destroy-overwrite: destroy -> 2 violation(s) of 6 cases (DETECTED; expected: detected)
+[2026-10-30T03:59:39Z] mutant M7-inject: inject -> 0 violation(s) of 1024 cases (not flagged; expected: survive)
+[2026-10-30T03:59:40Z] mutant M7b-inject-shell: inject -> 25 violation(s) of 1024 cases (DETECTED; expected: detected)
+[2026-10-30T04:00:15Z] mutant M8-fsboundary: fsboundary -> 2907 violation(s) of 12292 cases (DETECTED; expected: detected)
+[2026-10-30T04:00:16Z] mutant M9-robust: robust -> 50 violation(s) of 385 cases (DETECTED; expected: detected)
+[2026-10-30T04:00:17Z] claim mutants: PASS - every re-introduced weakness is detected; the equivalent mutant is not flagged (expected 10/10 detected, 0 unexpected, observed 10/10 detected, unexpected: [])
+[2026-10-30T04:00:17Z] == stage done: mutants (74.7s)
+[2026-10-30T04:00:17Z] == stage: strace
+[2026-10-30T04:00:17Z] $ <repo>/.venv/bin/python scripts/strace_crosscheck.py baseline <repo>/proof/raw/strace_baseline.json
+[2026-10-30T04:01:51Z] claim strace-baseline-counts: PASS - baseline: kernel execve count == tripwire-log count == audit-hook count (expected equal, observed [7882, 7882, 7882])
+[2026-10-30T04:01:51Z] claim strace-baseline-no-real-exec: PASS - baseline: every successful kernel execve is a harness helper or a sandbox tripwire (no real program or shell ran) (expected 0, observed 0)
+[2026-10-30T04:01:51Z] $ <repo>/.venv/bin/python scripts/strace_crosscheck.py hardened <repo>/proof/raw/strace_hardened.json
+[2026-10-30T04:03:18Z] claim strace-hardened-counts: PASS - hardened: kernel execve count == tripwire-log count == audit-hook count (expected equal, observed [7827, 7827, 7827])
+[2026-10-30T04:03:18Z] claim strace-hardened-no-real-exec: PASS - hardened: every successful kernel execve is a harness helper or a sandbox tripwire (no real program or shell ran) (expected 0, observed 0)
+[2026-10-30T04:03:18Z] == stage done: strace (181.7s)
+[2026-10-30T04:03:18Z] == stage: live-pkill
+[2026-10-30T04:03:18Z] $ <repo>/.venv/bin/python scripts/live_pkill_demo.py baseline
+[2026-10-30T04:03:21Z] $ <repo>/.venv/bin/python scripts/live_pkill_demo.py hardened
+[2026-10-30T04:03:23Z] claim live-baseline-wildcard: PASS - baseline: one close_application('.*') call with the real pkill kills every bystander (expected 4 killed, observed 4)
+[2026-10-30T04:03:23Z] claim live-hardened-wildcard: PASS - hardened: the same call kills nothing (expected 0, observed 0)
+[2026-10-30T04:03:23Z] claim live-exact-name: PASS - an exact name still closes exactly that one process, before and after the fix (expected 1 / 1, observed [1, 1])
+[2026-10-30T04:03:23Z] == stage done: live-pkill (4.8s)
+[2026-10-30T04:03:23Z] == stage: aggregate
+[2026-10-30T04:03:23Z] claim baseline-broken: PASS - the original code breaks exactly the documented six requirements (expected ['browser', 'confirm', 'destroy', 'overmatch', 'pathexec', 'sensitive'], observed ['browser', 'confirm', 'destroy', 'overmatch', 'pathexec', 'sensitive'])
+[2026-10-30T04:03:23Z] claim baseline-held: PASS - the original code already held the other three (expected ['fsboundary', 'inject', 'robust'], observed ['fsboundary', 'inject', 'robust'])
+[2026-10-30T04:03:23Z] claim hardened-clean: PASS - the hardened code breaks none of the nine requirements (expected 0, observed 0)
+[2026-10-30T04:03:23Z] claim hardened-legit: PASS - every legitimate call (real app names, real homepages, real file paths) still works on the hardened code (expected 0, observed 0)
+[2026-10-30T04:03:23Z] claim hardened-confirm-legit: PASS - the user's real yes still executes the action and a no still cancels it (expected 0, observed 0)
+[2026-10-30T04:03:23Z] == stage done: aggregate (0.0s)
+[2026-10-30T04:03:23Z] all claims pass: True (23/23)
+[2026-10-30T04:03:23Z] total 532s; results written to proof/results.json

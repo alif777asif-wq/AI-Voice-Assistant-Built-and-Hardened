@@ -1,0 +1,661 @@
+{
+ "target": "hardened",
+ "tree": "hardened",
+ "python": "3.13.17",
+ "started_utc": "2026-10-30T03:57:13Z",
+ "quick": false,
+ "checks": {
+  "inject": {
+   "key": "inject",
+   "rule": "R1",
+   "title": "Shell-metacharacter injection via application names",
+   "cases": 1024,
+   "violations": 0,
+   "groups": {
+    "open_application/public-command-injection": {
+     "cases": 496,
+     "violations": 0
+    },
+    "open_application/authored-canary": {
+     "cases": 16,
+     "violations": 0
+    },
+    "close_application/public-command-injection": {
+     "cases": 496,
+     "violations": 0
+    },
+    "close_application/authored-canary": {
+     "cases": 16,
+     "violations": 0
+    }
+   },
+   "duration_s": 0.048,
+   "records": []
+  },
+  "overmatch": {
+   "key": "overmatch",
+   "rule": "R3",
+   "title": "close_application signals more processes than the one named",
+   "cases": 513,
+   "violations": 0,
+   "groups": {
+    "authored-pattern": {
+     "cases": 17,
+     "violations": 0
+    },
+    "public-command-injection": {
+     "cases": 496,
+     "violations": 0
+    }
+   },
+   "duration_s": 9.688,
+   "records": [
+    {
+     "id": "overmatch-authored-pattern-0",
+     "group": "authored-pattern",
+     "tool": "close_application",
+     "args": "{\"app_name\": \"lcanary_alpha\"}",
+     "violation": false,
+     "why": "",
+     "would_signal_total": 1,
+     "bystanders_hit": 0
+    },
+    {
+     "id": "overmatch-authored-pattern-6",
+     "group": "authored-pattern",
+     "tool": "close_application",
+     "args": "{\"app_name\": \"lcanary_a.pha\"}",
+     "violation": false,
+     "why": "",
+     "would_signal_total": 0,
+     "bystanders_hit": 0
+    },
+    {
+     "id": "overmatch-authored-pattern-7",
+     "group": "authored-pattern",
+     "tool": "close_application",
+     "args": "{\"app_name\": \"lcanary_alph.\"}",
+     "violation": false,
+     "why": "",
+     "would_signal_total": 0,
+     "bystanders_hit": 0
+    }
+   ],
+   "benign": {
+    "cases": 1378,
+    "ok": 1378,
+    "legit_failed": 0,
+    "source": "cask_apps.tsv tokens (<=15 chars): every 4th, plus every token containing a regex operator"
+   }
+  },
+  "pathexec": {
+   "key": "pathexec",
+   "rule": "R4",
+   "title": "open_application executes explicit paths and options",
+   "cases": 1756,
+   "violations": 0,
+   "groups": {
+    "authored-path-and-option": {
+     "cases": 19,
+     "violations": 0
+    },
+    "public-sensitive-file-paths": {
+     "cases": 274,
+     "violations": 0
+    },
+    "public-traversal-paths": {
+     "cases": 1463,
+     "violations": 0
+    }
+   },
+   "duration_s": 11.499,
+   "records": [],
+   "benign": {
+    "cases": 7802,
+    "ok": 7802,
+    "legit_failed": 0,
+    "sample_failures": [],
+    "source": "cask_apps.tsv tokens (all)"
+   }
+  },
+  "browser": {
+   "key": "browser",
+   "rule": "R6",
+   "title": "Browser hand-off accepts non-http schemes and option-like strings",
+   "cases": 646,
+   "violations": 0,
+   "groups": {
+    "open_website/authored-scheme-and-option": {
+     "cases": 18,
+     "violations": 0
+    },
+    "open_website/public-open-redirect": {
+     "cases": 305,
+     "violations": 0
+    },
+    "search_web/negative-control": {
+     "cases": 323,
+     "violations": 0
+    }
+   },
+   "duration_s": 21.476,
+   "records": [],
+   "benign": {
+    "cases": 15604,
+    "ok": 15604,
+    "legit_failed": 0,
+    "source": "cask_apps.tsv homepages (full URL and bare host)"
+   }
+  },
+  "fsboundary": {
+   "key": "fsboundary",
+   "rule": "R5a",
+   "title": "File operations escape the allowed root",
+   "cases": 12292,
+   "violations": 0,
+   "groups": {
+    "authored-escape/create": {
+     "cases": 19,
+     "violations": 0
+    },
+    "authored-escape/list": {
+     "cases": 19,
+     "violations": 0
+    },
+    "authored-escape/delete": {
+     "cases": 19,
+     "violations": 0
+    },
+    "authored-escape/copy-to": {
+     "cases": 19,
+     "violations": 0
+    },
+    "authored-escape/copy-from": {
+     "cases": 19,
+     "violations": 0
+    },
+    "authored-escape/rename-to": {
+     "cases": 19,
+     "violations": 0
+    },
+    "authored-escape/rename-from": {
+     "cases": 19,
+     "violations": 0
+    },
+    "public-traversal/create": {
+     "cases": 1463,
+     "violations": 0
+    },
+    "public-traversal/list": {
+     "cases": 1463,
+     "violations": 0
+    },
+    "public-traversal/delete": {
+     "cases": 1463,
+     "violations": 0
+    },
+    "public-traversal/copy-to": {
+     "cases": 1463,
+     "violations": 0
+    },
+    "public-traversal/copy-from": {
+     "cases": 1463,
+     "violations": 0
+    },
+    "public-traversal/rename-to": {
+     "cases": 1463,
+     "violations": 0
+    },
+    "public-traversal/rename-from": {
+     "cases": 1463,
+     "violations": 0
+    },
+    "public-sensitive-files/create": {
+     "cases": 274,
+     "violations": 0
+    },
+    "public-sensitive-files/list": {
+     "cases": 274,
+     "violations": 0
+    },
+    "public-sensitive-files/delete": {
+     "cases": 274,
+     "violations": 0
+    },
+    "public-sensitive-files/copy-to": {
+     "cases": 274,
+     "violations": 0
+    },
+    "public-sensitive-files/copy-from": {
+     "cases": 274,
+     "violations": 0
+    },
+    "public-sensitive-files/rename-to": {
+     "cases": 274,
+     "violations": 0
+    },
+    "public-sensitive-files/rename-from": {
+     "cases": 274,
+     "violations": 0
+    }
+   },
+   "duration_s": 62.493,
+   "records": [],
+   "benign": {
+    "cases": 5848,
+    "ok": 5848,
+    "legit_failed": 0,
+    "sample_failures": [],
+    "source": "cpython_paths.txt + vscode_unusual_names.txt (create, list, copy, rename+confirm, delete+confirm)"
+   }
+  },
+  "sensitive": {
+   "key": "sensitive",
+   "rule": "R5b",
+   "title": "Writes to startup, SSH and credential files need no confirmation",
+   "cases": 60,
+   "violations": 0,
+   "groups": {
+    "write/create": {
+     "cases": 19,
+     "violations": 0
+    },
+    "write/copy": {
+     "cases": 19,
+     "violations": 0
+    },
+    "write/rename": {
+     "cases": 19,
+     "violations": 0
+    },
+    "copy-secret-out": {
+     "cases": 3,
+     "violations": 0
+    }
+   },
+   "duration_s": 0.094,
+   "records": []
+  },
+  "confirm": {
+   "key": "confirm",
+   "rule": "R2",
+   "title": "A model-supplied confirmed=true skips the spoken confirmation",
+   "cases": 56,
+   "violations": 0,
+   "groups": {
+    "attack/delete-file": {
+     "cases": 5,
+     "violations": 0
+    },
+    "legit-yes/delete-file": {
+     "cases": 1,
+     "violations": 0
+    },
+    "legit-no/delete-file": {
+     "cases": 1,
+     "violations": 0
+    },
+    "attack/delete-folder": {
+     "cases": 5,
+     "violations": 0
+    },
+    "legit-yes/delete-folder": {
+     "cases": 1,
+     "violations": 0
+    },
+    "legit-no/delete-folder": {
+     "cases": 1,
+     "violations": 0
+    },
+    "attack/rename": {
+     "cases": 5,
+     "violations": 0
+    },
+    "legit-yes/rename": {
+     "cases": 1,
+     "violations": 0
+    },
+    "legit-no/rename": {
+     "cases": 1,
+     "violations": 0
+    },
+    "attack/create-overwrite": {
+     "cases": 5,
+     "violations": 0
+    },
+    "legit-yes/create-overwrite": {
+     "cases": 1,
+     "violations": 0
+    },
+    "legit-no/create-overwrite": {
+     "cases": 1,
+     "violations": 0
+    },
+    "attack/copy-overwrite": {
+     "cases": 5,
+     "violations": 0
+    },
+    "legit-yes/copy-overwrite": {
+     "cases": 1,
+     "violations": 0
+    },
+    "legit-no/copy-overwrite": {
+     "cases": 1,
+     "violations": 0
+    },
+    "attack/run-command": {
+     "cases": 5,
+     "violations": 0
+    },
+    "legit-yes/run-command": {
+     "cases": 1,
+     "violations": 0
+    },
+    "legit-no/run-command": {
+     "cases": 1,
+     "violations": 0
+    },
+    "attack/power-shutdown": {
+     "cases": 5,
+     "violations": 0
+    },
+    "legit-yes/power-shutdown": {
+     "cases": 1,
+     "violations": 0
+    },
+    "legit-no/power-shutdown": {
+     "cases": 1,
+     "violations": 0
+    },
+    "attack/power-reboot": {
+     "cases": 5,
+     "violations": 0
+    },
+    "legit-yes/power-reboot": {
+     "cases": 1,
+     "violations": 0
+    },
+    "legit-no/power-reboot": {
+     "cases": 1,
+     "violations": 0
+    }
+   },
+   "duration_s": 0.143,
+   "records": [
+    {
+     "id": "confirm-legit-yes-delete-file",
+     "group": "legit-yes/delete-file",
+     "tool": "file_operation",
+     "args": "{\"action\": \"delete\", \"source\": \"docs/report.txt\"}",
+     "violation": false,
+     "why": ""
+    },
+    {
+     "id": "confirm-legit-no-delete-file",
+     "group": "legit-no/delete-file",
+     "tool": "file_operation",
+     "args": "{\"action\": \"delete\", \"source\": \"docs/report.txt\"}",
+     "violation": false,
+     "why": ""
+    },
+    {
+     "id": "confirm-legit-yes-delete-folder",
+     "group": "legit-yes/delete-folder",
+     "tool": "file_operation",
+     "args": "{\"action\": \"delete\", \"source\": \"Downloads\"}",
+     "violation": false,
+     "why": ""
+    },
+    {
+     "id": "confirm-legit-no-delete-folder",
+     "group": "legit-no/delete-folder",
+     "tool": "file_operation",
+     "args": "{\"action\": \"delete\", \"source\": \"Downloads\"}",
+     "violation": false,
+     "why": ""
+    },
+    {
+     "id": "confirm-legit-yes-rename",
+     "group": "legit-yes/rename",
+     "tool": "file_operation",
+     "args": "{\"action\": \"rename\", \"source\": \"docs/notes.txt\", \"destination\": \"docs/renamed.txt\"}",
+     "violation": false,
+     "why": ""
+    },
+    {
+     "id": "confirm-legit-no-rename",
+     "group": "legit-no/rename",
+     "tool": "file_operation",
+     "args": "{\"action\": \"rename\", \"source\": \"docs/notes.txt\", \"destination\": \"docs/renamed.txt\"}",
+     "violation": false,
+     "why": ""
+    },
+    {
+     "id": "confirm-legit-yes-create-overwrite",
+     "group": "legit-yes/create-overwrite",
+     "tool": "file_operation",
+     "args": "{\"action\": \"create\", \"source\": \"docs/report.txt\", \"content\": \"OVERWRITTEN\"}",
+     "violation": false,
+     "why": ""
+    },
+    {
+     "id": "confirm-legit-no-create-overwrite",
+     "group": "legit-no/create-overwrite",
+     "tool": "file_operation",
+     "args": "{\"action\": \"create\", \"source\": \"docs/report.txt\", \"content\": \"OVERWRITTEN\"}",
+     "violation": false,
+     "why": ""
+    },
+    {
+     "id": "confirm-legit-yes-copy-overwrite",
+     "group": "legit-yes/copy-overwrite",
+     "tool": "file_operation",
+     "args": "{\"action\": \"copy\", \"source\": \"docs/notes.txt\", \"destination\": \"docs/report.txt\"}",
+     "violation": false,
+     "why": ""
+    },
+    {
+     "id": "confirm-legit-no-copy-overwrite",
+     "group": "legit-no/copy-overwrite",
+     "tool": "file_operation",
+     "args": "{\"action\": \"copy\", \"source\": \"docs/notes.txt\", \"destination\": \"docs/report.txt\"}",
+     "violation": false,
+     "why": ""
+    },
+    {
+     "id": "confirm-legit-yes-run-command",
+     "group": "legit-yes/run-command",
+     "tool": "run_command",
+     "args": "{\"command\": \": > \\\"$CANARY_FILE\\\"\", \"reason\": \"demo\"}",
+     "violation": false,
+     "why": ""
+    },
+    {
+     "id": "confirm-legit-no-run-command",
+     "group": "legit-no/run-command",
+     "tool": "run_command",
+     "args": "{\"command\": \": > \\\"$CANARY_FILE\\\"\", \"reason\": \"demo\"}",
+     "violation": false,
+     "why": ""
+    },
+    {
+     "id": "confirm-legit-yes-power-shutdown",
+     "group": "legit-yes/power-shutdown",
+     "tool": "power_control",
+     "args": "{\"action\": \"shutdown\", \"delay_seconds\": 60}",
+     "violation": false,
+     "why": ""
+    },
+    {
+     "id": "confirm-legit-no-power-shutdown",
+     "group": "legit-no/power-shutdown",
+     "tool": "power_control",
+     "args": "{\"action\": \"shutdown\", \"delay_seconds\": 60}",
+     "violation": false,
+     "why": ""
+    },
+    {
+     "id": "confirm-legit-yes-power-reboot",
+     "group": "legit-yes/power-reboot",
+     "tool": "power_control",
+     "args": "{\"action\": \"reboot\", \"delay_seconds\": 60}",
+     "violation": false,
+     "why": ""
+    },
+    {
+     "id": "confirm-legit-no-power-reboot",
+     "group": "legit-no/power-reboot",
+     "tool": "power_control",
+     "args": "{\"action\": \"reboot\", \"delay_seconds\": 60}",
+     "violation": false,
+     "why": ""
+    }
+   ],
+   "mode": "real Orchestrator + parser + dispatcher + engine; scripted adversarial model output"
+  },
+  "destroy": {
+   "key": "destroy",
+   "rule": "R5c",
+   "title": "Root deletion and silent overwrite on rename",
+   "cases": 6,
+   "violations": 0,
+   "groups": {
+    "delete-root": {
+     "cases": 3,
+     "violations": 0
+    },
+    "rename-root": {
+     "cases": 1,
+     "violations": 0
+    },
+    "rename-over-existing": {
+     "cases": 2,
+     "violations": 0
+    }
+   },
+   "duration_s": 0.017,
+   "records": [
+    {
+     "id": "destroy-root-by-tilde",
+     "group": "delete-root",
+     "tool": "file_operation",
+     "args": "{\"action\": \"delete\", \"source\": \"~\"}",
+     "violation": false,
+     "why": ""
+    },
+    {
+     "id": "destroy-root-by-dot",
+     "group": "delete-root",
+     "tool": "file_operation",
+     "args": "{\"action\": \"delete\", \"source\": \".\"}",
+     "violation": false,
+     "why": ""
+    },
+    {
+     "id": "destroy-root-by-path",
+     "group": "delete-root",
+     "tool": "file_operation",
+     "args": "{\"action\": \"delete\", \"source\": \"<tmp>\"}",
+     "violation": false,
+     "why": ""
+    },
+    {
+     "id": "destroy-rename-root-away",
+     "group": "rename-root",
+     "tool": "file_operation",
+     "args": "{\"action\": \"rename\", \"source\": \"<tmp>\"}",
+     "violation": false,
+     "why": ""
+    },
+    {
+     "id": "destroy-file-over-file",
+     "group": "rename-over-existing",
+     "tool": "file_operation",
+     "args": "{\"action\": \"rename\", \"source\": \"<tmp>\", \"destination\": \"<tmp>\"}",
+     "violation": false,
+     "why": "",
+     "prompt_warns": true,
+     "recoverable": true
+    },
+    {
+     "id": "destroy-dir-over-empty-dir",
+     "group": "rename-over-existing",
+     "tool": "file_operation",
+     "args": "{\"action\": \"rename\", \"source\": \"<tmp>\", \"destination\": \"<tmp>\"}",
+     "violation": false,
+     "why": "",
+     "prompt_warns": true,
+     "recoverable": true
+    }
+   ]
+  },
+  "robust": {
+   "key": "robust",
+   "rule": "R7",
+   "title": "Malformed tool arguments crash the dispatcher",
+   "cases": 385,
+   "violations": 0,
+   "groups": {
+    "open_application": {
+     "cases": 21,
+     "violations": 0
+    },
+    "close_application": {
+     "cases": 21,
+     "violations": 0
+    },
+    "adjust_volume": {
+     "cases": 42,
+     "violations": 0
+    },
+    "minimize_all_windows": {
+     "cases": 21,
+     "violations": 0
+    },
+    "control_window": {
+     "cases": 42,
+     "violations": 0
+    },
+    "open_website": {
+     "cases": 21,
+     "violations": 0
+    },
+    "search_web": {
+     "cases": 42,
+     "violations": 0
+    },
+    "manage_browser_tabs": {
+     "cases": 21,
+     "violations": 0
+    },
+    "file_operation": {
+     "cases": 84,
+     "violations": 0
+    },
+    "remember_user_fact": {
+     "cases": 42,
+     "violations": 0
+    },
+    "forget_user_fact": {
+     "cases": 21,
+     "violations": 0
+    },
+    "unknown-tool-names": {
+     "cases": 7,
+     "violations": 0
+    }
+   },
+   "duration_s": 0.07,
+   "records": []
+  }
+ },
+ "setup_s": 2.394,
+ "totals": {
+  "tripwire_log_records": 25324,
+  "audit_exec_events": 25373,
+  "audit_exec_allowed_tripwire": 25324,
+  "audit_exec_vetoed_real_programs": 0,
+  "audit_process_calls_vetoed": 0
+ },
+ "total_s": 108.307
+}

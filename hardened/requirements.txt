@@ -1,0 +1,86 @@
+# L voice assistant -- runtime dependencies.
+# Install with:  pip install -r requirements.txt
+# Every package below ships prebuilt wheels for both Linux (x86_64) and
+# Windows (x86_64); none require a compiler on either platform. See
+# README.md for the one Linux-only system package (libportaudio2) that
+# lives outside pip.
+
+# --- Config, paths, logging -------------------------------------------
+pyyaml>=6.0.2
+pydantic>=2.9
+platformdirs>=4.3
+
+# --- File safety (pure Python, no C extension) ------------------------
+# Used by file_operation's delete action: moves to the OS trash/recycle
+# bin (send2trash picks the right native mechanism per OS) instead of a
+# permanent shutil.rmtree/Path.unlink, so a misheard or LLM-misjudged
+# delete is recoverable.
+send2trash>=1.8.3
+
+# --- Audio I/O -----------------------------------------------------
+sounddevice>=0.5.1
+numpy>=1.26,<3.0
+
+# --- Voice activity detection (prebuilt wheels incl. Windows) ------
+webrtcvad-wheels>=2.0.14
+
+# --- Wake word detection (offline, ONNX Runtime backend) -----------
+# `openwakeword` itself is installed separately, with --no-deps, by the
+# setup scripts / README -- see the note at the bottom of this file. The
+# lines below are openwakeword's *real* runtime dependencies (everything
+# it needs for the ONNX backend this project uses), listed explicitly so
+# they're satisfied before that --no-deps install runs.
+onnxruntime>=1.19
+tqdm>=4.0,<5.0
+scipy>=1.3,<2
+scikit-learn>=1,<2
+requests>=2.0,<3
+
+# --- Speech-to-text (offline, CTranslate2 backend) ------------------
+faster-whisper>=1.1.0
+
+# --- Text-to-speech (offline neural TTS, embeds espeak-ng) ----------
+piper-tts>=1.6.0
+
+# --- LLM client (talks to a local Ollama server) --------------------
+httpx>=0.27
+
+# --- CLI ergonomics --------------------------------------------------
+rich>=13.9
+
+# --- System tray / background execution (optional, only needed if
+# tray.enabled: true) -- lazily imported, see l_assistant/tray/app_tray.py, so
+# a normal terminal-mode install doesn't need these at all.
+pystray>=0.19.5
+tendo>=0.3.0
+pillow>=10.4
+
+# ---------------------------------------------------------------------
+# IMPORTANT: openwakeword is installed as a SEPARATE step, not via this
+# file, on both Linux and Windows:
+#
+#   pip install --no-deps "openwakeword>=0.6.0"
+#
+# Why: the current PyPI release of openwakeword unconditionally declares
+# a dependency on `tflite-runtime` when installing on *Linux* (no such
+# marker applies on Windows), even though this project only ever uses
+# openwakeword's ONNX Runtime backend (see src/l_assistant/wake/wake_word.py for
+# why ONNX is pinned on both OSes). As of this writing, `tflite-runtime`
+# has no installable distribution on PyPI at all for current Python
+# versions -- a plain `pip install openwakeword` therefore fails outright
+# on Linux. openwakeword does not actually import tflite at all unless
+# you explicitly request the tflite backend, so `--no-deps` (combined
+# with the real dependencies already listed above) is the correct,
+# minimal fix rather than a fragile workaround -- and it's applied on
+# both OSes for consistency, even though Windows was never actually
+# broken. `scripts/setup_linux.sh` and `scripts/setup_windows.ps1` both
+# run this step automatically.
+# ---------------------------------------------------------------------
+
+# --- YouTube search-and-play (play_youtube_search) --------------------
+# Resolves a search to a real, direct video URL instead of a search-
+# results page. Not the official YouTube Data API -- no API key, no
+# quota, but also not an officially sanctioned integration path; see
+# system_tools.py section 9 for the full tradeoff.
+yt-dlp>=2025.1.1
+

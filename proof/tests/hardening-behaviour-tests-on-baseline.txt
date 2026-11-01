@@ -1,0 +1,1501 @@
+FFFFFFFF.FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF.FFF..               [100%]
+=================================== FAILURES ===================================
+________________ test_model_supplied_confirmed_is_ignored[True] ________________
+
+home = PosixPath('<tmp>')
+value = True
+trash = [PosixPath('<tmp>')]
+
+    @pytest.mark.parametrize("value", [True, "true", "false", 1, "yes"])
+    def test_model_supplied_confirmed_is_ignored(home, value, trash):
+        engine = SystemToolsEngine(allowed_roots=[str(home)])
+        dispatcher = ToolDispatcher(engine)
+>       with pytest.raises(ConfirmationRequired):
+E       Failed: DID NOT RAISE <class 'l_assistant.tools.system_tools.ConfirmationRequired'>
+
+tests/test_hardening.py:50: Failed
+________________ test_model_supplied_confirmed_is_ignored[true] ________________
+
+home = PosixPath('<tmp>')
+value = 'true'
+trash = [PosixPath('<tmp>')]
+
+    @pytest.mark.parametrize("value", [True, "true", "false", 1, "yes"])
+    def test_model_supplied_confirmed_is_ignored(home, value, trash):
+        engine = SystemToolsEngine(allowed_roots=[str(home)])
+        dispatcher = ToolDispatcher(engine)
+>       with pytest.raises(ConfirmationRequired):
+E       Failed: DID NOT RAISE <class 'l_assistant.tools.system_tools.ConfirmationRequired'>
+
+tests/test_hardening.py:50: Failed
+_______________ test_model_supplied_confirmed_is_ignored[false] ________________
+
+home = PosixPath('<tmp>')
+value = 'false'
+trash = [PosixPath('<tmp>')]
+
+    @pytest.mark.parametrize("value", [True, "true", "false", 1, "yes"])
+    def test_model_supplied_confirmed_is_ignored(home, value, trash):
+        engine = SystemToolsEngine(allowed_roots=[str(home)])
+        dispatcher = ToolDispatcher(engine)
+>       with pytest.raises(ConfirmationRequired):
+E       Failed: DID NOT RAISE <class 'l_assistant.tools.system_tools.ConfirmationRequired'>
+
+tests/test_hardening.py:50: Failed
+_________________ test_model_supplied_confirmed_is_ignored[1] __________________
+
+home = PosixPath('<tmp>')
+value = 1
+trash = [PosixPath('<tmp>')]
+
+    @pytest.mark.parametrize("value", [True, "true", "false", 1, "yes"])
+    def test_model_supplied_confirmed_is_ignored(home, value, trash):
+        engine = SystemToolsEngine(allowed_roots=[str(home)])
+        dispatcher = ToolDispatcher(engine)
+>       with pytest.raises(ConfirmationRequired):
+E       Failed: DID NOT RAISE <class 'l_assistant.tools.system_tools.ConfirmationRequired'>
+
+tests/test_hardening.py:50: Failed
+________________ test_model_supplied_confirmed_is_ignored[yes] _________________
+
+home = PosixPath('<tmp>')
+value = 'yes'
+trash = [PosixPath('<tmp>')]
+
+    @pytest.mark.parametrize("value", [True, "true", "false", 1, "yes"])
+    def test_model_supplied_confirmed_is_ignored(home, value, trash):
+        engine = SystemToolsEngine(allowed_roots=[str(home)])
+        dispatcher = ToolDispatcher(engine)
+>       with pytest.raises(ConfirmationRequired):
+E       Failed: DID NOT RAISE <class 'l_assistant.tools.system_tools.ConfirmationRequired'>
+
+tests/test_hardening.py:50: Failed
+________________ test_trusted_keyword_confirmation_still_works _________________
+
+home = PosixPath('<tmp>')
+trash = []
+
+    def test_trusted_keyword_confirmation_still_works(home, trash):
+        dispatcher = ToolDispatcher(SystemToolsEngine(allowed_roots=[str(home)]))
+>       result = dispatcher.execute("file_operation", {"action": "delete", "source": str(home / "a.txt")}, confirmed=True)
+E       TypeError: ToolDispatcher.execute() got an unexpected keyword argument 'confirmed'
+
+tests/test_hardening.py:57: TypeError
+_____ test_trusted_confirmation_is_dropped_for_tools_without_the_parameter _____
+
+home = PosixPath('<tmp>')
+
+    def test_trusted_confirmation_is_dropped_for_tools_without_the_parameter(home):
+        dispatcher = ToolDispatcher(SystemToolsEngine(allowed_roots=[str(home)]))
+>       assert dispatcher.execute("minimize_all_windows", {}, confirmed=True).startswith(("Error", "Minimized"))
+E       TypeError: ToolDispatcher.execute() got an unexpected keyword argument 'confirmed'
+
+tests/test_hardening.py:63: TypeError
+_____________ test_engine_requires_exactly_true_not_a_truthy_value _____________
+
+home = PosixPath('<tmp>')
+trash = [PosixPath('<tmp>')]
+
+    def test_engine_requires_exactly_true_not_a_truthy_value(home, trash):
+        engine = SystemToolsEngine(allowed_roots=[str(home)])
+        for truthy in ("false", 1, "yes", [1]):
+>           with pytest.raises(ConfirmationRequired):
+E           Failed: DID NOT RAISE <class 'l_assistant.tools.system_tools.ConfirmationRequired'>
+
+tests/test_hardening.py:69: Failed
+______ test_close_application_passes_an_escaped_pattern_after_double_dash ______
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f7a3b10bd40>
+home = PosixPath('<tmp>')
+
+    def test_close_application_passes_an_escaped_pattern_after_double_dash(monkeypatch, home):
+        captured = {}
+    
+        def fake_run(argv, **kwargs):
+            captured["argv"] = argv
+            return real_subprocess.CompletedProcess(argv, 0, "", "")
+    
+        class _Sub:
+            run = staticmethod(fake_run)
+            TimeoutExpired = real_subprocess.TimeoutExpired
+            DEVNULL = real_subprocess.DEVNULL
+    
+        monkeypatch.setattr(system_tools, "subprocess", _Sub)
+        monkeypatch.setattr(system_tools.sys, "platform", "linux")
+        SystemToolsEngine(allowed_roots=[str(home)]).close_application("nextpad++")
+>       assert captured["argv"] == ["pkill", "-x", "--", r"nextpad\+\+"]
+E       AssertionError: assert ['pkill', '-x', 'nextpad++'] == ['pkill', '-x...extpad\\+\\+']
+E         
+E         At index 2 diff: 'nextpad++' != '--'
+E         Right contains one more item: 'nextpad\\+\\+'
+E         Use -v to get more diff
+
+tests/test_hardening.py:97: AssertionError
+________ test_open_website_never_calls_the_browser_for_a_refused_target ________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f7a3b0ec8c0>
+home = PosixPath('<tmp>')
+
+    def test_open_website_never_calls_the_browser_for_a_refused_target(monkeypatch, home):
+        opened = []
+        monkeypatch.setattr(system_tools.webbrowser, "open", lambda url: opened.append(url))
+        engine = SystemToolsEngine(allowed_roots=[str(home)])
+>       with pytest.raises(ToolError):
+E       Failed: DID NOT RAISE <class 'l_assistant.tools.system_tools.ToolError'>
+
+tests/test_hardening.py:110: Failed
+______ test_protected_locations_are_refused[create-.ssh/authorized_keys] _______
+
+home = PosixPath('<tmp>')
+rel = '.ssh/authorized_keys', action = 'create'
+
+    @pytest.mark.parametrize(
+        "rel",
+        [".ssh/authorized_keys", ".ssh/config", ".config/autostart/x.desktop", ".config/systemd/user/x.service", ".profile",
+         ".zshrc", ".bash_profile", ".aws/credentials", ".netrc", ".git/hooks/pre-commit", ".npmrc",
+         "AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/run.bat", "Library/LaunchAgents/x.plist"],
+    )
+    @pytest.mark.parametrize("action", ["create", "copy", "rename"])
+    def test_protected_locations_are_refused(home, rel, action):
+        (home / "src.txt").write_text("payload")
+        engine = SystemToolsEngine(allowed_roots=[str(home)])
+        kwargs = {
+            "create": {"action": "create", "source": str(home / rel), "content": "x"},
+            "copy": {"action": "copy", "source": str(home / "src.txt"), "destination": str(home / rel)},
+            "rename": {"action": "rename", "source": str(home / "src.txt"), "destination": str(home / rel), "confirmed": True},
+        }[action]
+>       with pytest.raises(ToolError, match="protected location"):
+E       Failed: DID NOT RAISE <class 'l_assistant.tools.system_tools.ToolError'>
+
+tests/test_hardening.py:138: Failed
+___________ test_protected_locations_are_refused[create-.ssh/config] ___________
+
+home = PosixPath('<tmp>')
+rel = '.ssh/config', action = 'create'
+
+    @pytest.mark.parametrize(
+        "rel",
+        [".ssh/authorized_keys", ".ssh/config", ".config/autostart/x.desktop", ".config/systemd/user/x.service", ".profile",
+         ".zshrc", ".bash_profile", ".aws/credentials", ".netrc", ".git/hooks/pre-commit", ".npmrc",
+         "AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/run.bat", "Library/LaunchAgents/x.plist"],
+    )
+    @pytest.mark.parametrize("action", ["create", "copy", "rename"])
+    def test_protected_locations_are_refused(home, rel, action):
+        (home / "src.txt").write_text("payload")
+        engine = SystemToolsEngine(allowed_roots=[str(home)])
+        kwargs = {
+            "create": {"action": "create", "source": str(home / rel), "content": "x"},
+            "copy": {"action": "copy", "source": str(home / "src.txt"), "destination": str(home / rel)},
+            "rename": {"action": "rename", "source": str(home / "src.txt"), "destination": str(home / rel), "confirmed": True},
+        }[action]
+>       with pytest.raises(ToolError, match="protected location"):
+E       Failed: DID NOT RAISE <class 'l_assistant.tools.system_tools.ToolError'>
+
+tests/test_hardening.py:138: Failed
+___ test_protected_locations_are_refused[create-.config/autostart/x.desktop] ___
+
+home = PosixPath('<tmp>')
+rel = '.config/autostart/x.desktop', action = 'create'
+
+    @pytest.mark.parametrize(
+        "rel",
+        [".ssh/authorized_keys", ".ssh/config", ".config/autostart/x.desktop", ".config/systemd/user/x.service", ".profile",
+         ".zshrc", ".bash_profile", ".aws/credentials", ".netrc", ".git/hooks/pre-commit", ".npmrc",
+         "AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/run.bat", "Library/LaunchAgents/x.plist"],
+    )
+    @pytest.mark.parametrize("action", ["create", "copy", "rename"])
+    def test_protected_locations_are_refused(home, rel, action):
+        (home / "src.txt").write_text("payload")
+        engine = SystemToolsEngine(allowed_roots=[str(home)])
+        kwargs = {
+            "create": {"action": "create", "source": str(home / rel), "content": "x"},
+            "copy": {"action": "copy", "source": str(home / "src.txt"), "destination": str(home / rel)},
+            "rename": {"action": "rename", "source": str(home / "src.txt"), "destination": str(home / rel), "confirmed": True},
+        }[action]
+>       with pytest.raises(ToolError, match="protected location"):
+E       Failed: DID NOT RAISE <class 'l_assistant.tools.system_tools.ToolError'>
+
+tests/test_hardening.py:138: Failed
+_ test_protected_locations_are_refused[create-.config/systemd/user/x.service] __
+
+home = PosixPath('<tmp>')
+rel = '.config/systemd/user/x.service', action = 'create'
+
+    @pytest.mark.parametrize(
+        "rel",
+        [".ssh/authorized_keys", ".ssh/config", ".config/autostart/x.desktop", ".config/systemd/user/x.service", ".profile",
+         ".zshrc", ".bash_profile", ".aws/credentials", ".netrc", ".git/hooks/pre-commit", ".npmrc",
+         "AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/run.bat", "Library/LaunchAgents/x.plist"],
+    )
+    @pytest.mark.parametrize("action", ["create", "copy", "rename"])
+    def test_protected_locations_are_refused(home, rel, action):
+        (home / "src.txt").write_text("payload")
+        engine = SystemToolsEngine(allowed_roots=[str(home)])
+        kwargs = {
+            "create": {"action": "create", "source": str(home / rel), "content": "x"},
+            "copy": {"action": "copy", "source": str(home / "src.txt"), "destination": str(home / rel)},
+            "rename": {"action": "rename", "source": str(home / "src.txt"), "destination": str(home / rel), "confirmed": True},
+        }[action]
+>       with pytest.raises(ToolError, match="protected location"):
+E       Failed: DID NOT RAISE <class 'l_assistant.tools.system_tools.ToolError'>
+
+tests/test_hardening.py:138: Failed
+____________ test_protected_locations_are_refused[create-.profile] _____________
+
+home = PosixPath('<tmp>')
+rel = '.profile', action = 'create'
+
+    @pytest.mark.parametrize(
+        "rel",
+        [".ssh/authorized_keys", ".ssh/config", ".config/autostart/x.desktop", ".config/systemd/user/x.service", ".profile",
+         ".zshrc", ".bash_profile", ".aws/credentials", ".netrc", ".git/hooks/pre-commit", ".npmrc",
+         "AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/run.bat", "Library/LaunchAgents/x.plist"],
+    )
+    @pytest.mark.parametrize("action", ["create", "copy", "rename"])
+    def test_protected_locations_are_refused(home, rel, action):
+        (home / "src.txt").write_text("payload")
+        engine = SystemToolsEngine(allowed_roots=[str(home)])
+        kwargs = {
+            "create": {"action": "create", "source": str(home / rel), "content": "x"},
+            "copy": {"action": "copy", "source": str(home / "src.txt"), "destination": str(home / rel)},
+            "rename": {"action": "rename", "source": str(home / "src.txt"), "destination": str(home / rel), "confirmed": True},
+        }[action]
+>       with pytest.raises(ToolError, match="protected location"):
+E       Failed: DID NOT RAISE <class 'l_assistant.tools.system_tools.ToolError'>
+
+tests/test_hardening.py:138: Failed
+_____________ test_protected_locations_are_refused[create-.zshrc] ______________
+
+home = PosixPath('<tmp>')
+rel = '.zshrc', action = 'create'
+
+    @pytest.mark.parametrize(
+        "rel",
+        [".ssh/authorized_keys", ".ssh/config", ".config/autostart/x.desktop", ".config/systemd/user/x.service", ".profile",
+         ".zshrc", ".bash_profile", ".aws/credentials", ".netrc", ".git/hooks/pre-commit", ".npmrc",
+         "AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/run.bat", "Library/LaunchAgents/x.plist"],
+    )
+    @pytest.mark.parametrize("action", ["create", "copy", "rename"])
+    def test_protected_locations_are_refused(home, rel, action):
+        (home / "src.txt").write_text("payload")
+        engine = SystemToolsEngine(allowed_roots=[str(home)])
+        kwargs = {
+            "create": {"action": "create", "source": str(home / rel), "content": "x"},
+            "copy": {"action": "copy", "source": str(home / "src.txt"), "destination": str(home / rel)},
+            "rename": {"action": "rename", "source": str(home / "src.txt"), "destination": str(home / rel), "confirmed": True},
+        }[action]
+>       with pytest.raises(ToolError, match="protected location"):
+E       Failed: DID NOT RAISE <class 'l_assistant.tools.system_tools.ToolError'>
+
+tests/test_hardening.py:138: Failed
+__________ test_protected_locations_are_refused[create-.bash_profile] __________
+
+home = PosixPath('<tmp>')
+rel = '.bash_profile', action = 'create'
+
+    @pytest.mark.parametrize(
+        "rel",
+        [".ssh/authorized_keys", ".ssh/config", ".config/autostart/x.desktop", ".config/systemd/user/x.service", ".profile",
+         ".zshrc", ".bash_profile", ".aws/credentials", ".netrc", ".git/hooks/pre-commit", ".npmrc",
+         "AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/run.bat", "Library/LaunchAgents/x.plist"],
+    )
+    @pytest.mark.parametrize("action", ["create", "copy", "rename"])
+    def test_protected_locations_are_refused(home, rel, action):
+        (home / "src.txt").write_text("payload")
+        engine = SystemToolsEngine(allowed_roots=[str(home)])
+        kwargs = {
+            "create": {"action": "create", "source": str(home / rel), "content": "x"},
+            "copy": {"action": "copy", "source": str(home / "src.txt"), "destination": str(home / rel)},
+            "rename": {"action": "rename", "source": str(home / "src.txt"), "destination": str(home / rel), "confirmed": True},
+        }[action]
+>       with pytest.raises(ToolError, match="protected location"):
+E       Failed: DID NOT RAISE <class 'l_assistant.tools.system_tools.ToolError'>
+
+tests/test_hardening.py:138: Failed
+________ test_protected_locations_are_refused[create-.aws/credentials] _________
+
+home = PosixPath('<tmp>')
+rel = '.aws/credentials', action = 'create'
+
+    @pytest.mark.parametrize(
+        "rel",
+        [".ssh/authorized_keys", ".ssh/config", ".config/autostart/x.desktop", ".config/systemd/user/x.service", ".profile",
+         ".zshrc", ".bash_profile", ".aws/credentials", ".netrc", ".git/hooks/pre-commit", ".npmrc",
+         "AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/run.bat", "Library/LaunchAgents/x.plist"],
+    )
+    @pytest.mark.parametrize("action", ["create", "copy", "rename"])
+    def test_protected_locations_are_refused(home, rel, action):
+        (home / "src.txt").write_text("payload")
+        engine = SystemToolsEngine(allowed_roots=[str(home)])
+        kwargs = {
+            "create": {"action": "create", "source": str(home / rel), "content": "x"},
+            "copy": {"action": "copy", "source": str(home / "src.txt"), "destination": str(home / rel)},
+            "rename": {"action": "rename", "source": str(home / "src.txt"), "destination": str(home / rel), "confirmed": True},
+        }[action]
+>       with pytest.raises(ToolError, match="protected location"):
+E       Failed: DID NOT RAISE <class 'l_assistant.tools.system_tools.ToolError'>
+
+tests/test_hardening.py:138: Failed
+_____________ test_protected_locations_are_refused[create-.netrc] ______________
+
+home = PosixPath('<tmp>')
+rel = '.netrc', action = 'create'
+
+    @pytest.mark.parametrize(
+        "rel",
+        [".ssh/authorized_keys", ".ssh/config", ".config/autostart/x.desktop", ".config/systemd/user/x.service", ".profile",
+         ".zshrc", ".bash_profile", ".aws/credentials", ".netrc", ".git/hooks/pre-commit", ".npmrc",
+         "AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/run.bat", "Library/LaunchAgents/x.plist"],
+    )
+    @pytest.mark.parametrize("action", ["create", "copy", "rename"])
+    def test_protected_locations_are_refused(home, rel, action):
+        (home / "src.txt").write_text("payload")
+        engine = SystemToolsEngine(allowed_roots=[str(home)])
+        kwargs = {
+            "create": {"action": "create", "source": str(home / rel), "content": "x"},
+            "copy": {"action": "copy", "source": str(home / "src.txt"), "destination": str(home / rel)},
+            "rename": {"action": "rename", "source": str(home / "src.txt"), "destination": str(home / rel), "confirmed": True},
+        }[action]
+>       with pytest.raises(ToolError, match="protected location"):
+E       Failed: DID NOT RAISE <class 'l_assistant.tools.system_tools.ToolError'>
+
+tests/test_hardening.py:138: Failed
+______ test_protected_locations_are_refused[create-.git/hooks/pre-commit] ______
+
+home = PosixPath('<tmp>')
+rel = '.git/hooks/pre-commit', action = 'create'
+
+    @pytest.mark.parametrize(
+        "rel",
+        [".ssh/authorized_keys", ".ssh/config", ".config/autostart/x.desktop", ".config/systemd/user/x.service", ".profile",
+         ".zshrc", ".bash_profile", ".aws/credentials", ".netrc", ".git/hooks/pre-commit", ".npmrc",
+         "AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/run.bat", "Library/LaunchAgents/x.plist"],
+    )
+    @pytest.mark.parametrize("action", ["create", "copy", "rename"])
+    def test_protected_locations_are_refused(home, rel, action):
+        (home / "src.txt").write_text("payload")
+        engine = SystemToolsEngine(allowed_roots=[str(home)])
+        kwargs = {
+            "create": {"action": "create", "source": str(home / rel), "content": "x"},
+            "copy": {"action": "copy", "source": str(home / "src.txt"), "destination": str(home / rel)},
+            "rename": {"action": "rename", "source": str(home / "src.txt"), "destination": str(home / rel), "confirmed": True},
+        }[action]
+>       with pytest.raises(ToolError, match="protected location"):
+E       Failed: DID NOT RAISE <class 'l_assistant.tools.system_tools.ToolError'>
+
+tests/test_hardening.py:138: Failed
+_____________ test_protected_locations_are_refused[create-.npmrc] ______________
+
+home = PosixPath('<tmp>')
+rel = '.npmrc', action = 'create'
+
+    @pytest.mark.parametrize(
+        "rel",
+        [".ssh/authorized_keys", ".ssh/config", ".config/autostart/x.desktop", ".config/systemd/user/x.service", ".profile",
+         ".zshrc", ".bash_profile", ".aws/credentials", ".netrc", ".git/hooks/pre-commit", ".npmrc",
+         "AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/run.bat", "Library/LaunchAgents/x.plist"],
+    )
+    @pytest.mark.parametrize("action", ["create", "copy", "rename"])
+    def test_protected_locations_are_refused(home, rel, action):
+        (home / "src.txt").write_text("payload")
+        engine = SystemToolsEngine(allowed_roots=[str(home)])
+        kwargs = {
+            "create": {"action": "create", "source": str(home / rel), "content": "x"},
+            "copy": {"action": "copy", "source": str(home / "src.txt"), "destination": str(home / rel)},
+            "rename": {"action": "rename", "source": str(home / "src.txt"), "destination": str(home / rel), "confirmed": True},
+        }[action]
+>       with pytest.raises(ToolError, match="protected location"):
+E       Failed: DID NOT RAISE <class 'l_assistant.tools.system_tools.ToolError'>
+
+tests/test_hardening.py:138: Failed
+_ test_protected_locations_are_refused[create-AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/run.bat] _
+
+home = PosixPath('<tmp>')
+rel = 'AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/run.bat'
+action = 'create'
+
+    @pytest.mark.parametrize(
+        "rel",
+        [".ssh/authorized_keys", ".ssh/config", ".config/autostart/x.desktop", ".config/systemd/user/x.service", ".profile",
+         ".zshrc", ".bash_profile", ".aws/credentials", ".netrc", ".git/hooks/pre-commit", ".npmrc",
+         "AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/run.bat", "Library/LaunchAgents/x.plist"],
+    )
+    @pytest.mark.parametrize("action", ["create", "copy", "rename"])
+    def test_protected_locations_are_refused(home, rel, action):
+        (home / "src.txt").write_text("payload")
+        engine = SystemToolsEngine(allowed_roots=[str(home)])
+        kwargs = {
+            "create": {"action": "create", "source": str(home / rel), "content": "x"},
+            "copy": {"action": "copy", "source": str(home / "src.txt"), "destination": str(home / rel)},
+            "rename": {"action": "rename", "source": str(home / "src.txt"), "destination": str(home / rel), "confirmed": True},
+        }[action]
+>       with pytest.raises(ToolError, match="protected location"):
+E       Failed: DID NOT RAISE <class 'l_assistant.tools.system_tools.ToolError'>
+
+tests/test_hardening.py:138: Failed
+__ test_protected_locations_are_refused[create-Library/LaunchAgents/x.plist] ___
+
+home = PosixPath('<tmp>')
+rel = 'Library/LaunchAgents/x.plist', action = 'create'
+
+    @pytest.mark.parametrize(
+        "rel",
+        [".ssh/authorized_keys", ".ssh/config", ".config/autostart/x.desktop", ".config/systemd/user/x.service", ".profile",
+         ".zshrc", ".bash_profile", ".aws/credentials", ".netrc", ".git/hooks/pre-commit", ".npmrc",
+         "AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/run.bat", "Library/LaunchAgents/x.plist"],
+    )
+    @pytest.mark.parametrize("action", ["create", "copy", "rename"])
+    def test_protected_locations_are_refused(home, rel, action):
+        (home / "src.txt").write_text("payload")
+        engine = SystemToolsEngine(allowed_roots=[str(home)])
+        kwargs = {
+            "create": {"action": "create", "source": str(home / rel), "content": "x"},
+            "copy": {"action": "copy", "source": str(home / "src.txt"), "destination": str(home / rel)},
+            "rename": {"action": "rename", "source": str(home / "src.txt"), "destination": str(home / rel), "confirmed": True},
+        }[action]
+>       with pytest.raises(ToolError, match="protected location"):
+E       Failed: DID NOT RAISE <class 'l_assistant.tools.system_tools.ToolError'>
+
+tests/test_hardening.py:138: Failed
+_______ test_protected_locations_are_refused[copy-.ssh/authorized_keys] ________
+
+home = PosixPath('<tmp>')
+rel = '.ssh/authorized_keys', action = 'copy'
+
+    @pytest.mark.parametrize(
+        "rel",
+        [".ssh/authorized_keys", ".ssh/config", ".config/autostart/x.desktop", ".config/systemd/user/x.service", ".profile",
+         ".zshrc", ".bash_profile", ".aws/credentials", ".netrc", ".git/hooks/pre-commit", ".npmrc",
+         "AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/run.bat", "Library/LaunchAgents/x.plist"],
+    )
+    @pytest.mark.parametrize("action", ["create", "copy", "rename"])
+    def test_protected_locations_are_refused(home, rel, action):
+        (home / "src.txt").write_text("payload")
+        engine = SystemToolsEngine(allowed_roots=[str(home)])
+        kwargs = {
+            "create": {"action": "create", "source": str(home / rel), "content": "x"},
+            "copy": {"action": "copy", "source": str(home / "src.txt"), "destination": str(home / rel)},
+            "rename": {"action": "rename", "source": str(home / "src.txt"), "destination": str(home / rel), "confirmed": True},
+        }[action]
+>       with pytest.raises(ToolError, match="protected location"):
+E       Failed: DID NOT RAISE <class 'l_assistant.tools.system_tools.ToolError'>
+
+tests/test_hardening.py:138: Failed
+____________ test_protected_locations_are_refused[copy-.ssh/config] ____________
+
+home = PosixPath('<tmp>')
+rel = '.ssh/config', action = 'copy'
+
+    @pytest.mark.parametrize(
+        "rel",
+        [".ssh/authorized_keys", ".ssh/config", ".config/autostart/x.desktop", ".config/systemd/user/x.service", ".profile",
+         ".zshrc", ".bash_profile", ".aws/credentials", ".netrc", ".git/hooks/pre-commit", ".npmrc",
+         "AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/run.bat", "Library/LaunchAgents/x.plist"],
+    )
+    @pytest.mark.parametrize("action", ["create", "copy", "rename"])
+    def test_protected_locations_are_refused(home, rel, action):
+        (home / "src.txt").write_text("payload")
+        engine = SystemToolsEngine(allowed_roots=[str(home)])
+        kwargs = {
+            "create": {"action": "create", "source": str(home / rel), "content": "x"},
+            "copy": {"action": "copy", "source": str(home / "src.txt"), "destination": str(home / rel)},
+            "rename": {"action": "rename", "source": str(home / "src.txt"), "destination": str(home / rel), "confirmed": True},
+        }[action]
+>       with pytest.raises(ToolError, match="protected location"):
+E       Failed: DID NOT RAISE <class 'l_assistant.tools.system_tools.ToolError'>
+
+tests/test_hardening.py:138: Failed
+____ test_protected_locations_are_refused[copy-.config/autostart/x.desktop] ____
+
+home = PosixPath('<tmp>')
+rel = '.config/autostart/x.desktop', action = 'copy'
+
+    @pytest.mark.parametrize(
+        "rel",
+        [".ssh/authorized_keys", ".ssh/config", ".config/autostart/x.desktop", ".config/systemd/user/x.service", ".profile",
+         ".zshrc", ".bash_profile", ".aws/credentials", ".netrc", ".git/hooks/pre-commit", ".npmrc",
+         "AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/run.bat", "Library/LaunchAgents/x.plist"],
+    )
+    @pytest.mark.parametrize("action", ["create", "copy", "rename"])
+    def test_protected_locations_are_refused(home, rel, action):
+        (home / "src.txt").write_text("payload")
+        engine = SystemToolsEngine(allowed_roots=[str(home)])
+        kwargs = {
+            "create": {"action": "create", "source": str(home / rel), "content": "x"},
+            "copy": {"action": "copy", "source": str(home / "src.txt"), "destination": str(home / rel)},
+            "rename": {"action": "rename", "source": str(home / "src.txt"), "destination": str(home / rel), "confirmed": True},
+        }[action]
+>       with pytest.raises(ToolError, match="protected location"):
+E       Failed: DID NOT RAISE <class 'l_assistant.tools.system_tools.ToolError'>
+
+tests/test_hardening.py:138: Failed
+__ test_protected_locations_are_refused[copy-.config/systemd/user/x.service] ___
+
+home = PosixPath('<tmp>')
+rel = '.config/systemd/user/x.service', action = 'copy'
+
+    @pytest.mark.parametrize(
+        "rel",
+        [".ssh/authorized_keys", ".ssh/config", ".config/autostart/x.desktop", ".config/systemd/user/x.service", ".profile",
+         ".zshrc", ".bash_profile", ".aws/credentials", ".netrc", ".git/hooks/pre-commit", ".npmrc",
+         "AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/run.bat", "Library/LaunchAgents/x.plist"],
+    )
+    @pytest.mark.parametrize("action", ["create", "copy", "rename"])
+    def test_protected_locations_are_refused(home, rel, action):
+        (home / "src.txt").write_text("payload")
+        engine = SystemToolsEngine(allowed_roots=[str(home)])
+        kwargs = {
+            "create": {"action": "create", "source": str(home / rel), "content": "x"},
+            "copy": {"action": "copy", "source": str(home / "src.txt"), "destination": str(home / rel)},
+            "rename": {"action": "rename", "source": str(home / "src.txt"), "destination": str(home / rel), "confirmed": True},
+        }[action]
+>       with pytest.raises(ToolError, match="protected location"):
+E       Failed: DID NOT RAISE <class 'l_assistant.tools.system_tools.ToolError'>
+
+tests/test_hardening.py:138: Failed
+_____________ test_protected_locations_are_refused[copy-.profile] ______________
+
+home = PosixPath('<tmp>')
+rel = '.profile', action = 'copy'
+
+    @pytest.mark.parametrize(
+        "rel",
+        [".ssh/authorized_keys", ".ssh/config", ".config/autostart/x.desktop", ".config/systemd/user/x.service", ".profile",
+         ".zshrc", ".bash_profile", ".aws/credentials", ".netrc", ".git/hooks/pre-commit", ".npmrc",
+         "AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/run.bat", "Library/LaunchAgents/x.plist"],
+    )
+    @pytest.mark.parametrize("action", ["create", "copy", "rename"])
+    def test_protected_locations_are_refused(home, rel, action):
+        (home / "src.txt").write_text("payload")
+        engine = SystemToolsEngine(allowed_roots=[str(home)])
+        kwargs = {
+            "create": {"action": "create", "source": str(home / rel), "content": "x"},
+            "copy": {"action": "copy", "source": str(home / "src.txt"), "destination": str(home / rel)},
+            "rename": {"action": "rename", "source": str(home / "src.txt"), "destination": str(home / rel), "confirmed": True},
+        }[action]
+>       with pytest.raises(ToolError, match="protected location"):
+E       Failed: DID NOT RAISE <class 'l_assistant.tools.system_tools.ToolError'>
+
+tests/test_hardening.py:138: Failed
+______________ test_protected_locations_are_refused[copy-.zshrc] _______________
+
+home = PosixPath('<tmp>')
+rel = '.zshrc', action = 'copy'
+
+    @pytest.mark.parametrize(
+        "rel",
+        [".ssh/authorized_keys", ".ssh/config", ".config/autostart/x.desktop", ".config/systemd/user/x.service", ".profile",
+         ".zshrc", ".bash_profile", ".aws/credentials", ".netrc", ".git/hooks/pre-commit", ".npmrc",
+         "AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/run.bat", "Library/LaunchAgents/x.plist"],
+    )
+    @pytest.mark.parametrize("action", ["create", "copy", "rename"])
+    def test_protected_locations_are_refused(home, rel, action):
+        (home / "src.txt").write_text("payload")
+        engine = SystemToolsEngine(allowed_roots=[str(home)])
+        kwargs = {
+            "create": {"action": "create", "source": str(home / rel), "content": "x"},
+            "copy": {"action": "copy", "source": str(home / "src.txt"), "destination": str(home / rel)},
+            "rename": {"action": "rename", "source": str(home / "src.txt"), "destination": str(home / rel), "confirmed": True},
+        }[action]
+>       with pytest.raises(ToolError, match="protected location"):
+E       Failed: DID NOT RAISE <class 'l_assistant.tools.system_tools.ToolError'>
+
+tests/test_hardening.py:138: Failed
+___________ test_protected_locations_are_refused[copy-.bash_profile] ___________
+
+home = PosixPath('<tmp>')
+rel = '.bash_profile', action = 'copy'
+
+    @pytest.mark.parametrize(
+        "rel",
+        [".ssh/authorized_keys", ".ssh/config", ".config/autostart/x.desktop", ".config/systemd/user/x.service", ".profile",
+         ".zshrc", ".bash_profile", ".aws/credentials", ".netrc", ".git/hooks/pre-commit", ".npmrc",
+         "AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/run.bat", "Library/LaunchAgents/x.plist"],
+    )
+    @pytest.mark.parametrize("action", ["create", "copy", "rename"])
+    def test_protected_locations_are_refused(home, rel, action):
+        (home / "src.txt").write_text("payload")
+        engine = SystemToolsEngine(allowed_roots=[str(home)])
+        kwargs = {
+            "create": {"action": "create", "source": str(home / rel), "content": "x"},
+            "copy": {"action": "copy", "source": str(home / "src.txt"), "destination": str(home / rel)},
+            "rename": {"action": "rename", "source": str(home / "src.txt"), "destination": str(home / rel), "confirmed": True},
+        }[action]
+>       with pytest.raises(ToolError, match="protected location"):
+E       Failed: DID NOT RAISE <class 'l_assistant.tools.system_tools.ToolError'>
+
+tests/test_hardening.py:138: Failed
+_________ test_protected_locations_are_refused[copy-.aws/credentials] __________
+
+home = PosixPath('<tmp>')
+rel = '.aws/credentials', action = 'copy'
+
+    @pytest.mark.parametrize(
+        "rel",
+        [".ssh/authorized_keys", ".ssh/config", ".config/autostart/x.desktop", ".config/systemd/user/x.service", ".profile",
+         ".zshrc", ".bash_profile", ".aws/credentials", ".netrc", ".git/hooks/pre-commit", ".npmrc",
+         "AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/run.bat", "Library/LaunchAgents/x.plist"],
+    )
+    @pytest.mark.parametrize("action", ["create", "copy", "rename"])
+    def test_protected_locations_are_refused(home, rel, action):
+        (home / "src.txt").write_text("payload")
+        engine = SystemToolsEngine(allowed_roots=[str(home)])
+        kwargs = {
+            "create": {"action": "create", "source": str(home / rel), "content": "x"},
+            "copy": {"action": "copy", "source": str(home / "src.txt"), "destination": str(home / rel)},
+            "rename": {"action": "rename", "source": str(home / "src.txt"), "destination": str(home / rel), "confirmed": True},
+        }[action]
+>       with pytest.raises(ToolError, match="protected location"):
+E       Failed: DID NOT RAISE <class 'l_assistant.tools.system_tools.ToolError'>
+
+tests/test_hardening.py:138: Failed
+______________ test_protected_locations_are_refused[copy-.netrc] _______________
+
+home = PosixPath('<tmp>')
+rel = '.netrc', action = 'copy'
+
+    @pytest.mark.parametrize(
+        "rel",
+        [".ssh/authorized_keys", ".ssh/config", ".config/autostart/x.desktop", ".config/systemd/user/x.service", ".profile",
+         ".zshrc", ".bash_profile", ".aws/credentials", ".netrc", ".git/hooks/pre-commit", ".npmrc",
+         "AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/run.bat", "Library/LaunchAgents/x.plist"],
+    )
+    @pytest.mark.parametrize("action", ["create", "copy", "rename"])
+    def test_protected_locations_are_refused(home, rel, action):
+        (home / "src.txt").write_text("payload")
+        engine = SystemToolsEngine(allowed_roots=[str(home)])
+        kwargs = {
+            "create": {"action": "create", "source": str(home / rel), "content": "x"},
+            "copy": {"action": "copy", "source": str(home / "src.txt"), "destination": str(home / rel)},
+            "rename": {"action": "rename", "source": str(home / "src.txt"), "destination": str(home / rel), "confirmed": True},
+        }[action]
+>       with pytest.raises(ToolError, match="protected location"):
+E       Failed: DID NOT RAISE <class 'l_assistant.tools.system_tools.ToolError'>
+
+tests/test_hardening.py:138: Failed
+_______ test_protected_locations_are_refused[copy-.git/hooks/pre-commit] _______
+
+home = PosixPath('<tmp>')
+rel = '.git/hooks/pre-commit', action = 'copy'
+
+    @pytest.mark.parametrize(
+        "rel",
+        [".ssh/authorized_keys", ".ssh/config", ".config/autostart/x.desktop", ".config/systemd/user/x.service", ".profile",
+         ".zshrc", ".bash_profile", ".aws/credentials", ".netrc", ".git/hooks/pre-commit", ".npmrc",
+         "AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/run.bat", "Library/LaunchAgents/x.plist"],
+    )
+    @pytest.mark.parametrize("action", ["create", "copy", "rename"])
+    def test_protected_locations_are_refused(home, rel, action):
+        (home / "src.txt").write_text("payload")
+        engine = SystemToolsEngine(allowed_roots=[str(home)])
+        kwargs = {
+            "create": {"action": "create", "source": str(home / rel), "content": "x"},
+            "copy": {"action": "copy", "source": str(home / "src.txt"), "destination": str(home / rel)},
+            "rename": {"action": "rename", "source": str(home / "src.txt"), "destination": str(home / rel), "confirmed": True},
+        }[action]
+>       with pytest.raises(ToolError, match="protected location"):
+E       Failed: DID NOT RAISE <class 'l_assistant.tools.system_tools.ToolError'>
+
+tests/test_hardening.py:138: Failed
+______________ test_protected_locations_are_refused[copy-.npmrc] _______________
+
+home = PosixPath('<tmp>')
+rel = '.npmrc', action = 'copy'
+
+    @pytest.mark.parametrize(
+        "rel",
+        [".ssh/authorized_keys", ".ssh/config", ".config/autostart/x.desktop", ".config/systemd/user/x.service", ".profile",
+         ".zshrc", ".bash_profile", ".aws/credentials", ".netrc", ".git/hooks/pre-commit", ".npmrc",
+         "AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/run.bat", "Library/LaunchAgents/x.plist"],
+    )
+    @pytest.mark.parametrize("action", ["create", "copy", "rename"])
+    def test_protected_locations_are_refused(home, rel, action):
+        (home / "src.txt").write_text("payload")
+        engine = SystemToolsEngine(allowed_roots=[str(home)])
+        kwargs = {
+            "create": {"action": "create", "source": str(home / rel), "content": "x"},
+            "copy": {"action": "copy", "source": str(home / "src.txt"), "destination": str(home / rel)},
+            "rename": {"action": "rename", "source": str(home / "src.txt"), "destination": str(home / rel), "confirmed": True},
+        }[action]
+>       with pytest.raises(ToolError, match="protected location"):
+E       Failed: DID NOT RAISE <class 'l_assistant.tools.system_tools.ToolError'>
+
+tests/test_hardening.py:138: Failed
+_ test_protected_locations_are_refused[copy-AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/run.bat] _
+
+home = PosixPath('<tmp>')
+rel = 'AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/run.bat'
+action = 'copy'
+
+    @pytest.mark.parametrize(
+        "rel",
+        [".ssh/authorized_keys", ".ssh/config", ".config/autostart/x.desktop", ".config/systemd/user/x.service", ".profile",
+         ".zshrc", ".bash_profile", ".aws/credentials", ".netrc", ".git/hooks/pre-commit", ".npmrc",
+         "AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/run.bat", "Library/LaunchAgents/x.plist"],
+    )
+    @pytest.mark.parametrize("action", ["create", "copy", "rename"])
+    def test_protected_locations_are_refused(home, rel, action):
+        (home / "src.txt").write_text("payload")
+        engine = SystemToolsEngine(allowed_roots=[str(home)])
+        kwargs = {
+            "create": {"action": "create", "source": str(home / rel), "content": "x"},
+            "copy": {"action": "copy", "source": str(home / "src.txt"), "destination": str(home / rel)},
+            "rename": {"action": "rename", "source": str(home / "src.txt"), "destination": str(home / rel), "confirmed": True},
+        }[action]
+>       with pytest.raises(ToolError, match="protected location"):
+E       Failed: DID NOT RAISE <class 'l_assistant.tools.system_tools.ToolError'>
+
+tests/test_hardening.py:138: Failed
+___ test_protected_locations_are_refused[copy-Library/LaunchAgents/x.plist] ____
+
+home = PosixPath('<tmp>')
+rel = 'Library/LaunchAgents/x.plist', action = 'copy'
+
+    @pytest.mark.parametrize(
+        "rel",
+        [".ssh/authorized_keys", ".ssh/config", ".config/autostart/x.desktop", ".config/systemd/user/x.service", ".profile",
+         ".zshrc", ".bash_profile", ".aws/credentials", ".netrc", ".git/hooks/pre-commit", ".npmrc",
+         "AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/run.bat", "Library/LaunchAgents/x.plist"],
+    )
+    @pytest.mark.parametrize("action", ["create", "copy", "rename"])
+    def test_protected_locations_are_refused(home, rel, action):
+        (home / "src.txt").write_text("payload")
+        engine = SystemToolsEngine(allowed_roots=[str(home)])
+        kwargs = {
+            "create": {"action": "create", "source": str(home / rel), "content": "x"},
+            "copy": {"action": "copy", "source": str(home / "src.txt"), "destination": str(home / rel)},
+            "rename": {"action": "rename", "source": str(home / "src.txt"), "destination": str(home / rel), "confirmed": True},
+        }[action]
+>       with pytest.raises(ToolError, match="protected location"):
+E       Failed: DID NOT RAISE <class 'l_assistant.tools.system_tools.ToolError'>
+
+tests/test_hardening.py:138: Failed
+______ test_protected_locations_are_refused[rename-.ssh/authorized_keys] _______
+
+home = PosixPath('<tmp>')
+rel = '.ssh/authorized_keys', action = 'rename'
+
+    @pytest.mark.parametrize(
+        "rel",
+        [".ssh/authorized_keys", ".ssh/config", ".config/autostart/x.desktop", ".config/systemd/user/x.service", ".profile",
+         ".zshrc", ".bash_profile", ".aws/credentials", ".netrc", ".git/hooks/pre-commit", ".npmrc",
+         "AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/run.bat", "Library/LaunchAgents/x.plist"],
+    )
+    @pytest.mark.parametrize("action", ["create", "copy", "rename"])
+    def test_protected_locations_are_refused(home, rel, action):
+        (home / "src.txt").write_text("payload")
+        engine = SystemToolsEngine(allowed_roots=[str(home)])
+        kwargs = {
+            "create": {"action": "create", "source": str(home / rel), "content": "x"},
+            "copy": {"action": "copy", "source": str(home / "src.txt"), "destination": str(home / rel)},
+            "rename": {"action": "rename", "source": str(home / "src.txt"), "destination": str(home / rel), "confirmed": True},
+        }[action]
+        with pytest.raises(ToolError, match="protected location"):
+>           engine.file_operation(**kwargs)
+
+tests/test_hardening.py:139: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../baseline/src/l_assistant/tools/system_tools.py:493: in file_operation
+    src.rename(dst)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('<tmp>')
+target = PosixPath('<tmp>')
+
+    def rename(self, target):
+        """
+        Rename this path to the target path.
+    
+        The target path may be absolute or relative. Relative paths are
+        interpreted relative to the current working directory, *not* the
+        directory of the Path object.
+    
+        Returns the new Path instance pointing to the target path.
+        """
+>       os.rename(self, target)
+E       FileNotFoundError: [Errno 2] No such file or directory: '<tmp>' -> '<tmp>'
+
+/usr/local/lib/python3.13/pathlib/_local.py:767: FileNotFoundError
+___________ test_protected_locations_are_refused[rename-.ssh/config] ___________
+
+home = PosixPath('<tmp>')
+rel = '.ssh/config', action = 'rename'
+
+    @pytest.mark.parametrize(
+        "rel",
+        [".ssh/authorized_keys", ".ssh/config", ".config/autostart/x.desktop", ".config/systemd/user/x.service", ".profile",
+         ".zshrc", ".bash_profile", ".aws/credentials", ".netrc", ".git/hooks/pre-commit", ".npmrc",
+         "AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/run.bat", "Library/LaunchAgents/x.plist"],
+    )
+    @pytest.mark.parametrize("action", ["create", "copy", "rename"])
+    def test_protected_locations_are_refused(home, rel, action):
+        (home / "src.txt").write_text("payload")
+        engine = SystemToolsEngine(allowed_roots=[str(home)])
+        kwargs = {
+            "create": {"action": "create", "source": str(home / rel), "content": "x"},
+            "copy": {"action": "copy", "source": str(home / "src.txt"), "destination": str(home / rel)},
+            "rename": {"action": "rename", "source": str(home / "src.txt"), "destination": str(home / rel), "confirmed": True},
+        }[action]
+        with pytest.raises(ToolError, match="protected location"):
+>           engine.file_operation(**kwargs)
+
+tests/test_hardening.py:139: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../baseline/src/l_assistant/tools/system_tools.py:493: in file_operation
+    src.rename(dst)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('<tmp>')
+target = PosixPath('<tmp>')
+
+    def rename(self, target):
+        """
+        Rename this path to the target path.
+    
+        The target path may be absolute or relative. Relative paths are
+        interpreted relative to the current working directory, *not* the
+        directory of the Path object.
+    
+        Returns the new Path instance pointing to the target path.
+        """
+>       os.rename(self, target)
+E       FileNotFoundError: [Errno 2] No such file or directory: '<tmp>' -> '<tmp>'
+
+/usr/local/lib/python3.13/pathlib/_local.py:767: FileNotFoundError
+___ test_protected_locations_are_refused[rename-.config/autostart/x.desktop] ___
+
+home = PosixPath('<tmp>')
+rel = '.config/autostart/x.desktop', action = 'rename'
+
+    @pytest.mark.parametrize(
+        "rel",
+        [".ssh/authorized_keys", ".ssh/config", ".config/autostart/x.desktop", ".config/systemd/user/x.service", ".profile",
+         ".zshrc", ".bash_profile", ".aws/credentials", ".netrc", ".git/hooks/pre-commit", ".npmrc",
+         "AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/run.bat", "Library/LaunchAgents/x.plist"],
+    )
+    @pytest.mark.parametrize("action", ["create", "copy", "rename"])
+    def test_protected_locations_are_refused(home, rel, action):
+        (home / "src.txt").write_text("payload")
+        engine = SystemToolsEngine(allowed_roots=[str(home)])
+        kwargs = {
+            "create": {"action": "create", "source": str(home / rel), "content": "x"},
+            "copy": {"action": "copy", "source": str(home / "src.txt"), "destination": str(home / rel)},
+            "rename": {"action": "rename", "source": str(home / "src.txt"), "destination": str(home / rel), "confirmed": True},
+        }[action]
+        with pytest.raises(ToolError, match="protected location"):
+>           engine.file_operation(**kwargs)
+
+tests/test_hardening.py:139: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../baseline/src/l_assistant/tools/system_tools.py:493: in file_operation
+    src.rename(dst)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('<tmp>')
+target = PosixPath('<tmp>')
+
+    def rename(self, target):
+        """
+        Rename this path to the target path.
+    
+        The target path may be absolute or relative. Relative paths are
+        interpreted relative to the current working directory, *not* the
+        directory of the Path object.
+    
+        Returns the new Path instance pointing to the target path.
+        """
+>       os.rename(self, target)
+E       FileNotFoundError: [Errno 2] No such file or directory: '<tmp>' -> '<tmp>'
+
+/usr/local/lib/python3.13/pathlib/_local.py:767: FileNotFoundError
+_ test_protected_locations_are_refused[rename-.config/systemd/user/x.service] __
+
+home = PosixPath('<tmp>')
+rel = '.config/systemd/user/x.service', action = 'rename'
+
+    @pytest.mark.parametrize(
+        "rel",
+        [".ssh/authorized_keys", ".ssh/config", ".config/autostart/x.desktop", ".config/systemd/user/x.service", ".profile",
+         ".zshrc", ".bash_profile", ".aws/credentials", ".netrc", ".git/hooks/pre-commit", ".npmrc",
+         "AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/run.bat", "Library/LaunchAgents/x.plist"],
+    )
+    @pytest.mark.parametrize("action", ["create", "copy", "rename"])
+    def test_protected_locations_are_refused(home, rel, action):
+        (home / "src.txt").write_text("payload")
+        engine = SystemToolsEngine(allowed_roots=[str(home)])
+        kwargs = {
+            "create": {"action": "create", "source": str(home / rel), "content": "x"},
+            "copy": {"action": "copy", "source": str(home / "src.txt"), "destination": str(home / rel)},
+            "rename": {"action": "rename", "source": str(home / "src.txt"), "destination": str(home / rel), "confirmed": True},
+        }[action]
+        with pytest.raises(ToolError, match="protected location"):
+>           engine.file_operation(**kwargs)
+
+tests/test_hardening.py:139: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../baseline/src/l_assistant/tools/system_tools.py:493: in file_operation
+    src.rename(dst)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('<tmp>')
+target = PosixPath('<tmp>')
+
+    def rename(self, target):
+        """
+        Rename this path to the target path.
+    
+        The target path may be absolute or relative. Relative paths are
+        interpreted relative to the current working directory, *not* the
+        directory of the Path object.
+    
+        Returns the new Path instance pointing to the target path.
+        """
+>       os.rename(self, target)
+E       FileNotFoundError: [Errno 2] No such file or directory: '<tmp>' -> '<tmp>'
+
+/usr/local/lib/python3.13/pathlib/_local.py:767: FileNotFoundError
+____________ test_protected_locations_are_refused[rename-.profile] _____________
+
+home = PosixPath('<tmp>')
+rel = '.profile', action = 'rename'
+
+    @pytest.mark.parametrize(
+        "rel",
+        [".ssh/authorized_keys", ".ssh/config", ".config/autostart/x.desktop", ".config/systemd/user/x.service", ".profile",
+         ".zshrc", ".bash_profile", ".aws/credentials", ".netrc", ".git/hooks/pre-commit", ".npmrc",
+         "AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/run.bat", "Library/LaunchAgents/x.plist"],
+    )
+    @pytest.mark.parametrize("action", ["create", "copy", "rename"])
+    def test_protected_locations_are_refused(home, rel, action):
+        (home / "src.txt").write_text("payload")
+        engine = SystemToolsEngine(allowed_roots=[str(home)])
+        kwargs = {
+            "create": {"action": "create", "source": str(home / rel), "content": "x"},
+            "copy": {"action": "copy", "source": str(home / "src.txt"), "destination": str(home / rel)},
+            "rename": {"action": "rename", "source": str(home / "src.txt"), "destination": str(home / rel), "confirmed": True},
+        }[action]
+>       with pytest.raises(ToolError, match="protected location"):
+E       Failed: DID NOT RAISE <class 'l_assistant.tools.system_tools.ToolError'>
+
+tests/test_hardening.py:138: Failed
+_____________ test_protected_locations_are_refused[rename-.zshrc] ______________
+
+home = PosixPath('<tmp>')
+rel = '.zshrc', action = 'rename'
+
+    @pytest.mark.parametrize(
+        "rel",
+        [".ssh/authorized_keys", ".ssh/config", ".config/autostart/x.desktop", ".config/systemd/user/x.service", ".profile",
+         ".zshrc", ".bash_profile", ".aws/credentials", ".netrc", ".git/hooks/pre-commit", ".npmrc",
+         "AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/run.bat", "Library/LaunchAgents/x.plist"],
+    )
+    @pytest.mark.parametrize("action", ["create", "copy", "rename"])
+    def test_protected_locations_are_refused(home, rel, action):
+        (home / "src.txt").write_text("payload")
+        engine = SystemToolsEngine(allowed_roots=[str(home)])
+        kwargs = {
+            "create": {"action": "create", "source": str(home / rel), "content": "x"},
+            "copy": {"action": "copy", "source": str(home / "src.txt"), "destination": str(home / rel)},
+            "rename": {"action": "rename", "source": str(home / "src.txt"), "destination": str(home / rel), "confirmed": True},
+        }[action]
+>       with pytest.raises(ToolError, match="protected location"):
+E       Failed: DID NOT RAISE <class 'l_assistant.tools.system_tools.ToolError'>
+
+tests/test_hardening.py:138: Failed
+__________ test_protected_locations_are_refused[rename-.bash_profile] __________
+
+home = PosixPath('<tmp>')
+rel = '.bash_profile', action = 'rename'
+
+    @pytest.mark.parametrize(
+        "rel",
+        [".ssh/authorized_keys", ".ssh/config", ".config/autostart/x.desktop", ".config/systemd/user/x.service", ".profile",
+         ".zshrc", ".bash_profile", ".aws/credentials", ".netrc", ".git/hooks/pre-commit", ".npmrc",
+         "AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/run.bat", "Library/LaunchAgents/x.plist"],
+    )
+    @pytest.mark.parametrize("action", ["create", "copy", "rename"])
+    def test_protected_locations_are_refused(home, rel, action):
+        (home / "src.txt").write_text("payload")
+        engine = SystemToolsEngine(allowed_roots=[str(home)])
+        kwargs = {
+            "create": {"action": "create", "source": str(home / rel), "content": "x"},
+            "copy": {"action": "copy", "source": str(home / "src.txt"), "destination": str(home / rel)},
+            "rename": {"action": "rename", "source": str(home / "src.txt"), "destination": str(home / rel), "confirmed": True},
+        }[action]
+>       with pytest.raises(ToolError, match="protected location"):
+E       Failed: DID NOT RAISE <class 'l_assistant.tools.system_tools.ToolError'>
+
+tests/test_hardening.py:138: Failed
+________ test_protected_locations_are_refused[rename-.aws/credentials] _________
+
+home = PosixPath('<tmp>')
+rel = '.aws/credentials', action = 'rename'
+
+    @pytest.mark.parametrize(
+        "rel",
+        [".ssh/authorized_keys", ".ssh/config", ".config/autostart/x.desktop", ".config/systemd/user/x.service", ".profile",
+         ".zshrc", ".bash_profile", ".aws/credentials", ".netrc", ".git/hooks/pre-commit", ".npmrc",
+         "AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/run.bat", "Library/LaunchAgents/x.plist"],
+    )
+    @pytest.mark.parametrize("action", ["create", "copy", "rename"])
+    def test_protected_locations_are_refused(home, rel, action):
+        (home / "src.txt").write_text("payload")
+        engine = SystemToolsEngine(allowed_roots=[str(home)])
+        kwargs = {
+            "create": {"action": "create", "source": str(home / rel), "content": "x"},
+            "copy": {"action": "copy", "source": str(home / "src.txt"), "destination": str(home / rel)},
+            "rename": {"action": "rename", "source": str(home / "src.txt"), "destination": str(home / rel), "confirmed": True},
+        }[action]
+        with pytest.raises(ToolError, match="protected location"):
+>           engine.file_operation(**kwargs)
+
+tests/test_hardening.py:139: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../baseline/src/l_assistant/tools/system_tools.py:493: in file_operation
+    src.rename(dst)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('<tmp>')
+target = PosixPath('<tmp>')
+
+    def rename(self, target):
+        """
+        Rename this path to the target path.
+    
+        The target path may be absolute or relative. Relative paths are
+        interpreted relative to the current working directory, *not* the
+        directory of the Path object.
+    
+        Returns the new Path instance pointing to the target path.
+        """
+>       os.rename(self, target)
+E       FileNotFoundError: [Errno 2] No such file or directory: '<tmp>' -> '<tmp>'
+
+/usr/local/lib/python3.13/pathlib/_local.py:767: FileNotFoundError
+_____________ test_protected_locations_are_refused[rename-.netrc] ______________
+
+home = PosixPath('<tmp>')
+rel = '.netrc', action = 'rename'
+
+    @pytest.mark.parametrize(
+        "rel",
+        [".ssh/authorized_keys", ".ssh/config", ".config/autostart/x.desktop", ".config/systemd/user/x.service", ".profile",
+         ".zshrc", ".bash_profile", ".aws/credentials", ".netrc", ".git/hooks/pre-commit", ".npmrc",
+         "AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/run.bat", "Library/LaunchAgents/x.plist"],
+    )
+    @pytest.mark.parametrize("action", ["create", "copy", "rename"])
+    def test_protected_locations_are_refused(home, rel, action):
+        (home / "src.txt").write_text("payload")
+        engine = SystemToolsEngine(allowed_roots=[str(home)])
+        kwargs = {
+            "create": {"action": "create", "source": str(home / rel), "content": "x"},
+            "copy": {"action": "copy", "source": str(home / "src.txt"), "destination": str(home / rel)},
+            "rename": {"action": "rename", "source": str(home / "src.txt"), "destination": str(home / rel), "confirmed": True},
+        }[action]
+>       with pytest.raises(ToolError, match="protected location"):
+E       Failed: DID NOT RAISE <class 'l_assistant.tools.system_tools.ToolError'>
+
+tests/test_hardening.py:138: Failed
+______ test_protected_locations_are_refused[rename-.git/hooks/pre-commit] ______
+
+home = PosixPath('<tmp>')
+rel = '.git/hooks/pre-commit', action = 'rename'
+
+    @pytest.mark.parametrize(
+        "rel",
+        [".ssh/authorized_keys", ".ssh/config", ".config/autostart/x.desktop", ".config/systemd/user/x.service", ".profile",
+         ".zshrc", ".bash_profile", ".aws/credentials", ".netrc", ".git/hooks/pre-commit", ".npmrc",
+         "AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/run.bat", "Library/LaunchAgents/x.plist"],
+    )
+    @pytest.mark.parametrize("action", ["create", "copy", "rename"])
+    def test_protected_locations_are_refused(home, rel, action):
+        (home / "src.txt").write_text("payload")
+        engine = SystemToolsEngine(allowed_roots=[str(home)])
+        kwargs = {
+            "create": {"action": "create", "source": str(home / rel), "content": "x"},
+            "copy": {"action": "copy", "source": str(home / "src.txt"), "destination": str(home / rel)},
+            "rename": {"action": "rename", "source": str(home / "src.txt"), "destination": str(home / rel), "confirmed": True},
+        }[action]
+        with pytest.raises(ToolError, match="protected location"):
+>           engine.file_operation(**kwargs)
+
+tests/test_hardening.py:139: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../baseline/src/l_assistant/tools/system_tools.py:493: in file_operation
+    src.rename(dst)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('<tmp>')
+target = PosixPath('<tmp>')
+
+    def rename(self, target):
+        """
+        Rename this path to the target path.
+    
+        The target path may be absolute or relative. Relative paths are
+        interpreted relative to the current working directory, *not* the
+        directory of the Path object.
+    
+        Returns the new Path instance pointing to the target path.
+        """
+>       os.rename(self, target)
+E       FileNotFoundError: [Errno 2] No such file or directory: '<tmp>' -> '<tmp>'
+
+/usr/local/lib/python3.13/pathlib/_local.py:767: FileNotFoundError
+_____________ test_protected_locations_are_refused[rename-.npmrc] ______________
+
+home = PosixPath('<tmp>')
+rel = '.npmrc', action = 'rename'
+
+    @pytest.mark.parametrize(
+        "rel",
+        [".ssh/authorized_keys", ".ssh/config", ".config/autostart/x.desktop", ".config/systemd/user/x.service", ".profile",
+         ".zshrc", ".bash_profile", ".aws/credentials", ".netrc", ".git/hooks/pre-commit", ".npmrc",
+         "AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/run.bat", "Library/LaunchAgents/x.plist"],
+    )
+    @pytest.mark.parametrize("action", ["create", "copy", "rename"])
+    def test_protected_locations_are_refused(home, rel, action):
+        (home / "src.txt").write_text("payload")
+        engine = SystemToolsEngine(allowed_roots=[str(home)])
+        kwargs = {
+            "create": {"action": "create", "source": str(home / rel), "content": "x"},
+            "copy": {"action": "copy", "source": str(home / "src.txt"), "destination": str(home / rel)},
+            "rename": {"action": "rename", "source": str(home / "src.txt"), "destination": str(home / rel), "confirmed": True},
+        }[action]
+>       with pytest.raises(ToolError, match="protected location"):
+E       Failed: DID NOT RAISE <class 'l_assistant.tools.system_tools.ToolError'>
+
+tests/test_hardening.py:138: Failed
+_ test_protected_locations_are_refused[rename-AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/run.bat] _
+
+home = PosixPath('<tmp>')
+rel = 'AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/run.bat'
+action = 'rename'
+
+    @pytest.mark.parametrize(
+        "rel",
+        [".ssh/authorized_keys", ".ssh/config", ".config/autostart/x.desktop", ".config/systemd/user/x.service", ".profile",
+         ".zshrc", ".bash_profile", ".aws/credentials", ".netrc", ".git/hooks/pre-commit", ".npmrc",
+         "AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/run.bat", "Library/LaunchAgents/x.plist"],
+    )
+    @pytest.mark.parametrize("action", ["create", "copy", "rename"])
+    def test_protected_locations_are_refused(home, rel, action):
+        (home / "src.txt").write_text("payload")
+        engine = SystemToolsEngine(allowed_roots=[str(home)])
+        kwargs = {
+            "create": {"action": "create", "source": str(home / rel), "content": "x"},
+            "copy": {"action": "copy", "source": str(home / "src.txt"), "destination": str(home / rel)},
+            "rename": {"action": "rename", "source": str(home / "src.txt"), "destination": str(home / rel), "confirmed": True},
+        }[action]
+        with pytest.raises(ToolError, match="protected location"):
+>           engine.file_operation(**kwargs)
+
+tests/test_hardening.py:139: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../baseline/src/l_assistant/tools/system_tools.py:493: in file_operation
+    src.rename(dst)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('<tmp>')
+target = PosixPath('<tmp> Menu/Programs/Startup/run.bat')
+
+    def rename(self, target):
+        """
+        Rename this path to the target path.
+    
+        The target path may be absolute or relative. Relative paths are
+        interpreted relative to the current working directory, *not* the
+        directory of the Path object.
+    
+        Returns the new Path instance pointing to the target path.
+        """
+>       os.rename(self, target)
+E       FileNotFoundError: [Errno 2] No such file or directory: '<tmp>' -> '<tmp> Menu/Programs/Startup/run.bat'
+
+/usr/local/lib/python3.13/pathlib/_local.py:767: FileNotFoundError
+__ test_protected_locations_are_refused[rename-Library/LaunchAgents/x.plist] ___
+
+home = PosixPath('<tmp>')
+rel = 'Library/LaunchAgents/x.plist', action = 'rename'
+
+    @pytest.mark.parametrize(
+        "rel",
+        [".ssh/authorized_keys", ".ssh/config", ".config/autostart/x.desktop", ".config/systemd/user/x.service", ".profile",
+         ".zshrc", ".bash_profile", ".aws/credentials", ".netrc", ".git/hooks/pre-commit", ".npmrc",
+         "AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/run.bat", "Library/LaunchAgents/x.plist"],
+    )
+    @pytest.mark.parametrize("action", ["create", "copy", "rename"])
+    def test_protected_locations_are_refused(home, rel, action):
+        (home / "src.txt").write_text("payload")
+        engine = SystemToolsEngine(allowed_roots=[str(home)])
+        kwargs = {
+            "create": {"action": "create", "source": str(home / rel), "content": "x"},
+            "copy": {"action": "copy", "source": str(home / "src.txt"), "destination": str(home / rel)},
+            "rename": {"action": "rename", "source": str(home / "src.txt"), "destination": str(home / rel), "confirmed": True},
+        }[action]
+        with pytest.raises(ToolError, match="protected location"):
+>           engine.file_operation(**kwargs)
+
+tests/test_hardening.py:139: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../baseline/src/l_assistant/tools/system_tools.py:493: in file_operation
+    src.rename(dst)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('<tmp>')
+target = PosixPath('<tmp>')
+
+    def rename(self, target):
+        """
+        Rename this path to the target path.
+    
+        The target path may be absolute or relative. Relative paths are
+        interpreted relative to the current working directory, *not* the
+        directory of the Path object.
+    
+        Returns the new Path instance pointing to the target path.
+        """
+>       os.rename(self, target)
+E       FileNotFoundError: [Errno 2] No such file or directory: '<tmp>' -> '<tmp>'
+
+/usr/local/lib/python3.13/pathlib/_local.py:767: FileNotFoundError
+________________ test_copying_a_credential_file_out_is_refused _________________
+
+home = PosixPath('<tmp>')
+
+    def test_copying_a_credential_file_out_is_refused(home):
+        (home / ".ssh").mkdir()
+        (home / ".ssh" / "id_ed25519").write_text("KEY")
+        engine = SystemToolsEngine(allowed_roots=[str(home)])
+>       with pytest.raises(ToolError, match="protected location"):
+E       Failed: DID NOT RAISE <class 'l_assistant.tools.system_tools.ToolError'>
+
+tests/test_hardening.py:147: Failed
+_______________________ test_protection_follows_symlinks _______________________
+
+home = PosixPath('<tmp>')
+tmp_path = PosixPath('<tmp>')
+
+    def test_protection_follows_symlinks(home, tmp_path):
+        (home / "dotfiles").mkdir()
+        (home / "dotfiles" / "zshrc").write_text("# real")
+        (home / ".zshrc").symlink_to(home / "dotfiles" / "zshrc")
+        engine = SystemToolsEngine(allowed_roots=[str(home)])
+>       with pytest.raises(ToolError, match="protected location"):
+E       Failed: DID NOT RAISE <class 'l_assistant.tools.system_tools.ToolError'>
+
+tests/test_hardening.py:156: Failed
+________________ test_protection_can_be_switched_off_explicitly ________________
+
+home = PosixPath('<tmp>')
+
+    def test_protection_can_be_switched_off_explicitly(home):
+>       engine = SystemToolsEngine(allowed_roots=[str(home)], protect_sensitive_paths=False)
+E       TypeError: SystemToolsEngine.__init__() got an unexpected keyword argument 'protect_sensitive_paths'
+
+tests/test_hardening.py:168: TypeError
+__________ test_the_allowed_root_itself_cannot_be_deleted_or_replaced __________
+
+home = PosixPath('<tmp>')
+trash = [PosixPath('<tmp>')]
+
+    def test_the_allowed_root_itself_cannot_be_deleted_or_replaced(home, trash):
+        engine = SystemToolsEngine(allowed_roots=[str(home)])
+>       with pytest.raises(ToolError, match="allowed root"):
+E       Failed: DID NOT RAISE <class 'l_assistant.tools.system_tools.ToolError'>
+
+tests/test_hardening.py:177: Failed
+________ test_rename_over_existing_warns_then_trashes_the_replaced_item ________
+
+home = PosixPath('<tmp>')
+trash = []
+
+    def test_rename_over_existing_warns_then_trashes_the_replaced_item(home, trash):
+        engine = SystemToolsEngine(allowed_roots=[str(home)])
+        with pytest.raises(ConfirmationRequired, match="already exists"):
+>           engine.file_operation(action="rename", source=str(home / "a.txt"), destination=str(home / "b.txt"))
+
+tests/test_hardening.py:187: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <l_assistant.tools.system_tools.SystemToolsEngine object at 0x7f7a3aee22d0>
+action = 'rename'
+source = '<tmp>'
+destination = '<tmp>'
+content = '', confirmed = False
+
+    def file_operation(
+        self,
+        action: str,
+        source: str,
+        destination: str = "",
+        content: str = "",
+        confirmed: bool = False,
+    ) -> str:
+        action = (action or "").strip().lower()
+        if action not in ("create", "copy", "rename", "delete", "list"):
+            raise ToolError(f"Unknown file action '{action}'.")
+        if not source:
+            raise ToolError("file_operation requires 'source'.")
+    
+        src = Path(source).expanduser().resolve()
+        _check_within_allowed_roots(src, self._allowed_roots)
+    
+        if action == "list":
+            # The only read-only action here, and deliberately the only
+            # way to resolve an ambiguous reference ("the folder on my
+            # desktop", no name given) into a real path: this returns
+            # actual directory contents, not a guess. Calling
+            # file_operation with a name pulled from nowhere would be
+            # worse than asking a clarifying question; looking first and
+            # confirming there's genuinely one matching item is
+            # categorically different from guessing, and is what the
+            # system prompt instructs the model to do before falling
+            # back to asking. Doesn't touch or bypass confirmation --
+            # a subsequent delete/rename/copy of whatever this finds
+            # still goes through the exact same ConfirmationRequired
+            # gate below, unaffected by how the path was determined.
+            if not src.exists():
+                raise ToolError(f"'{src}' doesn't exist.")
+            if not src.is_dir():
+                raise ToolError(f"'{src}' is a file, not a folder -- nothing to list.")
+            try:
+                entries = sorted(src.iterdir(), key=lambda p: p.name.lower())
+            except PermissionError:
+                raise ToolError(f"No permission to list '{src}'.")
+            folders = [p.name for p in entries if p.is_dir()]
+            files = [p.name for p in entries if not p.is_dir()]
+            if not folders and not files:
+                return f"'{src}' is empty."
+            parts = []
+            if folders:
+                parts.append(f"{len(folders)} folder(s): {', '.join(folders)}")
+            if files:
+                parts.append(f"{len(files)} file(s): {', '.join(files)}")
+            return f"Contents of '{src}': " + "; ".join(parts)
+    
+        if action == "create":
+            if src.exists() and not confirmed and self._require_confirmation:
+                raise ConfirmationRequired(
+                    f"'{src.name}' already exists. Overwrite it?",
+                    action="create",
+                    source=str(src),
+                )
+            src.parent.mkdir(parents=True, exist_ok=True)
+            src.write_text(content, encoding="utf-8")
+            return f"Created {src}."
+    
+        if action == "copy":
+            if not destination:
+                raise ToolError("file_operation 'copy' requires 'destination'.")
+            dst = Path(destination).expanduser().resolve()
+            _check_within_allowed_roots(dst, self._allowed_roots)
+            if dst.exists() and not confirmed and self._require_confirmation:
+                raise ConfirmationRequired(
+                    f"'{dst.name}' already exists at the destination. Overwrite it?",
+                    action="copy",
+                    source=str(src),
+                    destination=str(dst),
+                )
+            if not src.exists():
+                raise ToolError(f"'{src}' doesn't exist.")
+            dst.parent.mkdir(parents=True, exist_ok=True)
+            if src.is_dir():
+                shutil.copytree(src, dst, dirs_exist_ok=True)
+            else:
+                shutil.copy2(src, dst)
+            return f"Copied {src} to {dst}."
+    
+        if action == "rename":
+            if not destination:
+                raise ToolError("file_operation 'rename' requires 'destination'.")
+            dst = Path(destination).expanduser().resolve()
+            _check_within_allowed_roots(dst, self._allowed_roots)
+            if not src.exists():
+                raise ToolError(f"'{src}' doesn't exist.")
+            if not confirmed and self._require_confirmation:
+>               raise ConfirmationRequired(
+                    f"Rename '{src.name}' to '{dst.name}'?",
+                    action="rename",
+                    source=str(src),
+                    destination=str(dst),
+                )
+E               l_assistant.tools.system_tools.ConfirmationRequired: Rename 'a.txt' to 'b.txt'?
+
+../baseline/src/l_assistant/tools/system_tools.py:487: ConfirmationRequired
+
+During handling of the above exception, another exception occurred:
+
+home = PosixPath('<tmp>')
+trash = []
+
+    def test_rename_over_existing_warns_then_trashes_the_replaced_item(home, trash):
+        engine = SystemToolsEngine(allowed_roots=[str(home)])
+>       with pytest.raises(ConfirmationRequired, match="already exists"):
+E       AssertionError: Regex pattern did not match.
+E        Regex: 'already exists'
+E        Input: "Rename 'a.txt' to 'b.txt'?"
+
+tests/test_hardening.py:186: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_hardening.py::test_model_supplied_confirmed_is_ignored[True]
+FAILED tests/test_hardening.py::test_model_supplied_confirmed_is_ignored[true]
+FAILED tests/test_hardening.py::test_model_supplied_confirmed_is_ignored[false]
+FAILED tests/test_hardening.py::test_model_supplied_confirmed_is_ignored[1]
+FAILED tests/test_hardening.py::test_model_supplied_confirmed_is_ignored[yes]
+FAILED tests/test_hardening.py::test_trusted_keyword_confirmation_still_works
+FAILED tests/test_hardening.py::test_trusted_confirmation_is_dropped_for_tools_without_the_parameter
+FAILED tests/test_hardening.py::test_engine_requires_exactly_true_not_a_truthy_value
+FAILED tests/test_hardening.py::test_close_application_passes_an_escaped_pattern_after_double_dash
+FAILED tests/test_hardening.py::test_open_website_never_calls_the_browser_for_a_refused_target
+FAILED tests/test_hardening.py::test_protected_locations_are_refused[create-.ssh/authorized_keys]
+FAILED tests/test_hardening.py::test_protected_locations_are_refused[create-.ssh/config]
+FAILED tests/test_hardening.py::test_protected_locations_are_refused[create-.config/autostart/x.desktop]
+FAILED tests/test_hardening.py::test_protected_locations_are_refused[create-.config/systemd/user/x.service]
+FAILED tests/test_hardening.py::test_protected_locations_are_refused[create-.profile]
+FAILED tests/test_hardening.py::test_protected_locations_are_refused[create-.zshrc]
+FAILED tests/test_hardening.py::test_protected_locations_are_refused[create-.bash_profile]
+FAILED tests/test_hardening.py::test_protected_locations_are_refused[create-.aws/credentials]
+FAILED tests/test_hardening.py::test_protected_locations_are_refused[create-.netrc]
+FAILED tests/test_hardening.py::test_protected_locations_are_refused[create-.git/hooks/pre-commit]
+FAILED tests/test_hardening.py::test_protected_locations_are_refused[create-.npmrc]
+FAILED tests/test_hardening.py::test_protected_locations_are_refused[create-AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/run.bat]
+FAILED tests/test_hardening.py::test_protected_locations_are_refused[create-Library/LaunchAgents/x.plist]
+FAILED tests/test_hardening.py::test_protected_locations_are_refused[copy-.ssh/authorized_keys]
+FAILED tests/test_hardening.py::test_protected_locations_are_refused[copy-.ssh/config]
+FAILED tests/test_hardening.py::test_protected_locations_are_refused[copy-.config/autostart/x.desktop]
+FAILED tests/test_hardening.py::test_protected_locations_are_refused[copy-.config/systemd/user/x.service]
+FAILED tests/test_hardening.py::test_protected_locations_are_refused[copy-.profile]
+FAILED tests/test_hardening.py::test_protected_locations_are_refused[copy-.zshrc]
+FAILED tests/test_hardening.py::test_protected_locations_are_refused[copy-.bash_profile]
+FAILED tests/test_hardening.py::test_protected_locations_are_refused[copy-.aws/credentials]
+FAILED tests/test_hardening.py::test_protected_locations_are_refused[copy-.netrc]
+FAILED tests/test_hardening.py::test_protected_locations_are_refused[copy-.git/hooks/pre-commit]
+FAILED tests/test_hardening.py::test_protected_locations_are_refused[copy-.npmrc]
+FAILED tests/test_hardening.py::test_protected_locations_are_refused[copy-AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/run.bat]
+FAILED tests/test_hardening.py::test_protected_locations_are_refused[copy-Library/LaunchAgents/x.plist]
+FAILED tests/test_hardening.py::test_protected_locations_are_refused[rename-.ssh/authorized_keys]
+FAILED tests/test_hardening.py::test_protected_locations_are_refused[rename-.ssh/config]
+FAILED tests/test_hardening.py::test_protected_locations_are_refused[rename-.config/autostart/x.desktop]
+FAILED tests/test_hardening.py::test_protected_locations_are_refused[rename-.config/systemd/user/x.service]
+FAILED tests/test_hardening.py::test_protected_locations_are_refused[rename-.profile]
+FAILED tests/test_hardening.py::test_protected_locations_are_refused[rename-.zshrc]
+FAILED tests/test_hardening.py::test_protected_locations_are_refused[rename-.bash_profile]
+FAILED tests/test_hardening.py::test_protected_locations_are_refused[rename-.aws/credentials]
+FAILED tests/test_hardening.py::test_protected_locations_are_refused[rename-.netrc]
+FAILED tests/test_hardening.py::test_protected_locations_are_refused[rename-.git/hooks/pre-commit]
+FAILED tests/test_hardening.py::test_protected_locations_are_refused[rename-.npmrc]
+FAILED tests/test_hardening.py::test_protected_locations_are_refused[rename-AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/run.bat]
+FAILED tests/test_hardening.py::test_protected_locations_are_refused[rename-Library/LaunchAgents/x.plist]
+FAILED tests/test_hardening.py::test_copying_a_credential_file_out_is_refused
+FAILED tests/test_hardening.py::test_protection_follows_symlinks - Failed: DI...
+FAILED tests/test_hardening.py::test_protection_can_be_switched_off_explicitly
+FAILED tests/test_hardening.py::test_the_allowed_root_itself_cannot_be_deleted_or_replaced
+FAILED tests/test_hardening.py::test_rename_over_existing_warns_then_trashes_the_replaced_item
+54 failed, 4 passed in 0.46s
+
+--- stderr ---
+<repo>/.venv/lib/python3.13/site-packages/pytest_asyncio/plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
+
+  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))

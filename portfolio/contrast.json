@@ -1,0 +1,82 @@
+[
+ {
+  "foreground": "ink #14171C",
+  "background": "paper #F2EFE7",
+  "ratio": 15.63,
+  "required": 7.0,
+  "used_for": "headlines, figures, table text",
+  "ok": true
+ },
+ {
+  "foreground": "graphite #4A505A",
+  "background": "paper #F2EFE7",
+  "ratio": 7.07,
+  "required": 4.5,
+  "used_for": "secondary text and labels",
+  "ok": true
+ },
+ {
+  "foreground": "accent #B93319",
+  "background": "paper #F2EFE7",
+  "ratio": 5.15,
+  "required": 4.5,
+  "used_for": "violation counts and labels",
+  "ok": true
+ },
+ {
+  "foreground": "ok #1B6B47",
+  "background": "paper #F2EFE7",
+  "ratio": 5.64,
+  "required": 4.5,
+  "used_for": "held / verified labels",
+  "ok": true
+ },
+ {
+  "foreground": "paper #F2EFE7",
+  "background": "ink #14171C",
+  "ratio": 15.63,
+  "required": 7.0,
+  "used_for": "terminal text, light-on-dark chips",
+  "ok": true
+ },
+ {
+  "foreground": "ok_on_ink #8FD5AE",
+  "background": "ink #14171C",
+  "ratio": 10.52,
+  "required": 4.5,
+  "used_for": "PASS in the terminal",
+  "ok": true
+ },
+ {
+  "foreground": "paper #F2EFE7",
+  "background": "accent #B93319",
+  "ratio": 5.15,
+  "required": 4.5,
+  "used_for": "text on accent chips",
+  "ok": true
+ },
+ {
+  "foreground": "paper #F2EFE7",
+  "background": "ok #1B6B47",
+  "ratio": 5.64,
+  "required": 4.5,
+  "used_for": "text on status chips",
+  "ok": true
+ },
+ {
+  "foreground": "graphite #4A505A",
+  "background": "panel #E7E2D4",
+  "ratio": 6.27,
+  "required": 4.5,
+  "used_for": "labels on panels",
+  "ok": true
+ },
+ {
+  "foreground": "ink #14171C",
+  "background": "panel #E7E2D4",
+  "ratio": 13.88,
+  "required": 7.0,
+  "used_for": "text on panels",
+  "ok": true
+ }
+]

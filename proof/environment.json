@@ -1,0 +1,19 @@
+{
+ "recorded_utc": "2026-10-30T03:54:31Z",
+ "local_time": "2026-10-30 09:54:31 +0600",
+ "python": "3.13.17",
+ "platform": "Linux-6.18.44-fc-v185-x86_64-with-glibc2.39",
+ "cpu": "Intel(R) Xeon(R) Processor @ 2.30GHz",
+ "logical_cpus": 2,
+ "memory_gib": 7.8,
+ "euid_is_root": true,
+ "tools": {
+  "pgrep": "pgrep from procps-ng 4.0.4",
+  "strace": "strace -- version 6.8",
+  "setpriv": "setpriv from util-linux 2.39.3",
+  "patch": "GNU patch 2.7.6",
+  "pytest": "8.3.5"
+ },
+ "requirements_pinned": 61,
+ "requirements_mismatched": {}
+}

@@ -1,0 +1,857 @@
+{
+ "exported_utc": "2026-11-01T08:07:42Z",
+ "viewport": [
+  1280,
+  960
+ ],
+ "device_scale_factor": 3.125,
+ "tools": {
+  "python": "3.13.16",
+  "pillow": "12.3.0",
+  "playwright": "1.56.0"
+ },
+ "icc_profile_embedded": "sRGB built-in",
+ "images": {
+  "01-llm-agent-security-hardening-outcome": {
+   "files": [
+    {
+     "file": "portfolio/exports/01-llm-agent-security-hardening-outcome.png",
+     "format": "PNG",
+     "size_px": [
+      4000,
+      3000
+     ],
+     "mode": "RGB",
+     "bytes": 375971,
+     "mb": 0.38,
+     "dpi": [
+      300,
+      300
+     ],
+     "icc_profile": "sRGB built-in"
+    },
+    {
+     "file": "portfolio/exports/01-llm-agent-security-hardening-outcome.jpg",
+     "format": "JPEG",
+     "size_px": [
+      4000,
+      3000
+     ],
+     "mode": "RGB",
+     "bytes": 1356206,
+     "mb": 1.36,
+     "dpi": [
+      300,
+      300
+     ],
+     "icc_profile": "sRGB built-in",
+     "chroma_subsampling": "4:4:4"
+    }
+   ],
+   "artboard_css_px": [
+    1280,
+    960
+   ],
+   "aspect_ratio": "4:3",
+   "safe_zone_70px": {
+    "everything_inside": true,
+    "text_inside": true,
+    "margins_px_of_everything": {
+     "left": 70,
+     "top": 70,
+     "right": 70,
+     "bottom": 71
+    },
+    "margins_px_of_text": {
+     "left": 70,
+     "top": 70,
+     "right": 70,
+     "bottom": 71
+    }
+   },
+   "central_960x720": {
+    "headline": {
+     "inside": true,
+     "painted_pixels_box_css_px": [
+      160.5,
+      126.5,
+      838.0,
+      301.5
+     ],
+     "line_box_css_px": [
+      160,
+      116,
+      839.4,
+      303
+     ]
+    },
+    "figure": {
+     "inside": true,
+     "painted_pixels_box_css_px": [
+      161.0,
+      356.0,
+      1082.5,
+      624.5
+     ],
+     "line_box_css_px": [
+      160,
+      283,
+      1082.6,
+      633
+     ]
+    }
+   },
+   "fonts": {
+    "faces": [
+     {
+      "family": "Fraunces",
+      "weight": "400",
+      "status": "unloaded"
+     },
+     {
+      "family": "Fraunces",
+      "weight": "600",
+      "status": "unloaded"
+     },
+     {
+      "family": "Fraunces",
+      "weight": "800",
+      "status": "loaded"
+     },
+     {
+      "family": "IBM Plex Sans",
+      "weight": "400",
+      "status": "loaded"
+     },
+     {
+      "family": "IBM Plex Sans",
+      "weight": "500",
+      "status": "loaded"
+     },
+     {
+      "family": "IBM Plex Sans",
+      "weight": "600",
+      "status": "loaded"
+     },
+     {
+      "family": "IBM Plex Mono",
+      "weight": "400",
+      "status": "unloaded"
+     },
+     {
+      "family": "IBM Plex Mono",
+      "weight": "500",
+      "status": "loaded"
+     },
+     {
+      "family": "IBM Plex Mono",
+      "weight": "600",
+      "status": "loaded"
+     }
+    ],
+    "used_faces": [
+     "IBM Plex Mono|500",
+     "Fraunces|800",
+     "IBM Plex Sans|500",
+     "IBM Plex Sans|600",
+     "IBM Plex Sans|400",
+     "IBM Plex Mono|600"
+    ],
+    "all_loaded": true,
+    "families_used": [
+     "IBM Plex Sans",
+     "IBM Plex Mono",
+     "Fraunces"
+    ],
+    "checks": {
+     "display": true,
+     "sans": true,
+     "mono": true
+    }
+   },
+   "no_page_overflow": true,
+   "type": {
+    "smallest_text_px": 12,
+    "headline_px": 52,
+    "figure_px": 200,
+    "figure_px_at_300w_thumbnail": 46.9,
+    "headline_px_at_300w_thumbnail": 12.2
+   },
+   "thumbnail": "portfolio/thumbnails/01-llm-agent-security-hardening-outcome.png"
+  },
+  "02-ai-agent-tool-security-requirements-task": {
+   "files": [
+    {
+     "file": "portfolio/exports/02-ai-agent-tool-security-requirements-task.png",
+     "format": "PNG",
+     "size_px": [
+      4000,
+      3000
+     ],
+     "mode": "RGB",
+     "bytes": 633105,
+     "mb": 0.63,
+     "dpi": [
+      300,
+      300
+     ],
+     "icc_profile": "sRGB built-in"
+    },
+    {
+     "file": "portfolio/exports/02-ai-agent-tool-security-requirements-task.jpg",
+     "format": "JPEG",
+     "size_px": [
+      4000,
+      3000
+     ],
+     "mode": "RGB",
+     "bytes": 2019862,
+     "mb": 2.02,
+     "dpi": [
+      300,
+      300
+     ],
+     "icc_profile": "sRGB built-in",
+     "chroma_subsampling": "4:4:4"
+    }
+   ],
+   "artboard_css_px": [
+    1280,
+    960
+   ],
+   "aspect_ratio": "4:3",
+   "safe_zone_70px": {
+    "everything_inside": true,
+    "text_inside": true,
+    "margins_px_of_everything": {
+     "left": 70,
+     "top": 70,
+     "right": 70,
+     "bottom": 71
+    },
+    "margins_px_of_text": {
+     "left": 70,
+     "top": 70,
+     "right": 70,
+     "bottom": 71
+    }
+   },
+   "central_960x720": {
+    "headline": {
+     "inside": true,
+     "painted_pixels_box_css_px": [
+      160.0,
+      126.5,
+      704.0,
+      328.0
+     ],
+     "line_box_css_px": [
+      160,
+      116,
+      704.5,
+      329
+     ]
+    },
+    "figure": {
+     "inside": true,
+     "painted_pixels_box_css_px": [
+      765.0,
+      143.0,
+      1002.5,
+      315.5
+     ],
+     "line_box_css_px": [
+      760,
+      93,
+      1004.1,
+      330
+     ]
+    }
+   },
+   "fonts": {
+    "faces": [
+     {
+      "family": "Fraunces",
+      "weight": "400",
+      "status": "unloaded"
+     },
+     {
+      "family": "Fraunces",
+      "weight": "600",
+      "status": "unloaded"
+     },
+     {
+      "family": "Fraunces",
+      "weight": "800",
+      "status": "loaded"
+     },
+     {
+      "family": "IBM Plex Sans",
+      "weight": "400",
+      "status": "loaded"
+     },
+     {
+      "family": "IBM Plex Sans",
+      "weight": "500",
+      "status": "loaded"
+     },
+     {
+      "family": "IBM Plex Sans",
+      "weight": "600",
+      "status": "loaded"
+     },
+     {
+      "family": "IBM Plex Mono",
+      "weight": "400",
+      "status": "loaded"
+     },
+     {
+      "family": "IBM Plex Mono",
+      "weight": "500",
+      "status": "loaded"
+     },
+     {
+      "family": "IBM Plex Mono",
+      "weight": "600",
+      "status": "loaded"
+     }
+    ],
+    "used_faces": [
+     "IBM Plex Mono|500",
+     "Fraunces|800",
+     "IBM Plex Sans|500",
+     "IBM Plex Mono|600",
+     "IBM Plex Sans|400",
+     "IBM Plex Mono|400",
+     "IBM Plex Sans|600"
+    ],
+    "all_loaded": true,
+    "families_used": [
+     "IBM Plex Sans",
+     "IBM Plex Mono",
+     "Fraunces"
+    ],
+    "checks": {
+     "display": true,
+     "sans": true,
+     "mono": true
+    }
+   },
+   "no_page_overflow": true,
+   "type": {
+    "smallest_text_px": 12,
+    "headline_px": 52,
+    "figure_px": 192,
+    "figure_px_at_300w_thumbnail": 45.0,
+    "headline_px_at_300w_thumbnail": 12.2
+   },
+   "thumbnail": "portfolio/thumbnails/02-ai-agent-tool-security-requirements-task.png"
+  },
+  "03-llm-agent-tool-call-audit-approach": {
+   "files": [
+    {
+     "file": "portfolio/exports/03-llm-agent-tool-call-audit-approach.png",
+     "format": "PNG",
+     "size_px": [
+      4000,
+      3000
+     ],
+     "mode": "RGB",
+     "bytes": 636795,
+     "mb": 0.64,
+     "dpi": [
+      300,
+      300
+     ],
+     "icc_profile": "sRGB built-in"
+    },
+    {
+     "file": "portfolio/exports/03-llm-agent-tool-call-audit-approach.jpg",
+     "format": "JPEG",
+     "size_px": [
+      4000,
+      3000
+     ],
+     "mode": "RGB",
+     "bytes": 2049719,
+     "mb": 2.05,
+     "dpi": [
+      300,
+      300
+     ],
+     "icc_profile": "sRGB built-in",
+     "chroma_subsampling": "4:4:4"
+    }
+   ],
+   "artboard_css_px": [
+    1280,
+    960
+   ],
+   "aspect_ratio": "4:3",
+   "safe_zone_70px": {
+    "everything_inside": true,
+    "text_inside": true,
+    "margins_px_of_everything": {
+     "left": 70,
+     "top": 70,
+     "right": 70,
+     "bottom": 71
+    },
+    "margins_px_of_text": {
+     "left": 70,
+     "top": 70,
+     "right": 70,
+     "bottom": 71
+    }
+   },
+   "central_960x720": {
+    "headline": {
+     "inside": true,
+     "painted_pixels_box_css_px": [
+      160.0,
+      126.5,
+      665.5,
+      296.5
+     ],
+     "line_box_css_px": [
+      160,
+      116,
+      666.6,
+      301
+     ]
+    },
+    "figure": {
+     "inside": true,
+     "painted_pixels_box_css_px": [
+      720.5,
+      131.0,
+      1100.0,
+      267.5
+     ],
+     "line_box_css_px": [
+      716,
+      103,
+      1101.5,
+      271
+     ]
+    }
+   },
+   "fonts": {
+    "faces": [
+     {
+      "family": "Fraunces",
+      "weight": "400",
+      "status": "unloaded"
+     },
+     {
+      "family": "Fraunces",
+      "weight": "600",
+      "status": "loaded"
+     },
+     {
+      "family": "Fraunces",
+      "weight": "800",
+      "status": "loaded"
+     },
+     {
+      "family": "IBM Plex Sans",
+      "weight": "400",
+      "status": "loaded"
+     },
+     {
+      "family": "IBM Plex Sans",
+      "weight": "500",
+      "status": "loaded"
+     },
+     {
+      "family": "IBM Plex Sans",
+      "weight": "600",
+      "status": "loaded"
+     },
+     {
+      "family": "IBM Plex Mono",
+      "weight": "400",
+      "status": "unloaded"
+     },
+     {
+      "family": "IBM Plex Mono",
+      "weight": "500",
+      "status": "loaded"
+     },
+     {
+      "family": "IBM Plex Mono",
+      "weight": "600",
+      "status": "loaded"
+     }
+    ],
+    "used_faces": [
+     "IBM Plex Mono|500",
+     "Fraunces|800",
+     "IBM Plex Sans|500",
+     "Fraunces|600",
+     "IBM Plex Sans|400",
+     "IBM Plex Sans|600",
+     "IBM Plex Mono|600"
+    ],
+    "all_loaded": true,
+    "families_used": [
+     "IBM Plex Sans",
+     "IBM Plex Mono",
+     "Fraunces"
+    ],
+    "checks": {
+     "display": true,
+     "sans": true,
+     "mono": true
+    }
+   },
+   "no_page_overflow": true,
+   "type": {
+    "smallest_text_px": 12,
+    "headline_px": 52,
+    "figure_px": 108,
+    "figure_px_at_300w_thumbnail": 25.3,
+    "headline_px_at_300w_thumbnail": 12.2
+   },
+   "thumbnail": "portfolio/thumbnails/03-llm-agent-tool-call-audit-approach.png"
+  },
+  "04-llm-agent-security-test-data-public-sources": {
+   "files": [
+    {
+     "file": "portfolio/exports/04-llm-agent-security-test-data-public-sources.png",
+     "format": "PNG",
+     "size_px": [
+      4000,
+      3000
+     ],
+     "mode": "RGB",
+     "bytes": 513055,
+     "mb": 0.51,
+     "dpi": [
+      300,
+      300
+     ],
+     "icc_profile": "sRGB built-in"
+    },
+    {
+     "file": "portfolio/exports/04-llm-agent-security-test-data-public-sources.jpg",
+     "format": "JPEG",
+     "size_px": [
+      4000,
+      3000
+     ],
+     "mode": "RGB",
+     "bytes": 1644201,
+     "mb": 1.64,
+     "dpi": [
+      300,
+      300
+     ],
+     "icc_profile": "sRGB built-in",
+     "chroma_subsampling": "4:4:4"
+    }
+   ],
+   "artboard_css_px": [
+    1280,
+    960
+   ],
+   "aspect_ratio": "4:3",
+   "safe_zone_70px": {
+    "everything_inside": true,
+    "text_inside": true,
+    "margins_px_of_everything": {
+     "left": 70,
+     "top": 70,
+     "right": 70,
+     "bottom": 71
+    },
+    "margins_px_of_text": {
+     "left": 70,
+     "top": 70,
+     "right": 70,
+     "bottom": 71
+    }
+   },
+   "central_960x720": {
+    "headline": {
+     "inside": true,
+     "painted_pixels_box_css_px": [
+      160.5,
+      126.5,
+      704.0,
+      300.0
+     ],
+     "line_box_css_px": [
+      160,
+      116,
+      704.7,
+      301
+     ]
+    },
+    "figure": {
+     "inside": true,
+     "painted_pixels_box_css_px": [
+      724.0,
+      135.5,
+      1077.0,
+      247.5
+     ],
+     "line_box_css_px": [
+      720,
+      106,
+      1078.9,
+      251
+     ]
+    }
+   },
+   "fonts": {
+    "faces": [
+     {
+      "family": "Fraunces",
+      "weight": "400",
+      "status": "unloaded"
+     },
+     {
+      "family": "Fraunces",
+      "weight": "600",
+      "status": "loaded"
+     },
+     {
+      "family": "Fraunces",
+      "weight": "800",
+      "status": "loaded"
+     },
+     {
+      "family": "IBM Plex Sans",
+      "weight": "400",
+      "status": "loaded"
+     },
+     {
+      "family": "IBM Plex Sans",
+      "weight": "500",
+      "status": "loaded"
+     },
+     {
+      "family": "IBM Plex Sans",
+      "weight": "600",
+      "status": "loaded"
+     },
+     {
+      "family": "IBM Plex Mono",
+      "weight": "400",
+      "status": "loaded"
+     },
+     {
+      "family": "IBM Plex Mono",
+      "weight": "500",
+      "status": "loaded"
+     },
+     {
+      "family": "IBM Plex Mono",
+      "weight": "600",
+      "status": "loaded"
+     }
+    ],
+    "used_faces": [
+     "IBM Plex Mono|500",
+     "Fraunces|800",
+     "IBM Plex Sans|500",
+     "IBM Plex Sans|400",
+     "IBM Plex Sans|600",
+     "IBM Plex Mono|400",
+     "Fraunces|600",
+     "IBM Plex Mono|600"
+    ],
+    "all_loaded": true,
+    "families_used": [
+     "IBM Plex Sans",
+     "IBM Plex Mono",
+     "Fraunces"
+    ],
+    "checks": {
+     "display": true,
+     "sans": true,
+     "mono": true
+    }
+   },
+   "no_page_overflow": true,
+   "type": {
+    "smallest_text_px": 12,
+    "headline_px": 52,
+    "figure_px": 112,
+    "figure_px_at_300w_thumbnail": 26.2,
+    "headline_px_at_300w_thumbnail": 12.2
+   },
+   "thumbnail": "portfolio/thumbnails/04-llm-agent-security-test-data-public-sources.png"
+  },
+  "05-llm-agent-security-audit-verifiable-proof": {
+   "files": [
+    {
+     "file": "portfolio/exports/05-llm-agent-security-audit-verifiable-proof.png",
+     "format": "PNG",
+     "size_px": [
+      4000,
+      3000
+     ],
+     "mode": "RGB",
+     "bytes": 765810,
+     "mb": 0.77,
+     "dpi": [
+      300,
+      300
+     ],
+     "icc_profile": "sRGB built-in"
+    },
+    {
+     "file": "portfolio/exports/05-llm-agent-security-audit-verifiable-proof.jpg",
+     "format": "JPEG",
+     "size_px": [
+      4000,
+      3000
+     ],
+     "mode": "RGB",
+     "bytes": 2143666,
+     "mb": 2.14,
+     "dpi": [
+      300,
+      300
+     ],
+     "icc_profile": "sRGB built-in",
+     "chroma_subsampling": "4:4:4"
+    }
+   ],
+   "artboard_css_px": [
+    1280,
+    960
+   ],
+   "aspect_ratio": "4:3",
+   "safe_zone_70px": {
+    "everything_inside": true,
+    "text_inside": true,
+    "margins_px_of_everything": {
+     "left": 70,
+     "top": 70,
+     "right": 70,
+     "bottom": 71
+    },
+    "margins_px_of_text": {
+     "left": 70,
+     "top": 70,
+     "right": 70,
+     "bottom": 71
+    }
+   },
+   "central_960x720": {
+    "headline": {
+     "inside": true,
+     "painted_pixels_box_css_px": [
+      160.5,
+      126.5,
+      710.5,
+      296.5
+     ],
+     "line_box_css_px": [
+      160,
+      116,
+      711.1,
+      301
+     ]
+    },
+    "figure": {
+     "inside": true,
+     "painted_pixels_box_css_px": [
+      804.0,
+      126.0,
+      1116.0,
+      247.5
+     ],
+     "line_box_css_px": [
+      800,
+      102,
+      1117.4,
+      251
+     ]
+    }
+   },
+   "fonts": {
+    "faces": [
+     {
+      "family": "Fraunces",
+      "weight": "400",
+      "status": "unloaded"
+     },
+     {
+      "family": "Fraunces",
+      "weight": "600",
+      "status": "unloaded"
+     },
+     {
+      "family": "Fraunces",
+      "weight": "800",
+      "status": "loaded"
+     },
+     {
+      "family": "IBM Plex Sans",
+      "weight": "400",
+      "status": "loaded"
+     },
+     {
+      "family": "IBM Plex Sans",
+      "weight": "500",
+      "status": "loaded"
+     },
+     {
+      "family": "IBM Plex Sans",
+      "weight": "600",
+      "status": "loaded"
+     },
+     {
+      "family": "IBM Plex Mono",
+      "weight": "400",
+      "status": "loaded"
+     },
+     {
+      "family": "IBM Plex Mono",
+      "weight": "500",
+      "status": "loaded"
+     },
+     {
+      "family": "IBM Plex Mono",
+      "weight": "600",
+      "status": "loaded"
+     }
+    ],
+    "used_faces": [
+     "IBM Plex Mono|500",
+     "Fraunces|800",
+     "IBM Plex Sans|500",
+     "IBM Plex Mono|600",
+     "IBM Plex Sans|400",
+     "IBM Plex Sans|600",
+     "IBM Plex Mono|400"
+    ],
+    "all_loaded": true,
+    "families_used": [
+     "IBM Plex Sans",
+     "IBM Plex Mono",
+     "Fraunces"
+    ],
+    "checks": {
+     "display": true,
+     "sans": true,
+     "mono": true
+    }
+   },
+   "no_page_overflow": true,
+   "type": {
+    "smallest_text_px": 12,
+    "headline_px": 52,
+    "figure_px": 112,
+    "figure_px_at_300w_thumbnail": 26.2,
+    "headline_px_at_300w_thumbnail": 12.2
+   },
+   "thumbnail": "portfolio/thumbnails/05-llm-agent-security-audit-verifiable-proof.png"
+  }
+ },
+ "chromium": "141.0.7390.37"
+}

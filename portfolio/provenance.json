@@ -1,0 +1,111 @@
+{
+ "01-llm-agent-security-hardening-outcome": {
+  "title": "LLM agent security: unsafe tool calls, measured",
+  "results_fields": [
+   "requirements.0.baseline_status",
+   "requirements.0.hardened_status",
+   "requirements.1.baseline_status",
+   "requirements.1.hardened_status",
+   "requirements.2.baseline_status",
+   "requirements.2.hardened_status",
+   "requirements.3.baseline_status",
+   "requirements.3.hardened_status",
+   "requirements.4.baseline_status",
+   "requirements.4.hardened_status",
+   "requirements.5.baseline_status",
+   "requirements.5.hardened_status",
+   "requirements.6.baseline_status",
+   "requirements.6.hardened_status",
+   "requirements.7.baseline_status",
+   "requirements.7.hardened_status",
+   "requirements.8.baseline_status",
+   "requirements.8.hardened_status",
+   "headline.audit_calls_replayed",
+   "headline.rule_breaking_calls_baseline",
+   "headline.rule_breaking_calls_hardened",
+   "headline.requirements_broken_baseline",
+   "headline.requirements_total",
+   "headline.requirements_broken_hardened",
+   "headline.audit_calls_authored_or_control"
+  ]
+ },
+ "02-ai-agent-tool-security-requirements-task": {
+  "title": "AI agent security: nine safety rules for tool calls",
+  "results_fields": [
+   "requirements.0.baseline.violations",
+   "requirements.0.baseline.cases",
+   "requirements.0.hardened.violations",
+   "requirements.0.baseline_status",
+   "requirements.1.baseline.violations",
+   "requirements.1.baseline.cases",
+   "requirements.1.hardened.violations",
+   "requirements.1.baseline_status",
+   "requirements.2.baseline.violations",
+   "requirements.2.baseline.cases",
+   "requirements.2.hardened.violations",
+   "requirements.2.baseline_status",
+   "requirements.3.baseline.violations",
+   "requirements.3.baseline.cases",
+   "requirements.3.hardened.violations",
+   "requirements.3.baseline_status",
+   "requirements.4.baseline.violations",
+   "requirements.4.baseline.cases",
+   "requirements.4.hardened.violations",
+   "requirements.4.baseline_status",
+   "requirements.5.baseline.violations",
+   "requirements.5.baseline.cases",
+   "requirements.5.hardened.violations",
+   "requirements.5.baseline_status",
+   "requirements.6.baseline.violations",
+   "requirements.6.baseline.cases",
+   "requirements.6.hardened.violations",
+   "requirements.6.baseline_status",
+   "requirements.7.baseline.violations",
+   "requirements.7.baseline.cases",
+   "requirements.7.hardened.violations",
+   "requirements.7.baseline_status",
+   "requirements.8.baseline.violations",
+   "requirements.8.baseline.cases",
+   "requirements.8.hardened.violations",
+   "requirements.8.baseline_status",
+   "headline.requirements_broken_baseline",
+   "headline.requirements_total",
+   "headline.audit_calls_authored_or_control"
+  ]
+ },
+ "03-llm-agent-tool-call-audit-approach": {
+  "title": "LLM agent audit approach: hostile input in, evidence out",
+  "results_fields": [
+   "patch.source_files_modified",
+   "patch.test_files_added",
+   "patch.source_lines_added",
+   "patch.source_lines_removed",
+   "tests.original_suite_on_baseline.passed",
+   "headline.audit_calls_authored_or_control"
+  ]
+ },
+ "04-llm-agent-security-test-data-public-sources": {
+  "title": "LLM agent security test data: real public inputs, pinned by checksum",
+  "results_fields": [
+   "data.corpus_sizes",
+   "data.sources",
+   "data.retrieved_utc",
+   "data.files",
+   "headline.audit_calls_authored_or_control"
+  ]
+ },
+ "05-llm-agent-security-audit-verifiable-proof": {
+  "title": "LLM agent security audit: verifiable proof the checks can fail",
+  "results_fields": [
+   "mutants",
+   "claims",
+   "all_claims_pass",
+   "tests.full_suite_on_hardened.passed",
+   "tests.original_suite_on_baseline.passed",
+   "strace_crosscheck.baseline.kernel_successful_execs_of_sandbox_tripwires",
+   "live_pkill.baseline.calls",
+   "live_pkill.hardened.calls",
+   "headline.audit_calls_authored_or_control"
+  ]
+ }
+}

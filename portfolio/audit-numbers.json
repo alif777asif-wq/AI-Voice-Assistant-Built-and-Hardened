@@ -1,0 +1,347 @@
+{
+ "numbers": {
+  "01-llm-agent-security-hardening-outcome": [
+   {
+    "token": "0",
+    "source": "value in proof/results.json"
+   },
+   {
+    "token": "1,049",
+    "source": "value in proof/results.json"
+   },
+   {
+    "token": "1,858",
+    "source": "value in proof/results.json"
+   },
+   {
+    "token": "16,738",
+    "source": "value in proof/results.json"
+   },
+   {
+    "token": "6",
+    "source": "value in proof/results.json"
+   },
+   {
+    "token": "9",
+    "source": "value in proof/results.json"
+   }
+  ],
+  "02-ai-agent-tool-security-requirements-task": [
+   {
+    "token": "0",
+    "source": "value in proof/results.json"
+   },
+   {
+    "token": "1,024",
+    "source": "value in proof/results.json"
+   },
+   {
+    "token": "1,049",
+    "source": "value in proof/results.json"
+   },
+   {
+    "token": "1,701",
+    "source": "value in proof/results.json"
+   },
+   {
+    "token": "1,756",
+    "source": "value in proof/results.json"
+   },
+   {
+    "token": "10",
+    "source": "value in proof/results.json"
+   },
+   {
+    "token": "12,292",
+    "source": "value in proof/results.json"
+   },
+   {
+    "token": "15",
+    "source": "value in proof/results.json"
+   },
+   {
+    "token": "385",
+    "source": "value in proof/results.json"
+   },
+   {
+    "token": "40",
+    "source": "value in proof/results.json"
+   },
+   {
+    "token": "41",
+    "source": "value in proof/results.json"
+   },
+   {
+    "token": "5",
+    "source": "value in proof/results.json"
+   },
+   {
+    "token": "513",
+    "source": "value in proof/results.json"
+   },
+   {
+    "token": "56",
+    "source": "value in proof/results.json"
+   },
+   {
+    "token": "6",
+    "source": "value in proof/results.json"
+   },
+   {
+    "token": "60",
+    "source": "value in proof/results.json"
+   },
+   {
+    "token": "646",
+    "source": "value in proof/results.json"
+   },
+   {
+    "token": "9",
+    "source": "value in proof/results.json"
+   }
+  ],
+  "03-llm-agent-tool-call-audit-approach": [
+   {
+    "token": "01",
+    "source": "list number / page index / small count written in words"
+   },
+   {
+    "token": "02",
+    "source": "list number / page index / small count written in words"
+   },
+   {
+    "token": "03",
+    "source": "value in proof/results.json"
+   },
+   {
+    "token": "04",
+    "source": "value in proof/results.json"
+   },
+   {
+    "token": "05",
+    "source": "value in proof/results.json"
+   },
+   {
+    "token": "1,049",
+    "source": "value in proof/results.json"
+   },
+   {
+    "token": "192",
+    "source": "value in proof/results.json"
+   },
+   {
+    "token": "20",
+    "source": "value in proof/results.json"
+   },
+   {
+    "token": "223",
+    "source": "value in proof/results.json"
+   },
+   {
+    "token": "3",
+    "source": "value in proof/results.json"
+   }
+  ],
+  "04-llm-agent-security-test-data-public-sources": [
+   {
+    "token": "0",
+    "source": "value in proof/results.json"
+   },
+   {
+    "token": "1",
+    "source": "value in proof/results.json"
+   },
+   {
+    "token": "1,049",
+    "source": "value in proof/results.json"
+   },
+   {
+    "token": "10",
+    "source": "value in proof/results.json"
+   },
+   {
+    "token": "13",
+    "source": "value in proof/results.json"
+   },
+   {
+    "token": "16,188",
+    "source": "derived: sum of data.corpus_sizes (the dominant figure on image 4)"
+   },
+   {
+    "token": "2",
+    "source": "value in proof/results.json"
+   },
+   {
+    "token": "2,538",
+    "source": "derived: sum of the four hostile-string corpora"
+   },
+   {
+    "token": "3",
+    "source": "value in proof/results.json"
+   },
+   {
+    "token": "5,845",
+    "source": "value in proof/results.json"
+   },
+   {
+    "token": "7,802",
+    "source": "value in proof/results.json"
+   }
+  ],
+  "05-llm-agent-security-audit-verifiable-proof": [
+   {
+    "token": "0",
+    "source": "value in proof/results.json"
+   },
+   {
+    "token": "1,024",
+    "source": "value in proof/results.json"
+   },
+   {
+    "token": "1,049",
+    "source": "value in proof/results.json"
+   },
+   {
+    "token": "1,701",
+    "source": "value in proof/results.json"
+   },
+   {
+    "token": "1,756",
+    "source": "value in proof/results.json"
+   },
+   {
+    "token": "10",
+    "source": "value in proof/results.json"
+   },
+   {
+    "token": "12,292",
+    "source": "value in proof/results.json"
+   },
+   {
+    "token": "2",
+    "source": "value in proof/results.json"
+   },
+   {
+    "token": "2,907",
+    "source": "value in proof/results.json"
+   },
+   {
+    "token": "223",
+    "source": "value in proof/results.json"
+   },
+   {
+    "token": "23",
+    "source": "value in proof/results.json"
+   },
+   {
+    "token": "25",
+    "source": "value in proof/results.json"
+   },
+   {
+    "token": "3",
+    "source": "value in proof/results.json"
+   },
+   {
+    "token": "336",
+    "source": "value in proof/results.json"
+   },
+   {
+    "token": "385",
+    "source": "value in proof/results.json"
+   },
+   {
+    "token": "4",
+    "source": "value in proof/results.json"
+   },
+   {
+    "token": "41",
+    "source": "value in proof/results.json"
+   },
+   {
+    "token": "50",
+    "source": "value in proof/results.json"
+   },
+   {
+    "token": "513",
+    "source": "value in proof/results.json"
+   },
+   {
+    "token": "56",
+    "source": "value in proof/results.json"
+   },
+   {
+    "token": "6",
+    "source": "value in proof/results.json"
+   },
+   {
+    "token": "60",
+    "source": "value in proof/results.json"
+   },
+   {
+    "token": "646",
+    "source": "value in proof/results.json"
+   },
+   {
+    "token": "7,882",
+    "source": "value in proof/results.json"
+   },
+   {
+    "token": "8",
+    "source": "value in proof/results.json"
+   }
+  ]
+ },
+ "static_checks": {
+  "01-llm-agent-security-hardening-outcome": {
+   "first_line_is_repo_comment": true,
+   "repo_url_occurrences": 1,
+   "no_script_tag": true,
+   "no_external_requests": true,
+   "no_url_or_contact_in_pixels": true,
+   "marker_present": true,
+   "no_img_tags": true,
+   "visible_text_chars": 739
+  },
+  "02-ai-agent-tool-security-requirements-task": {
+   "first_line_is_repo_comment": true,
+   "repo_url_occurrences": 1,
+   "no_script_tag": true,
+   "no_external_requests": true,
+   "no_url_or_contact_in_pixels": true,
+   "marker_present": true,
+   "no_img_tags": true,
+   "visible_text_chars": 1535
+  },
+  "03-llm-agent-tool-call-audit-approach": {
+   "first_line_is_repo_comment": true,
+   "repo_url_occurrences": 1,
+   "no_script_tag": true,
+   "no_external_requests": true,
+   "no_url_or_contact_in_pixels": true,
+   "marker_present": true,
+   "no_img_tags": true,
+   "visible_text_chars": 1637
+  },
+  "04-llm-agent-security-test-data-public-sources": {
+   "first_line_is_repo_comment": true,
+   "repo_url_occurrences": 1,
+   "no_script_tag": true,
+   "no_external_requests": true,
+   "no_url_or_contact_in_pixels": true,
+   "marker_present": true,
+   "no_img_tags": true,
+   "visible_text_chars": 1170
+  },
+  "05-llm-agent-security-audit-verifiable-proof": {
+   "first_line_is_repo_comment": true,
+   "repo_url_occurrences": 1,
+   "no_script_tag": true,
+   "no_external_requests": true,
+   "no_url_or_contact_in_pixels": true,
+   "marker_present": true,
+   "no_img_tags": true,
+   "visible_text_chars": 1846
+  }
+ },
+ "within_upwork_limits": true
+}

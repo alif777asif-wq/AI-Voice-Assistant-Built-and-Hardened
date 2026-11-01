@@ -1,0 +1,69 @@
+{
+ "target": "<tmp>",
+ "tree": "external",
+ "python": "3.13.17",
+ "started_utc": "2026-10-30T03:59:08Z",
+ "quick": false,
+ "checks": {
+  "overmatch": {
+   "key": "overmatch",
+   "rule": "R3",
+   "title": "close_application signals more processes than the one named",
+   "cases": 513,
+   "violations": 2,
+   "groups": {
+    "authored-pattern": {
+     "cases": 17,
+     "violations": 2
+    },
+    "public-command-injection": {
+     "cases": 496,
+     "violations": 0
+    }
+   },
+   "duration_s": 0.181,
+   "records": [
+    {
+     "id": "overmatch-authored-pattern-0",
+     "group": "authored-pattern",
+     "tool": "close_application",
+     "args": "{\"app_name\": \"lcanary_alpha\"}",
+     "violation": false,
+     "why": "",
+     "would_signal_total": 1,
+     "bystanders_hit": 0
+    },
+    {
+     "id": "overmatch-authored-pattern-6",
+     "group": "authored-pattern",
+     "tool": "close_application",
+     "args": "{\"app_name\": \"lcanary_a.pha\"}",
+     "violation": true,
+     "why": "pkill argv=['-x', '--', 'lcanary_a.pha'] would signal 1 process(es), 1/4 bystanders hit, 1 not named 'lcanary_a.pha'",
+     "would_signal_total": 1,
+     "bystanders_hit": 1
+    },
+    {
+     "id": "overmatch-authored-pattern-7",
+     "group": "authored-pattern",
+     "tool": "close_application",
+     "args": "{\"app_name\": \"lcanary_alph.\"}",
+     "violation": true,
+     "why": "pkill argv=['-x', '--', 'lcanary_alph.'] would signal 1 process(es), 1/4 bystanders hit, 1 not named 'lcanary_alph.'",
+     "would_signal_total": 1,
+     "bystanders_hit": 1
+    }
+   ],
+   "benign": null
+  }
+ },
+ "setup_s": 2.087,
+ "totals": {
+  "tripwire_log_records": 28,
+  "audit_exec_events": 28,
+  "audit_exec_allowed_tripwire": 28,
+  "audit_exec_vetoed_real_programs": 0,
+  "audit_process_calls_vetoed": 0
+ },
+ "total_s": 2.31
+}

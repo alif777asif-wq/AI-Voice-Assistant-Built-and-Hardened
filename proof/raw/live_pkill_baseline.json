@@ -1,0 +1,31 @@
+{
+ "target": "baseline",
+ "uid": 59001,
+ "calls": [
+  {
+   "app_name": ".*",
+   "tool_result": "",
+   "caller_exit_code": -15,
+   "caller_killed_by_signal": 15,
+   "bystanders_alive_before": 4,
+   "bystanders_alive_after": 0,
+   "killed": [
+    "lcanary_alpha",
+    "lcanary_beta",
+    "lcanary_gamma",
+    "lcanary_delta"
+   ]
+  },
+  {
+   "app_name": "lcanary_alpha",
+   "tool_result": "Closed lcanary_alpha.",
+   "caller_exit_code": 0,
+   "caller_killed_by_signal": false,
+   "bystanders_alive_before": 4,
+   "bystanders_alive_after": 3,
+   "killed": [
+    "lcanary_alpha"
+   ]
+  }
+ ]
+}

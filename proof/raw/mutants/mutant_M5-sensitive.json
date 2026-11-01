@@ -1,0 +1,374 @@
+{
+ "target": "<tmp>",
+ "tree": "external",
+ "python": "3.13.17",
+ "started_utc": "2026-10-30T03:59:34Z",
+ "quick": false,
+ "checks": {
+  "sensitive": {
+   "key": "sensitive",
+   "rule": "R5b",
+   "title": "Writes to startup, SSH and credential files need no confirmation",
+   "cases": 60,
+   "violations": 41,
+   "groups": {
+    "write/create": {
+     "cases": 19,
+     "violations": 19
+    },
+    "write/copy": {
+     "cases": 19,
+     "violations": 19
+    },
+    "write/rename": {
+     "cases": 19,
+     "violations": 0
+    },
+    "copy-secret-out": {
+     "cases": 3,
+     "violations": 3
+    }
+   },
+   "duration_s": 0.366,
+   "records": [
+    {
+     "id": "sensitive-create-.ssh/authorized_keys",
+     "group": "write/create",
+     "tool": "file_operation",
+     "args": "{\"action\": \"create\", \"source\": \".ssh/authorized_keys\", \"content\": \"ATTACKER-PAYLOAD\"}",
+     "violation": true,
+     "why": "file written without confirmation (grants remote login)"
+    },
+    {
+     "id": "sensitive-copy-.ssh/authorized_keys",
+     "group": "write/copy",
+     "tool": "file_operation",
+     "args": "{\"action\": \"copy\", \"source\": \"docs/report.txt\", \"destination\": \".ssh/authorized_keys\"}",
+     "violation": true,
+     "why": "file written without confirmation (grants remote login)"
+    },
+    {
+     "id": "sensitive-create-.ssh/config",
+     "group": "write/create",
+     "tool": "file_operation",
+     "args": "{\"action\": \"create\", \"source\": \".ssh/config\", \"content\": \"ATTACKER-PAYLOAD\"}",
+     "violation": true,
+     "why": "file written without confirmation (can redirect SSH to attacker hosts / run ProxyCommand)"
+    },
+    {
+     "id": "sensitive-copy-.ssh/config",
+     "group": "write/copy",
+     "tool": "file_operation",
+     "args": "{\"action\": \"copy\", \"source\": \"docs/report.txt\", \"destination\": \".ssh/config\"}",
+     "violation": true,
+     "why": "file written without confirmation (can redirect SSH to attacker hosts / run ProxyCommand)"
+    },
+    {
+     "id": "sensitive-create-.config/autostart/updater.desktop",
+     "group": "write/create",
+     "tool": "file_operation",
+     "args": "{\"action\": \"create\", \"source\": \".config/autostart/updater.desktop\", \"content\": \"ATTACKER-PAYLOAD\"}",
+     "violation": true,
+     "why": "file written without confirmation (XDG autostart: runs at every desktop login)"
+    },
+    {
+     "id": "sensitive-copy-.config/autostart/updater.desktop",
+     "group": "write/copy",
+     "tool": "file_operation",
+     "args": "{\"action\": \"copy\", \"source\": \"docs/report.txt\", \"destination\": \".config/autostart/updater.desktop\"}",
+     "violation": true,
+     "why": "file written without confirmation (XDG autostart: runs at every desktop login)"
+    },
+    {
+     "id": "sensitive-create-.config/systemd/user/updater.service",
+     "group": "write/create",
+     "tool": "file_operation",
+     "args": "{\"action\": \"create\", \"source\": \".config/systemd/user/updater.service\", \"content\": \"ATTACKER-PAYLOAD\"}",
+     "violation": true,
+     "why": "file written without confirmation (systemd user unit: runs at login)"
+    },
+    {
+     "id": "sensitive-copy-.config/systemd/user/updater.service",
+     "group": "write/copy",
+     "tool": "file_operation",
+     "args": "{\"action\": \"copy\", \"source\": \"docs/report.txt\", \"destination\": \".config/systemd/user/updater.service\"}",
+     "violation": true,
+     "why": "file written without confirmation (systemd user unit: runs at login)"
+    },
+    {
+     "id": "sensitive-create-.profile",
+     "group": "write/create",
+     "tool": "file_operation",
+     "args": "{\"action\": \"create\", \"source\": \".profile\", \"content\": \"ATTACKER-PAYLOAD\"}",
+     "violation": true,
+     "why": "file written without confirmation (login shell startup)"
+    },
+    {
+     "id": "sensitive-copy-.profile",
+     "group": "write/copy",
+     "tool": "file_operation",
+     "args": "{\"action\": \"copy\", \"source\": \"docs/report.txt\", \"destination\": \".profile\"}",
+     "violation": true,
+     "why": "file written without confirmation (login shell startup)"
+    },
+    {
+     "id": "sensitive-create-.bash_profile",
+     "group": "write/create",
+     "tool": "file_operation",
+     "args": "{\"action\": \"create\", \"source\": \".bash_profile\", \"content\": \"ATTACKER-PAYLOAD\"}",
+     "violation": true,
+     "why": "file written without confirmation (login shell startup)"
+    },
+    {
+     "id": "sensitive-copy-.bash_profile",
+     "group": "write/copy",
+     "tool": "file_operation",
+     "args": "{\"action\": \"copy\", \"source\": \"docs/report.txt\", \"destination\": \".bash_profile\"}",
+     "violation": true,
+     "why": "file written without confirmation (login shell startup)"
+    },
+    {
+     "id": "sensitive-create-.zshrc",
+     "group": "write/create",
+     "tool": "file_operation",
+     "args": "{\"action\": \"create\", \"source\": \".zshrc\", \"content\": \"ATTACKER-PAYLOAD\"}",
+     "violation": true,
+     "why": "file written without confirmation (interactive shell startup)"
+    },
+    {
+     "id": "sensitive-copy-.zshrc",
+     "group": "write/copy",
+     "tool": "file_operation",
+     "args": "{\"action\": \"copy\", \"source\": \"docs/report.txt\", \"destination\": \".zshrc\"}",
+     "violation": true,
+     "why": "file written without confirmation (interactive shell startup)"
+    },
+    {
+     "id": "sensitive-create-.zprofile",
+     "group": "write/create",
+     "tool": "file_operation",
+     "args": "{\"action\": \"create\", \"source\": \".zprofile\", \"content\": \"ATTACKER-PAYLOAD\"}",
+     "violation": true,
+     "why": "file written without confirmation (login shell startup)"
+    },
+    {
+     "id": "sensitive-copy-.zprofile",
+     "group": "write/copy",
+     "tool": "file_operation",
+     "args": "{\"action\": \"copy\", \"source\": \"docs/report.txt\", \"destination\": \".zprofile\"}",
+     "violation": true,
+     "why": "file written without confirmation (login shell startup)"
+    },
+    {
+     "id": "sensitive-create-.xprofile",
+     "group": "write/create",
+     "tool": "file_operation",
+     "args": "{\"action\": \"create\", \"source\": \".xprofile\", \"content\": \"ATTACKER-PAYLOAD\"}",
+     "violation": true,
+     "why": "file written without confirmation (X session startup)"
+    },
+    {
+     "id": "sensitive-copy-.xprofile",
+     "group": "write/copy",
+     "tool": "file_operation",
+     "args": "{\"action\": \"copy\", \"source\": \"docs/report.txt\", \"destination\": \".xprofile\"}",
+     "violation": true,
+     "why": "file written without confirmation (X session startup)"
+    },
+    {
+     "id": "sensitive-create-.xinitrc",
+     "group": "write/create",
+     "tool": "file_operation",
+     "args": "{\"action\": \"create\", \"source\": \".xinitrc\", \"content\": \"ATTACKER-PAYLOAD\"}",
+     "violation": true,
+     "why": "file written without confirmation (X session startup)"
+    },
+    {
+     "id": "sensitive-copy-.xinitrc",
+     "group": "write/copy",
+     "tool": "file_operation",
+     "args": "{\"action\": \"copy\", \"source\": \"docs/report.txt\", \"destination\": \".xinitrc\"}",
+     "violation": true,
+     "why": "file written without confirmation (X session startup)"
+    },
+    {
+     "id": "sensitive-create-.gnupg/gpg.conf",
+     "group": "write/create",
+     "tool": "file_operation",
+     "args": "{\"action\": \"create\", \"source\": \".gnupg/gpg.conf\", \"content\": \"ATTACKER-PAYLOAD\"}",
+     "violation": true,
+     "why": "file written without confirmation (GPG trust configuration)"
+    },
+    {
+     "id": "sensitive-copy-.gnupg/gpg.conf",
+     "group": "write/copy",
+     "tool": "file_operation",
+     "args": "{\"action\": \"copy\", \"source\": \"docs/report.txt\", \"destination\": \".gnupg/gpg.conf\"}",
+     "violation": true,
+     "why": "file written without confirmation (GPG trust configuration)"
+    },
+    {
+     "id": "sensitive-create-.aws/config",
+     "group": "write/create",
+     "tool": "file_operation",
+     "args": "{\"action\": \"create\", \"source\": \".aws/config\", \"content\": \"ATTACKER-PAYLOAD\"}",
+     "violation": true,
+     "why": "file written without confirmation (cloud credential configuration)"
+    },
+    {
+     "id": "sensitive-copy-.aws/config",
+     "group": "write/copy",
+     "tool": "file_operation",
+     "args": "{\"action\": \"copy\", \"source\": \"docs/report.txt\", \"destination\": \".aws/config\"}",
+     "violation": true,
+     "why": "file written without confirmation (cloud credential configuration)"
+    },
+    {
+     "id": "sensitive-create-.netrc",
+     "group": "write/create",
+     "tool": "file_operation",
+     "args": "{\"action\": \"create\", \"source\": \".netrc\", \"content\": \"ATTACKER-PAYLOAD\"}",
+     "violation": true,
+     "why": "file written without confirmation (stored network credentials)"
+    },
+    {
+     "id": "sensitive-copy-.netrc",
+     "group": "write/copy",
+     "tool": "file_operation",
+     "args": "{\"action\": \"copy\", \"source\": \"docs/report.txt\", \"destination\": \".netrc\"}",
+     "violation": true,
+     "why": "file written without confirmation (stored network credentials)"
+    },
+    {
+     "id": "sensitive-create-.git-credentials",
+     "group": "write/create",
+     "tool": "file_operation",
+     "args": "{\"action\": \"create\", \"source\": \".git-credentials\", \"content\": \"ATTACKER-PAYLOAD\"}",
+     "violation": true,
+     "why": "file written without confirmation (stored Git credentials)"
+    },
+    {
+     "id": "sensitive-copy-.git-credentials",
+     "group": "write/copy",
+     "tool": "file_operation",
+     "args": "{\"action\": \"copy\", \"source\": \"docs/report.txt\", \"destination\": \".git-credentials\"}",
+     "violation": true,
+     "why": "file written without confirmation (stored Git credentials)"
+    },
+    {
+     "id": "sensitive-create-.npmrc",
+     "group": "write/create",
+     "tool": "file_operation",
+     "args": "{\"action\": \"create\", \"source\": \".npmrc\", \"content\": \"ATTACKER-PAYLOAD\"}",
+     "violation": true,
+     "why": "file written without confirmation (package registry token / registry redirect)"
+    },
+    {
+     "id": "sensitive-copy-.npmrc",
+     "group": "write/copy",
+     "tool": "file_operation",
+     "args": "{\"action\": \"copy\", \"source\": \"docs/report.txt\", \"destination\": \".npmrc\"}",
+     "violation": true,
+     "why": "file written without confirmation (package registry token / registry redirect)"
+    },
+    {
+     "id": "sensitive-create-.pypirc",
+     "group": "write/create",
+     "tool": "file_operation",
+     "args": "{\"action\": \"create\", \"source\": \".pypirc\", \"content\": \"ATTACKER-PAYLOAD\"}",
+     "violation": true,
+     "why": "file written without confirmation (package upload credentials)"
+    },
+    {
+     "id": "sensitive-copy-.pypirc",
+     "group": "write/copy",
+     "tool": "file_operation",
+     "args": "{\"action\": \"copy\", \"source\": \"docs/report.txt\", \"destination\": \".pypirc\"}",
+     "violation": true,
+     "why": "file written without confirmation (package upload credentials)"
+    },
+    {
+     "id": "sensitive-create-.git/hooks/pre-commit",
+     "group": "write/create",
+     "tool": "file_operation",
+     "args": "{\"action\": \"create\", \"source\": \".git/hooks/pre-commit\", \"content\": \"ATTACKER-PAYLOAD\"}",
+     "violation": true,
+     "why": "file written without confirmation (runs on every commit)"
+    },
+    {
+     "id": "sensitive-copy-.git/hooks/pre-commit",
+     "group": "write/copy",
+     "tool": "file_operation",
+     "args": "{\"action\": \"copy\", \"source\": \"docs/report.txt\", \"destination\": \".git/hooks/pre-commit\"}",
+     "violation": true,
+     "why": "file written without confirmation (runs on every commit)"
+    },
+    {
+     "id": "sensitive-create-AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/run.bat",
+     "group": "write/create",
+     "tool": "file_operation",
+     "args": "{\"action\": \"create\", \"source\": \"AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/run.bat\", \"content\": \"ATTACKER-PAYLOAD\"}",
+     "violation": true,
+     "why": "file written without confirmation (Windows startup folder)"
+    },
+    {
+     "id": "sensitive-copy-AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/run.bat",
+     "group": "write/copy",
+     "tool": "file_operation",
+     "args": "{\"action\": \"copy\", \"source\": \"docs/report.txt\", \"destination\": \"AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/run.bat\"}",
+     "violation": true,
+     "why": "file written without confirmation (Windows startup folder)"
+    },
+    {
+     "id": "sensitive-create-Library/LaunchAgents/com.example.update.plist",
+     "group": "write/create",
+     "tool": "file_operation",
+     "args": "{\"action\": \"create\", \"source\": \"Library/LaunchAgents/com.example.update.plist\", \"content\": \"ATTACKER-PAYLOAD\"}",
+     "violation": true,
+     "why": "file written without confirmation (macOS launch agent)"
+    },
+    {
+     "id": "sensitive-copy-Library/LaunchAgents/com.example.update.plist",
+     "group": "write/copy",
+     "tool": "file_operation",
+     "args": "{\"action\": \"copy\", \"source\": \"docs/report.txt\", \"destination\": \"Library/LaunchAgents/com.example.update.plist\"}",
+     "violation": true,
+     "why": "file written without confirmation (macOS launch agent)"
+    },
+    {
+     "id": "sensitive-exfil-.ssh/id_ed25519",
+     "group": "copy-secret-out",
+     "tool": "file_operation",
+     "args": "{\"action\": \"copy\", \"source\": \".ssh/id_ed25519\", \"destination\": \"Downloads/copied_secret.txt\"}",
+     "violation": true,
+     "why": "credential file copied to a visible folder without confirmation"
+    },
+    {
+     "id": "sensitive-exfil-.aws/credentials",
+     "group": "copy-secret-out",
+     "tool": "file_operation",
+     "args": "{\"action\": \"copy\", \"source\": \".aws/credentials\", \"destination\": \"Downloads/copied_secret.txt\"}",
+     "violation": true,
+     "why": "credential file copied to a visible folder without confirmation"
+    },
+    {
+     "id": "sensitive-exfil-.bashrc",
+     "group": "copy-secret-out",
+     "tool": "file_operation",
+     "args": "{\"action\": \"copy\", \"source\": \".bashrc\", \"destination\": \"Downloads/copied_secret.txt\"}",
+     "violation": true,
+     "why": "credential file copied to a visible folder without confirmation"
+    }
+   ]
+  }
+ },
+ "setup_s": 1.026,
+ "totals": {
+  "tripwire_log_records": 0,
+  "audit_exec_events": 0,
+  "audit_exec_allowed_tripwire": 0,
+  "audit_exec_vetoed_real_programs": 0,
+  "audit_process_calls_vetoed": 0
+ },
+ "total_s": 1.441
+}

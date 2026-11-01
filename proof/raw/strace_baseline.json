@@ -1,0 +1,25 @@
+{
+ "target": "baseline",
+ "checks": "inject,pathexec (full corpora, benign half included)",
+ "kernel_execve_calls": 9633,
+ "kernel_execve_errors": 1748,
+ "kernel_successful_execs_total": 7885,
+ "harness_helper_execs_excluded": 3,
+ "kernel_successful_execs_of_sandbox_tripwires": 7882,
+ "tripwire_log_records": 7882,
+ "audit_hook_allowed_tripwire_execs": 7882,
+ "audit_hook_vetoed_real_program_execs": 70,
+ "audit_hook_vetoed_process_calls": 0,
+ "kernel_failed_execve_attempts": 1748,
+ "trace_lines_successful_execs_in_sandbox": 7882,
+ "trace_lines_not_understood": 0,
+ "kernel_execs_of_real_programs_outside_sandbox": [],
+ "kernel_shell_executions": [],
+ "violations_reported": {
+  "inject": 0,
+  "pathexec": 1701
+ },
+ "counts_agree": true,
+ "kernel_unexplained_successful_execs": 0,
+ "line_view_agrees": true
+}

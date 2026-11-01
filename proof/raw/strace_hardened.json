@@ -1,0 +1,25 @@
+{
+ "target": "hardened",
+ "checks": "inject,pathexec (full corpora, benign half included)",
+ "kernel_execve_calls": 7855,
+ "kernel_execve_errors": 25,
+ "kernel_successful_execs_total": 7830,
+ "harness_helper_execs_excluded": 3,
+ "kernel_successful_execs_of_sandbox_tripwires": 7827,
+ "tripwire_log_records": 7827,
+ "audit_hook_allowed_tripwire_execs": 7827,
+ "audit_hook_vetoed_real_program_execs": 0,
+ "audit_hook_vetoed_process_calls": 0,
+ "kernel_failed_execve_attempts": 25,
+ "trace_lines_successful_execs_in_sandbox": 7827,
+ "trace_lines_not_understood": 0,
+ "kernel_execs_of_real_programs_outside_sandbox": [],
+ "kernel_shell_executions": [],
+ "violations_reported": {
+  "inject": 0,
+  "pathexec": 0
+ },
+ "counts_agree": true,
+ "kernel_unexplained_successful_execs": 0,
+ "line_view_agrees": true
+}

@@ -1,0 +1,246 @@
+{
+ "target": "<tmp>",
+ "tree": "external",
+ "python": "3.13.17",
+ "started_utc": "2026-10-30T03:59:40Z",
+ "quick": false,
+ "checks": {
+  "inject": {
+   "key": "inject",
+   "rule": "R1",
+   "title": "Shell-metacharacter injection via application names",
+   "cases": 1024,
+   "violations": 25,
+   "groups": {
+    "open_application/public-command-injection": {
+     "cases": 496,
+     "violations": 25
+    },
+    "open_application/authored-canary": {
+     "cases": 16,
+     "violations": 0
+    },
+    "close_application/public-command-injection": {
+     "cases": 496,
+     "violations": 0
+    },
+    "close_application/authored-canary": {
+     "cases": 16,
+     "violations": 0
+    }
+   },
+   "duration_s": 0.045,
+   "records": [
+    {
+     "id": "inject-open_application-public-command-injection-130",
+     "group": "open_application/public-command-injection",
+     "tool": "open_application",
+     "args": "{\"app_name\": \"dir\"}",
+     "violation": true,
+     "why": "shell launched: ['/bin/sh', '-c', 'dir']"
+    },
+    {
+     "id": "inject-open_application-public-command-injection-196",
+     "group": "open_application/public-command-injection",
+     "tool": "open_application",
+     "args": "{\"app_name\": \"ifconfig\"}",
+     "violation": true,
+     "why": "shell launched: ['/bin/sh', '-c', 'ifconfig']"
+    },
+    {
+     "id": "inject-open_application-public-command-injection-201",
+     "group": "open_application/public-command-injection",
+     "tool": "open_application",
+     "args": "{\"app_name\": \"ipconfig\"}",
+     "violation": true,
+     "why": "shell launched: ['/bin/sh', '-c', 'ipconfig']"
+    },
+    {
+     "id": "inject-open_application-public-command-injection-207",
+     "group": "open_application/public-command-injection",
+     "tool": "open_application",
+     "args": "{\"app_name\": \"ls\"}",
+     "violation": true,
+     "why": "shell launched: ['/bin/sh', '-c', 'ls']"
+    },
+    {
+     "id": "inject-open_application-public-command-injection-271",
+     "group": "open_application/public-command-injection",
+     "tool": "open_application",
+     "args": "{\"app_name\": \"netsh firewall set opmode disable\"}",
+     "violation": true,
+     "why": "shell launched: ['/bin/sh', '-c', 'netsh firewall set opmode disable']"
+    },
+    {
+     "id": "inject-open_application-public-command-injection-272",
+     "group": "open_application/public-command-injection",
+     "tool": "open_application",
+     "args": "{\"app_name\": \"netstat\"}",
+     "violation": true,
+     "why": "shell launched: ['/bin/sh', '-c', 'netstat']"
+    },
+    {
+     "id": "inject-open_application-public-command-injection-277",
+     "group": "open_application/public-command-injection",
+     "tool": "open_application",
+     "args": "{\"app_name\": \"netstat -an\"}",
+     "violation": true,
+     "why": "shell launched: ['/bin/sh', '-c', 'netstat -an']"
+    },
+    {
+     "id": "inject-open_application-public-command-injection-287",
+     "group": "open_application/public-command-injection",
+     "tool": "open_application",
+     "args": "{\"app_name\": \"net view\"}",
+     "violation": true,
+     "why": "shell launched: ['/bin/sh', '-c', 'net view']"
+    },
+    {
+     "id": "inject-open_application-public-command-injection-334",
+     "group": "open_application/public-command-injection",
+     "tool": "open_application",
+     "args": "{\"app_name\": \"pwd\"}",
+     "violation": true,
+     "why": "shell launched: ['/bin/sh', '-c', 'pwd']"
+    },
+    {
+     "id": "inject-open_application-public-command-injection-346",
+     "group": "open_application/public-command-injection",
+     "tool": "open_application",
+     "args": "{\"app_name\": \"route\"}",
+     "violation": true,
+     "why": "shell launched: ['/bin/sh', '-c', 'route']"
+    },
+    {
+     "id": "inject-open_application-public-command-injection-351",
+     "group": "open_application/public-command-injection",
+     "tool": "open_application",
+     "args": "{\"app_name\": \"sleep 1\"}",
+     "violation": true,
+     "why": "shell launched: ['/bin/sh', '-c', 'sleep 1']"
+    },
+    {
+     "id": "inject-open_application-public-command-injection-358",
+     "group": "open_application/public-command-injection",
+     "tool": "open_application",
+     "args": "{\"app_name\": \"sleep 10\"}",
+     "violation": true,
+     "why": "shell launched: ['/bin/sh', '-c', 'sleep 10']"
+    },
+    {
+     "id": "inject-open_application-public-command-injection-372",
+     "group": "open_application/public-command-injection",
+     "tool": "open_application",
+     "args": "{\"app_name\": \"sleep 5\"}",
+     "violation": true,
+     "why": "shell launched: ['/bin/sh', '-c', 'sleep 5']"
+    },
+    {
+     "id": "inject-open_application-public-command-injection-375",
+     "group": "open_application/public-command-injection",
+     "tool": "open_application",
+     "args": "{\"app_name\": \"sysinfo\"}",
+     "violation": true,
+     "why": "shell launched: ['/bin/sh', '-c', 'sysinfo']"
+    },
+    {
+     "id": "inject-open_application-public-command-injection-392",
+     "group": "open_application/public-command-injection",
+     "tool": "open_application",
+     "args": "{\"app_name\": \"systeminfo\"}",
+     "violation": true,
+     "why": "shell launched: ['/bin/sh', '-c', 'systeminfo']"
+    },
+    {
+     "id": "inject-open_application-public-command-injection-445",
+     "group": "open_application/public-command-injection",
+     "tool": "open_application",
+     "args": "{\"app_name\": \"uname\"}",
+     "violation": true,
+     "why": "shell launched: ['/bin/sh', '-c', 'uname']"
+    },
+    {
+     "id": "inject-open_application-public-command-injection-451",
+     "group": "open_application/public-command-injection",
+     "tool": "open_application",
+     "args": "{\"app_name\": \"uname -a\"}",
+     "violation": true,
+     "why": "shell launched: ['/bin/sh', '-c', 'uname -a']"
+    },
+    {
+     "id": "inject-open_application-public-command-injection-462",
+     "group": "open_application/public-command-injection",
+     "tool": "open_application",
+     "args": "{\"app_name\": \"which curl\"}",
+     "violation": true,
+     "why": "shell launched: ['/bin/sh', '-c', 'which curl']"
+    },
+    {
+     "id": "inject-open_application-public-command-injection-463",
+     "group": "open_application/public-command-injection",
+     "tool": "open_application",
+     "args": "{\"app_name\": \"which gcc\"}",
+     "violation": true,
+     "why": "shell launched: ['/bin/sh', '-c', 'which gcc']"
+    },
+    {
+     "id": "inject-open_application-public-command-injection-464",
+     "group": "open_application/public-command-injection",
+     "tool": "open_application",
+     "args": "{\"app_name\": \"which nc\"}",
+     "violation": true,
+     "why": "shell launched: ['/bin/sh', '-c', 'which nc']"
+    },
+    {
+     "id": "inject-open_application-public-command-injection-465",
+     "group": "open_application/public-command-injection",
+     "tool": "open_application",
+     "args": "{\"app_name\": \"which netcat\"}",
+     "violation": true,
+     "why": "shell launched: ['/bin/sh', '-c', 'which netcat']"
+    },
+    {
+     "id": "inject-open_application-public-command-injection-466",
+     "group": "open_application/public-command-injection",
+     "tool": "open_application",
+     "args": "{\"app_name\": \"which perl\"}",
+     "violation": true,
+     "why": "shell launched: ['/bin/sh', '-c', 'which perl']"
+    },
+    {
+     "id": "inject-open_application-public-command-injection-467",
+     "group": "open_application/public-command-injection",
+     "tool": "open_application",
+     "args": "{\"app_name\": \"which python\"}",
+     "violation": true,
+     "why": "shell launched: ['/bin/sh', '-c', 'which python']"
+    },
+    {
+     "id": "inject-open_application-public-command-injection-468",
+     "group": "open_application/public-command-injection",
+     "tool": "open_application",
+     "args": "{\"app_name\": \"which wget\"}",
+     "violation": true,
+     "why": "shell launched: ['/bin/sh', '-c', 'which wget']"
+    },
+    {
+     "id": "inject-open_application-public-command-injection-469",
+     "group": "open_application/public-command-injection",
+     "tool": "open_application",
+     "args": "{\"app_name\": \"whoami\"}",
+     "violation": true,
+     "why": "shell launched: ['/bin/sh', '-c', 'whoami']"
+    }
+   ]
+  }
+ },
+ "setup_s": 0.915,
+ "totals": {
+  "tripwire_log_records": 25,
+  "audit_exec_events": 50,
+  "audit_exec_allowed_tripwire": 25,
+  "audit_exec_vetoed_real_programs": 25,
+  "audit_process_calls_vetoed": 0
+ },
+ "total_s": 1.002
+}

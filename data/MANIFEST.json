@@ -1,0 +1,131 @@
+{
+  "retrieved_utc": "2026-10-27T09:29:59Z",
+  "sources": {
+    "payloads": {
+      "repo": "https://github.com/swisskyrepo/PayloadsAllTheThings",
+      "commit": "3ac27901c711bdf3f5b65a7b1d1820a1f65bd09a",
+      "license": "MIT"
+    },
+    "cask": {
+      "repo": "https://github.com/Homebrew/homebrew-cask",
+      "commit": "31c8bdaf55f2af91fb7832592a548afcbba6696e",
+      "license": "BSD-2-Clause"
+    },
+    "cpython": {
+      "repo": "https://github.com/python/cpython",
+      "commit": "d9825d504ad738a5160d3c3ecd8cd575a1713e98",
+      "license": "PSF-2.0 (only file paths are used)"
+    },
+    "vscode": {
+      "repo": "https://github.com/microsoft/vscode",
+      "commit": "b8b6f56cf60c86e70fb4915cb280507013d43fba",
+      "license": "MIT (only file names are used)"
+    }
+  },
+  "files": [
+    {
+      "path": "data/payloads/command-execution-unix.txt",
+      "source": "https://github.com/swisskyrepo/PayloadsAllTheThings/blob/3ac27901c711bdf3f5b65a7b1d1820a1f65bd09a/Command%20Injection/Intruder/command-execution-unix.txt",
+      "licence": "MIT",
+      "sha256": "93d437305481bcf88f2adb742cba0de8c447a0e62377b9acb481e82c887aa5d4",
+      "lines": 83,
+      "role": "adversarial"
+    },
+    {
+      "path": "data/payloads/command_exec.txt",
+      "source": "https://github.com/swisskyrepo/PayloadsAllTheThings/blob/3ac27901c711bdf3f5b65a7b1d1820a1f65bd09a/Command%20Injection/Intruder/command_exec.txt",
+      "licence": "MIT",
+      "sha256": "e67a624f363af20b3c35b0016445454a7a36cfe85f9e4ce996b91755e602cf33",
+      "lines": 448,
+      "role": "adversarial"
+    },
+    {
+      "path": "data/payloads/directory_traversal.txt",
+      "source": "https://github.com/swisskyrepo/PayloadsAllTheThings/blob/3ac27901c711bdf3f5b65a7b1d1820a1f65bd09a/Directory%20Traversal/Intruder/directory_traversal.txt",
+      "licence": "MIT",
+      "sha256": "9e97863bdb5ded069a1df215888aaa4feb2d000e067d2eefaafd1b37586fb204",
+      "lines": 140,
+      "role": "adversarial"
+    },
+    {
+      "path": "data/payloads/deep_traversal.txt",
+      "source": "https://github.com/swisskyrepo/PayloadsAllTheThings/blob/3ac27901c711bdf3f5b65a7b1d1820a1f65bd09a/Directory%20Traversal/Intruder/deep_traversal.txt",
+      "licence": "MIT",
+      "sha256": "b730e8b2e7fbf7bec7da7b34a2d3dd7e46fc4c199370f3e4fd766ff1419ce3d8",
+      "lines": 912,
+      "role": "adversarial"
+    },
+    {
+      "path": "data/payloads/traversals-8-deep-exotic-encoding.txt",
+      "source": "https://github.com/swisskyrepo/PayloadsAllTheThings/blob/3ac27901c711bdf3f5b65a7b1d1820a1f65bd09a/Directory%20Traversal/Intruder/traversals-8-deep-exotic-encoding.txt",
+      "licence": "MIT",
+      "sha256": "264bba03f964e6570087e6b3cfeea910bf751b968124c9018c6b1cb3661b5569",
+      "lines": 887,
+      "role": "adversarial"
+    },
+    {
+      "path": "data/payloads/Linux-files.txt",
+      "source": "https://github.com/swisskyrepo/PayloadsAllTheThings/blob/3ac27901c711bdf3f5b65a7b1d1820a1f65bd09a/File%20Inclusion/Intruders/Linux-files.txt",
+      "licence": "MIT",
+      "sha256": "a6140e72d3c41ff8a98e7f6e48f03cbd77128041b0f798523c1ec42630e0fa5c",
+      "lines": 62,
+      "role": "adversarial"
+    },
+    {
+      "path": "data/payloads/Windows-files.txt",
+      "source": "https://github.com/swisskyrepo/PayloadsAllTheThings/blob/3ac27901c711bdf3f5b65a7b1d1820a1f65bd09a/File%20Inclusion/Intruders/Windows-files.txt",
+      "licence": "MIT",
+      "sha256": "30c8a9f2685c2e4845456651d08c7e5227ce4b3632d692ca4fd90fb691242f5c",
+      "lines": 212,
+      "role": "adversarial"
+    },
+    {
+      "path": "data/payloads/Open-Redirect-payloads.txt",
+      "source": "https://github.com/swisskyrepo/PayloadsAllTheThings/blob/3ac27901c711bdf3f5b65a7b1d1820a1f65bd09a/Open%20Redirect/Intruder/Open-Redirect-payloads.txt",
+      "licence": "MIT",
+      "sha256": "eefa55734998c9a95f7ecd6c034498beb5a42161266107cea05c06683dae4b4d",
+      "lines": 240,
+      "role": "adversarial"
+    },
+    {
+      "path": "data/payloads/openredirects.txt",
+      "source": "https://github.com/swisskyrepo/PayloadsAllTheThings/blob/3ac27901c711bdf3f5b65a7b1d1820a1f65bd09a/Open%20Redirect/Intruder/openredirects.txt",
+      "licence": "MIT",
+      "sha256": "fc7d3a814a89138fcf6b07bb357ce06aa4e7d0f755e38694d8ad64b13da5649d",
+      "lines": 67,
+      "role": "adversarial"
+    },
+    {
+      "path": "data/payloads/open_redirect_wordlist.txt",
+      "source": "https://github.com/swisskyrepo/PayloadsAllTheThings/blob/3ac27901c711bdf3f5b65a7b1d1820a1f65bd09a/Open%20Redirect/Intruder/open_redirect_wordlist.txt",
+      "licence": "MIT",
+      "sha256": "749ae61dcace2d0815d4512a27e93b28e1ed8d417819e8143fe0e4f7dc1eb19a",
+      "lines": 18,
+      "role": "adversarial"
+    },
+    {
+      "path": "data/benign/cask_apps.tsv",
+      "source": "https://github.com/Homebrew/homebrew-cask/tree/31c8bdaf55f2af91fb7832592a548afcbba6696e/Casks (derived: token = file name, homepage = first `homepage` string)",
+      "licence": "BSD-2-Clause",
+      "sha256": "a1f185e733b5bb8199f7964e535ec3ace1a2a5c095145f8faa3158f2d9add873",
+      "lines": 7802,
+      "role": "benign"
+    },
+    {
+      "path": "data/benign/cpython_paths.txt",
+      "source": "https://github.com/python/cpython/tree/d9825d504ad738a5160d3c3ecd8cd575a1713e98 (derived: git ls-tree -r)",
+      "licence": "PSF-2.0 (only file paths are used)",
+      "sha256": "9fc8332db7a38507180b3eac84d08f66201e5c48ddc2b1212c1b7e263fca3003",
+      "lines": 5845,
+      "role": "benign"
+    },
+    {
+      "path": "data/benign/vscode_unusual_names.txt",
+      "source": "https://github.com/microsoft/vscode/tree/b8b6f56cf60c86e70fb4915cb280507013d43fba (derived: unusual file names from git ls-tree -r)",
+      "licence": "MIT (only file names are used)",
+      "sha256": "8c60485a3d57e1907b24b220a81ef4e5a338d44f7c3367a83b786512f86c7184",
+      "lines": 3,
+      "role": "benign"
+    }
+  ]
+}

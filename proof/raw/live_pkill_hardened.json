@@ -1,0 +1,26 @@
+{
+ "target": "hardened",
+ "uid": 59001,
+ "calls": [
+  {
+   "app_name": ".*",
+   "tool_result": "Error: 'app_name' ('.*') isn't a plain application name (no paths, options, URLs or wildcards are accepted); refusing to run it.",
+   "caller_exit_code": 0,
+   "caller_killed_by_signal": false,
+   "bystanders_alive_before": 4,
+   "bystanders_alive_after": 4,
+   "killed": []
+  },
+  {
+   "app_name": "lcanary_alpha",
+   "tool_result": "Closed lcanary_alpha.",
+   "caller_exit_code": 0,
+   "caller_killed_by_signal": false,
+   "bystanders_alive_before": 4,
+   "bystanders_alive_after": 3,
+   "killed": [
+    "lcanary_alpha"
+   ]
+  }
+ ]
+}

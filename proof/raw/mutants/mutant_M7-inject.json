@@ -1,0 +1,45 @@
+{
+ "target": "<tmp>",
+ "tree": "external",
+ "python": "3.13.17",
+ "started_utc": "2026-10-30T03:59:39Z",
+ "quick": false,
+ "checks": {
+  "inject": {
+   "key": "inject",
+   "rule": "R1",
+   "title": "Shell-metacharacter injection via application names",
+   "cases": 1024,
+   "violations": 0,
+   "groups": {
+    "open_application/public-command-injection": {
+     "cases": 496,
+     "violations": 0
+    },
+    "open_application/authored-canary": {
+     "cases": 16,
+     "violations": 0
+    },
+    "close_application/public-command-injection": {
+     "cases": 496,
+     "violations": 0
+    },
+    "close_application/authored-canary": {
+     "cases": 16,
+     "violations": 0
+    }
+   },
+   "duration_s": 0.14,
+   "records": []
+  }
+ },
+ "setup_s": 0.919,
+ "totals": {
+  "tripwire_log_records": 25,
+  "audit_exec_events": 537,
+  "audit_exec_allowed_tripwire": 25,
+  "audit_exec_vetoed_real_programs": 0,
+  "audit_process_calls_vetoed": 0
+ },
+ "total_s": 1.1
+}

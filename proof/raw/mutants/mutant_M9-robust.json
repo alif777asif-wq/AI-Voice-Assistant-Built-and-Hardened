@@ -1,0 +1,478 @@
+{
+ "target": "<tmp>",
+ "tree": "external",
+ "python": "3.13.17",
+ "started_utc": "2026-10-30T04:00:16Z",
+ "quick": false,
+ "checks": {
+  "robust": {
+   "key": "robust",
+   "rule": "R7",
+   "title": "Malformed tool arguments crash the dispatcher",
+   "cases": 385,
+   "violations": 50,
+   "groups": {
+    "open_application": {
+     "cases": 21,
+     "violations": 6
+    },
+    "close_application": {
+     "cases": 21,
+     "violations": 6
+    },
+    "adjust_volume": {
+     "cases": 42,
+     "violations": 6
+    },
+    "minimize_all_windows": {
+     "cases": 21,
+     "violations": 0
+    },
+    "control_window": {
+     "cases": 42,
+     "violations": 6
+    },
+    "open_website": {
+     "cases": 21,
+     "violations": 6
+    },
+    "search_web": {
+     "cases": 42,
+     "violations": 14
+    },
+    "manage_browser_tabs": {
+     "cases": 21,
+     "violations": 6
+    },
+    "file_operation": {
+     "cases": 84,
+     "violations": 0
+    },
+    "remember_user_fact": {
+     "cases": 42,
+     "violations": 0
+    },
+    "forget_user_fact": {
+     "cases": 21,
+     "violations": 0
+    },
+    "unknown-tool-names": {
+     "cases": 7,
+     "violations": 0
+    }
+   },
+   "duration_s": 0.067,
+   "records": [
+    {
+     "id": "robust-open_application-app_name-2",
+     "group": "open_application",
+     "tool": "open_application",
+     "args": "{\"app_name\": -1}",
+     "violation": true,
+     "why": "AttributeError escaped the dispatcher: 'int' object has no attribute 'strip'"
+    },
+    {
+     "id": "robust-open_application-app_name-3",
+     "group": "open_application",
+     "tool": "open_application",
+     "args": "{\"app_name\": 1000000000000000000000000000000}",
+     "violation": true,
+     "why": "AttributeError escaped the dispatcher: 'int' object has no attribute 'strip'"
+    },
+    {
+     "id": "robust-open_application-app_name-4",
+     "group": "open_application",
+     "tool": "open_application",
+     "args": "{\"app_name\": 3.14}",
+     "violation": true,
+     "why": "AttributeError escaped the dispatcher: 'float' object has no attribute 'strip'"
+    },
+    {
+     "id": "robust-open_application-app_name-5",
+     "group": "open_application",
+     "tool": "open_application",
+     "args": "{\"app_name\": true}",
+     "violation": true,
+     "why": "AttributeError escaped the dispatcher: 'bool' object has no attribute 'strip'"
+    },
+    {
+     "id": "robust-open_application-app_name-7",
+     "group": "open_application",
+     "tool": "open_application",
+     "args": "{\"app_name\": [1, \"a\"]}",
+     "violation": true,
+     "why": "AttributeError escaped the dispatcher: 'list' object has no attribute 'strip'"
+    },
+    {
+     "id": "robust-open_application-app_name-9",
+     "group": "open_application",
+     "tool": "open_application",
+     "args": "{\"app_name\": {\"a\": {\"b\": 1}}}",
+     "violation": true,
+     "why": "AttributeError escaped the dispatcher: 'dict' object has no attribute 'strip'"
+    },
+    {
+     "id": "robust-close_application-app_name-2",
+     "group": "close_application",
+     "tool": "close_application",
+     "args": "{\"app_name\": -1}",
+     "violation": true,
+     "why": "AttributeError escaped the dispatcher: 'int' object has no attribute 'strip'"
+    },
+    {
+     "id": "robust-close_application-app_name-3",
+     "group": "close_application",
+     "tool": "close_application",
+     "args": "{\"app_name\": 1000000000000000000000000000000}",
+     "violation": true,
+     "why": "AttributeError escaped the dispatcher: 'int' object has no attribute 'strip'"
+    },
+    {
+     "id": "robust-close_application-app_name-4",
+     "group": "close_application",
+     "tool": "close_application",
+     "args": "{\"app_name\": 3.14}",
+     "violation": true,
+     "why": "AttributeError escaped the dispatcher: 'float' object has no attribute 'strip'"
+    },
+    {
+     "id": "robust-close_application-app_name-5",
+     "group": "close_application",
+     "tool": "close_application",
+     "args": "{\"app_name\": true}",
+     "violation": true,
+     "why": "AttributeError escaped the dispatcher: 'bool' object has no attribute 'strip'"
+    },
+    {
+     "id": "robust-close_application-app_name-7",
+     "group": "close_application",
+     "tool": "close_application",
+     "args": "{\"app_name\": [1, \"a\"]}",
+     "violation": true,
+     "why": "AttributeError escaped the dispatcher: 'list' object has no attribute 'strip'"
+    },
+    {
+     "id": "robust-close_application-app_name-9",
+     "group": "close_application",
+     "tool": "close_application",
+     "args": "{\"app_name\": {\"a\": {\"b\": 1}}}",
+     "violation": true,
+     "why": "AttributeError escaped the dispatcher: 'dict' object has no attribute 'strip'"
+    },
+    {
+     "id": "robust-adjust_volume-action-2",
+     "group": "adjust_volume",
+     "tool": "adjust_volume",
+     "args": "{\"action\": -1}",
+     "violation": true,
+     "why": "AttributeError escaped the dispatcher: 'int' object has no attribute 'strip'"
+    },
+    {
+     "id": "robust-adjust_volume-action-3",
+     "group": "adjust_volume",
+     "tool": "adjust_volume",
+     "args": "{\"action\": 1000000000000000000000000000000}",
+     "violation": true,
+     "why": "AttributeError escaped the dispatcher: 'int' object has no attribute 'strip'"
+    },
+    {
+     "id": "robust-adjust_volume-action-4",
+     "group": "adjust_volume",
+     "tool": "adjust_volume",
+     "args": "{\"action\": 3.14}",
+     "violation": true,
+     "why": "AttributeError escaped the dispatcher: 'float' object has no attribute 'strip'"
+    },
+    {
+     "id": "robust-adjust_volume-action-5",
+     "group": "adjust_volume",
+     "tool": "adjust_volume",
+     "args": "{\"action\": true}",
+     "violation": true,
+     "why": "AttributeError escaped the dispatcher: 'bool' object has no attribute 'strip'"
+    },
+    {
+     "id": "robust-adjust_volume-action-7",
+     "group": "adjust_volume",
+     "tool": "adjust_volume",
+     "args": "{\"action\": [1, \"a\"]}",
+     "violation": true,
+     "why": "AttributeError escaped the dispatcher: 'list' object has no attribute 'strip'"
+    },
+    {
+     "id": "robust-adjust_volume-action-9",
+     "group": "adjust_volume",
+     "tool": "adjust_volume",
+     "args": "{\"action\": {\"a\": {\"b\": 1}}}",
+     "violation": true,
+     "why": "AttributeError escaped the dispatcher: 'dict' object has no attribute 'strip'"
+    },
+    {
+     "id": "robust-control_window-action-2",
+     "group": "control_window",
+     "tool": "control_window",
+     "args": "{\"action\": -1}",
+     "violation": true,
+     "why": "AttributeError escaped the dispatcher: 'int' object has no attribute 'strip'"
+    },
+    {
+     "id": "robust-control_window-action-3",
+     "group": "control_window",
+     "tool": "control_window",
+     "args": "{\"action\": 1000000000000000000000000000000}",
+     "violation": true,
+     "why": "AttributeError escaped the dispatcher: 'int' object has no attribute 'strip'"
+    },
+    {
+     "id": "robust-control_window-action-4",
+     "group": "control_window",
+     "tool": "control_window",
+     "args": "{\"action\": 3.14}",
+     "violation": true,
+     "why": "AttributeError escaped the dispatcher: 'float' object has no attribute 'strip'"
+    },
+    {
+     "id": "robust-control_window-action-5",
+     "group": "control_window",
+     "tool": "control_window",
+     "args": "{\"action\": true}",
+     "violation": true,
+     "why": "AttributeError escaped the dispatcher: 'bool' object has no attribute 'strip'"
+    },
+    {
+     "id": "robust-control_window-action-7",
+     "group": "control_window",
+     "tool": "control_window",
+     "args": "{\"action\": [1, \"a\"]}",
+     "violation": true,
+     "why": "AttributeError escaped the dispatcher: 'list' object has no attribute 'strip'"
+    },
+    {
+     "id": "robust-control_window-action-9",
+     "group": "control_window",
+     "tool": "control_window",
+     "args": "{\"action\": {\"a\": {\"b\": 1}}}",
+     "violation": true,
+     "why": "AttributeError escaped the dispatcher: 'dict' object has no attribute 'strip'"
+    },
+    {
+     "id": "robust-open_website-target-2",
+     "group": "open_website",
+     "tool": "open_website",
+     "args": "{\"target\": -1}",
+     "violation": true,
+     "why": "AttributeError escaped the dispatcher: 'int' object has no attribute 'strip'"
+    },
+    {
+     "id": "robust-open_website-target-3",
+     "group": "open_website",
+     "tool": "open_website",
+     "args": "{\"target\": 1000000000000000000000000000000}",
+     "violation": true,
+     "why": "AttributeError escaped the dispatcher: 'int' object has no attribute 'strip'"
+    },
+    {
+     "id": "robust-open_website-target-4",
+     "group": "open_website",
+     "tool": "open_website",
+     "args": "{\"target\": 3.14}",
+     "violation": true,
+     "why": "AttributeError escaped the dispatcher: 'float' object has no attribute 'strip'"
+    },
+    {
+     "id": "robust-open_website-target-5",
+     "group": "open_website",
+     "tool": "open_website",
+     "args": "{\"target\": true}",
+     "violation": true,
+     "why": "AttributeError escaped the dispatcher: 'bool' object has no attribute 'strip'"
+    },
+    {
+     "id": "robust-open_website-target-7",
+     "group": "open_website",
+     "tool": "open_website",
+     "args": "{\"target\": [1, \"a\"]}",
+     "violation": true,
+     "why": "AttributeError escaped the dispatcher: 'list' object has no attribute 'strip'"
+    },
+    {
+     "id": "robust-open_website-target-9",
+     "group": "open_website",
+     "tool": "open_website",
+     "args": "{\"target\": {\"a\": {\"b\": 1}}}",
+     "violation": true,
+     "why": "AttributeError escaped the dispatcher: 'dict' object has no attribute 'strip'"
+    },
+    {
+     "id": "robust-search_web-query-2",
+     "group": "search_web",
+     "tool": "search_web",
+     "args": "{\"query\": -1}",
+     "violation": true,
+     "why": "AttributeError escaped the dispatcher: 'int' object has no attribute 'strip'"
+    },
+    {
+     "id": "robust-search_web-site-2",
+     "group": "search_web",
+     "tool": "search_web",
+     "args": "{\"site\": -1, \"query\": \"x\"}",
+     "violation": true,
+     "why": "AttributeError escaped the dispatcher: 'int' object has no attribute 'strip'"
+    },
+    {
+     "id": "robust-search_web-query-3",
+     "group": "search_web",
+     "tool": "search_web",
+     "args": "{\"query\": 1000000000000000000000000000000}",
+     "violation": true,
+     "why": "AttributeError escaped the dispatcher: 'int' object has no attribute 'strip'"
+    },
+    {
+     "id": "robust-search_web-site-3",
+     "group": "search_web",
+     "tool": "search_web",
+     "args": "{\"site\": 1000000000000000000000000000000, \"query\": \"x\"}",
+     "violation": true,
+     "why": "AttributeError escaped the dispatcher: 'int' object has no attribute 'strip'"
+    },
+    {
+     "id": "robust-search_web-query-4",
+     "group": "search_web",
+     "tool": "search_web",
+     "args": "{\"query\": 3.14}",
+     "violation": true,
+     "why": "AttributeError escaped the dispatcher: 'float' object has no attribute 'strip'"
+    },
+    {
+     "id": "robust-search_web-site-4",
+     "group": "search_web",
+     "tool": "search_web",
+     "args": "{\"site\": 3.14, \"query\": \"x\"}",
+     "violation": true,
+     "why": "AttributeError escaped the dispatcher: 'float' object has no attribute 'strip'"
+    },
+    {
+     "id": "robust-search_web-query-5",
+     "group": "search_web",
+     "tool": "search_web",
+     "args": "{\"query\": true}",
+     "violation": true,
+     "why": "AttributeError escaped the dispatcher: 'bool' object has no attribute 'strip'"
+    },
+    {
+     "id": "robust-search_web-site-5",
+     "group": "search_web",
+     "tool": "search_web",
+     "args": "{\"site\": true, \"query\": \"x\"}",
+     "violation": true,
+     "why": "AttributeError escaped the dispatcher: 'bool' object has no attribute 'strip'"
+    },
+    {
+     "id": "robust-search_web-query-7",
+     "group": "search_web",
+     "tool": "search_web",
+     "args": "{\"query\": [1, \"a\"]}",
+     "violation": true,
+     "why": "AttributeError escaped the dispatcher: 'list' object has no attribute 'strip'"
+    },
+    {
+     "id": "robust-search_web-site-7",
+     "group": "search_web",
+     "tool": "search_web",
+     "args": "{\"site\": [1, \"a\"], \"query\": \"x\"}",
+     "violation": true,
+     "why": "AttributeError escaped the dispatcher: 'list' object has no attribute 'strip'"
+    },
+    {
+     "id": "robust-search_web-query-9",
+     "group": "search_web",
+     "tool": "search_web",
+     "args": "{\"query\": {\"a\": {\"b\": 1}}}",
+     "violation": true,
+     "why": "AttributeError escaped the dispatcher: 'dict' object has no attribute 'strip'"
+    },
+    {
+     "id": "robust-search_web-site-9",
+     "group": "search_web",
+     "tool": "search_web",
+     "args": "{\"site\": {\"a\": {\"b\": 1}}, \"query\": \"x\"}",
+     "violation": true,
+     "why": "AttributeError escaped the dispatcher: 'dict' object has no attribute 'strip'"
+    },
+    {
+     "id": "robust-search_web-query-14",
+     "group": "search_web",
+     "tool": "search_web",
+     "args": "{\"query\": \"\ud800\"}",
+     "violation": true,
+     "why": "UnicodeEncodeError escaped the dispatcher: 'utf-8' codec can't encode character '\\ud800' in position 0: surrogates not allo"
+    },
+    {
+     "id": "robust-search_web-site-14",
+     "group": "search_web",
+     "tool": "search_web",
+     "args": "{\"site\": \"\ud800\", \"query\": \"x\"}",
+     "violation": true,
+     "why": "UnicodeEncodeError escaped the dispatcher: 'utf-8' codec can't encode character '\\ud800' in position 7: surrogates not allo"
+    },
+    {
+     "id": "robust-manage_browser_tabs-action-2",
+     "group": "manage_browser_tabs",
+     "tool": "manage_browser_tabs",
+     "args": "{\"action\": -1}",
+     "violation": true,
+     "why": "AttributeError escaped the dispatcher: 'int' object has no attribute 'strip'"
+    },
+    {
+     "id": "robust-manage_browser_tabs-action-3",
+     "group": "manage_browser_tabs",
+     "tool": "manage_browser_tabs",
+     "args": "{\"action\": 1000000000000000000000000000000}",
+     "violation": true,
+     "why": "AttributeError escaped the dispatcher: 'int' object has no attribute 'strip'"
+    },
+    {
+     "id": "robust-manage_browser_tabs-action-4",
+     "group": "manage_browser_tabs",
+     "tool": "manage_browser_tabs",
+     "args": "{\"action\": 3.14}",
+     "violation": true,
+     "why": "AttributeError escaped the dispatcher: 'float' object has no attribute 'strip'"
+    },
+    {
+     "id": "robust-manage_browser_tabs-action-5",
+     "group": "manage_browser_tabs",
+     "tool": "manage_browser_tabs",
+     "args": "{\"action\": true}",
+     "violation": true,
+     "why": "AttributeError escaped the dispatcher: 'bool' object has no attribute 'strip'"
+    },
+    {
+     "id": "robust-manage_browser_tabs-action-7",
+     "group": "manage_browser_tabs",
+     "tool": "manage_browser_tabs",
+     "args": "{\"action\": [1, \"a\"]}",
+     "violation": true,
+     "why": "AttributeError escaped the dispatcher: 'list' object has no attribute 'strip'"
+    },
+    {
+     "id": "robust-manage_browser_tabs-action-9",
+     "group": "manage_browser_tabs",
+     "tool": "manage_browser_tabs",
+     "args": "{\"action\": {\"a\": {\"b\": 1}}}",
+     "violation": true,
+     "why": "AttributeError escaped the dispatcher: 'dict' object has no attribute 'strip'"
+    }
+   ]
+  }
+ },
+ "setup_s": 0.94,
+ "totals": {
+  "tripwire_log_records": 27,
+  "audit_exec_events": 50,
+  "audit_exec_allowed_tripwire": 27,
+  "audit_exec_vetoed_real_programs": 0,
+  "audit_process_calls_vetoed": 0
+ },
+ "total_s": 1.048
+}

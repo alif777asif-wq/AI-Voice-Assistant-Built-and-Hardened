@@ -1,0 +1,491 @@
+{
+ "target": "<tmp>",
+ "tree": "external",
+ "python": "3.13.17",
+ "started_utc": "2026-10-30T03:59:12Z",
+ "quick": false,
+ "checks": {
+  "browser": {
+   "key": "browser",
+   "rule": "R6",
+   "title": "Browser hand-off accepts non-http schemes and option-like strings",
+   "cases": 646,
+   "violations": 56,
+   "groups": {
+    "open_website/authored-scheme-and-option": {
+     "cases": 18,
+     "violations": 18
+    },
+    "open_website/public-open-redirect": {
+     "cases": 305,
+     "violations": 38
+    },
+    "search_web/negative-control": {
+     "cases": 323,
+     "violations": 0
+    }
+   },
+   "duration_s": 20.727,
+   "records": [
+    {
+     "id": "browser-open_website-authored-scheme-and-option-0",
+     "group": "open_website/authored-scheme-and-option",
+     "tool": "open_website",
+     "args": "{\"target\": \"file:///home/user/.ssh/id_rsa\"}",
+     "violation": true,
+     "why": "'file:///home/user/.ssh/id_rsa': scheme 'file' is not http/https"
+    },
+    {
+     "id": "browser-open_website-authored-scheme-and-option-1",
+     "group": "open_website/authored-scheme-and-option",
+     "tool": "open_website",
+     "args": "{\"target\": \"file://localhost/etc/passwd.x\"}",
+     "violation": true,
+     "why": "'file://localhost/etc/passwd.x': scheme 'file' is not http/https"
+    },
+    {
+     "id": "browser-open_website-authored-scheme-and-option-2",
+     "group": "open_website/authored-scheme-and-option",
+     "tool": "open_website",
+     "args": "{\"target\": \"javascript://example.com/%0aalert(1)\"}",
+     "violation": true,
+     "why": "'javascript://example.com/%0aalert(1)': scheme 'javascript' is not http/https"
+    },
+    {
+     "id": "browser-open_website-authored-scheme-and-option-3",
+     "group": "open_website/authored-scheme-and-option",
+     "tool": "open_website",
+     "args": "{\"target\": \"data://text/html;base64,PHNjcmlwdD4=.x\"}",
+     "violation": true,
+     "why": "'data://text/html;base64,PHNjcmlwdD4=.x': scheme 'data' is not http/https"
+    },
+    {
+     "id": "browser-open_website-authored-scheme-and-option-4",
+     "group": "open_website/authored-scheme-and-option",
+     "tool": "open_website",
+     "args": "{\"target\": \"ftp://example.com/payload.exe\"}",
+     "violation": true,
+     "why": "'ftp://example.com/payload.exe': scheme 'ftp' is not http/https"
+    },
+    {
+     "id": "browser-open_website-authored-scheme-and-option-5",
+     "group": "open_website/authored-scheme-and-option",
+     "tool": "open_website",
+     "args": "{\"target\": \"smb://attacker.example/share/x.exe\"}",
+     "violation": true,
+     "why": "'smb://attacker.example/share/x.exe': scheme 'smb' is not http/https"
+    },
+    {
+     "id": "browser-open_website-authored-scheme-and-option-6",
+     "group": "open_website/authored-scheme-and-option",
+     "tool": "open_website",
+     "args": "{\"target\": \"ssh://user@host.example\"}",
+     "violation": true,
+     "why": "'ssh://user@host.example': scheme 'ssh' is not http/https"
+    },
+    {
+     "id": "browser-open_website-authored-scheme-and-option-7",
+     "group": "open_website/authored-scheme-and-option",
+     "tool": "open_website",
+     "args": "{\"target\": \"gopher://example.com/x\"}",
+     "violation": true,
+     "why": "'gopher://example.com/x': scheme 'gopher' is not http/https"
+    },
+    {
+     "id": "browser-open_website-authored-scheme-and-option-8",
+     "group": "open_website/authored-scheme-and-option",
+     "tool": "open_website",
+     "args": "{\"target\": \"search-ms://query=x.y\"}",
+     "violation": true,
+     "why": "'search-ms://query=x.y': scheme 'search-ms' is not http/https"
+    },
+    {
+     "id": "browser-open_website-authored-scheme-and-option-9",
+     "group": "open_website/authored-scheme-and-option",
+     "tool": "open_website",
+     "args": "{\"target\": \"--gpu-launcher=sh://x.y\"}",
+     "violation": true,
+     "why": "'--gpu-launcher=sh://x.y': begins with '-' (parsed as a browser option); '--gpu-launcher=sh://x.y': scheme '(none)' is not http/https"
+    },
+    {
+     "id": "browser-open_website-authored-scheme-and-option-10",
+     "group": "open_website/authored-scheme-and-option",
+     "tool": "open_website",
+     "args": "{\"target\": \"--renderer-cmd-prefix=calc://x.y\"}",
+     "violation": true,
+     "why": "'--renderer-cmd-prefix=calc://x.y': begins with '-' (parsed as a browser option); '--renderer-cmd-prefix=calc://x.y': scheme '(none)' is not http/https"
+    },
+    {
+     "id": "browser-open_website-authored-scheme-and-option-11",
+     "group": "open_website/authored-scheme-and-option",
+     "tool": "open_website",
+     "args": "{\"target\": \"--utility-cmd-prefix=x://y.z\"}",
+     "violation": true,
+     "why": "'--utility-cmd-prefix=x://y.z': begins with '-' (parsed as a browser option); '--utility-cmd-prefix=x://y.z': scheme '(none)' is not http/https"
+    },
+    {
+     "id": "browser-open_website-authored-scheme-and-option-12",
+     "group": "open_website/authored-scheme-and-option",
+     "tool": "open_website",
+     "args": "{\"target\": \"-new-window://x.y\"}",
+     "violation": true,
+     "why": "'-new-window://x.y': begins with '-' (parsed as a browser option); '-new-window://x.y': scheme '(none)' is not http/https"
+    },
+    {
+     "id": "browser-open_website-authored-scheme-and-option-13",
+     "group": "open_website/authored-scheme-and-option",
+     "tool": "open_website",
+     "args": "{\"target\": \"--incognito://x.y\"}",
+     "violation": true,
+     "why": "'--incognito://x.y': begins with '-' (parsed as a browser option); '--incognito://x.y': scheme '(none)' is not http/https"
+    },
+    {
+     "id": "browser-open_website-authored-scheme-and-option-14",
+     "group": "open_website/authored-scheme-and-option",
+     "tool": "open_website",
+     "args": "{\"target\": \"https://a.example\\n--incognito\"}",
+     "violation": true,
+     "why": "'https://a.example\\n--incognito': contains control characters"
+    },
+    {
+     "id": "browser-open_website-authored-scheme-and-option-15",
+     "group": "open_website/authored-scheme-and-option",
+     "tool": "open_website",
+     "args": "{\"target\": \"http://example.com\\t--x\"}",
+     "violation": true,
+     "why": "'http://example.com\\t--x': contains control characters"
+    },
+    {
+     "id": "browser-open_website-authored-scheme-and-option-16",
+     "group": "open_website/authored-scheme-and-option",
+     "tool": "open_website",
+     "args": "{\"target\": \"https://example.com/\\u0007\"}",
+     "violation": true,
+     "why": "'https://example.com/\\x07': contains control characters"
+    },
+    {
+     "id": "browser-open_website-authored-scheme-and-option-17",
+     "group": "open_website/authored-scheme-and-option",
+     "tool": "open_website",
+     "args": "{\"target\": \"https://example.com/\\u0000evil\"}",
+     "violation": true,
+     "why": "'https://example.com/\\x00evil': contains control characters"
+    },
+    {
+     "id": "browser-open_website-public-open-redirect-8",
+     "group": "open_website/public-open-redirect",
+     "tool": "open_website",
+     "args": "{\"target\": \"/https://google.com/%2f..\"}",
+     "violation": true,
+     "why": "'/https://google.com/%2f..': scheme '(none)' is not http/https"
+    },
+    {
+     "id": "browser-open_website-public-open-redirect-9",
+     "group": "open_website/public-open-redirect",
+     "tool": "open_website",
+     "args": "{\"target\": \"/https://www.whitelisteddomain.tld@google.com/%2f..\"}",
+     "violation": true,
+     "why": "'/https://www.whitelisteddomain.tld@google.com/%2f..': scheme '(none)' is not http/https"
+    },
+    {
+     "id": "browser-open_website-public-open-redirect-18",
+     "group": "open_website/public-open-redirect",
+     "tool": "open_website",
+     "args": "{\"target\": \"/https://www.google.com/%2f%2e%2e\"}",
+     "violation": true,
+     "why": "'/https://www.google.com/%2f%2e%2e': scheme '(none)' is not http/https"
+    },
+    {
+     "id": "browser-open_website-public-open-redirect-19",
+     "group": "open_website/public-open-redirect",
+     "tool": "open_website",
+     "args": "{\"target\": \"/https://www.whitelisteddomain.tld@www.google.com/%2f%2e%2e\"}",
+     "violation": true,
+     "why": "'/https://www.whitelisteddomain.tld@www.google.com/%2f%2e%2e': scheme '(none)' is not http/https"
+    },
+    {
+     "id": "browser-open_website-public-open-redirect-28",
+     "group": "open_website/public-open-redirect",
+     "tool": "open_website",
+     "args": "{\"target\": \"/https://google.com/\"}",
+     "violation": true,
+     "why": "'/https://google.com/': scheme '(none)' is not http/https"
+    },
+    {
+     "id": "browser-open_website-public-open-redirect-29",
+     "group": "open_website/public-open-redirect",
+     "tool": "open_website",
+     "args": "{\"target\": \"/https://www.whitelisteddomain.tld@google.com/\"}",
+     "violation": true,
+     "why": "'/https://www.whitelisteddomain.tld@google.com/': scheme '(none)' is not http/https"
+    },
+    {
+     "id": "browser-open_website-public-open-redirect-38",
+     "group": "open_website/public-open-redirect",
+     "tool": "open_website",
+     "args": "{\"target\": \"//https://google.com//\"}",
+     "violation": true,
+     "why": "'//https://google.com//': scheme '(none)' is not http/https"
+    },
+    {
+     "id": "browser-open_website-public-open-redirect-39",
+     "group": "open_website/public-open-redirect",
+     "tool": "open_website",
+     "args": "{\"target\": \"//https://www.whitelisteddomain.tld@google.com//\"}",
+     "violation": true,
+     "why": "'//https://www.whitelisteddomain.tld@google.com//': scheme '(none)' is not http/https"
+    },
+    {
+     "id": "browser-open_website-public-open-redirect-48",
+     "group": "open_website/public-open-redirect",
+     "tool": "open_website",
+     "args": "{\"target\": \"//https://www.google.com/%2e%2e%2f\"}",
+     "violation": true,
+     "why": "'//https://www.google.com/%2e%2e%2f': scheme '(none)' is not http/https"
+    },
+    {
+     "id": "browser-open_website-public-open-redirect-49",
+     "group": "open_website/public-open-redirect",
+     "tool": "open_website",
+     "args": "{\"target\": \"//https://www.whitelisteddomain.tld@www.google.com/%2e%2e%2f\"}",
+     "violation": true,
+     "why": "'//https://www.whitelisteddomain.tld@www.google.com/%2e%2e%2f': scheme '(none)' is not http/https"
+    },
+    {
+     "id": "browser-open_website-public-open-redirect-56",
+     "group": "open_website/public-open-redirect",
+     "tool": "open_website",
+     "args": "{\"target\": \"//https:///www.google.com/%2e%2e\"}",
+     "violation": true,
+     "why": "'//https:///www.google.com/%2e%2e': scheme '(none)' is not http/https"
+    },
+    {
+     "id": "browser-open_website-public-open-redirect-57",
+     "group": "open_website/public-open-redirect",
+     "tool": "open_website",
+     "args": "{\"target\": \"//www.whitelisteddomain.tld@https:///www.google.com/%2e%2e\"}",
+     "violation": true,
+     "why": "'//www.whitelisteddomain.tld@https:///www.google.com/%2e%2e': scheme '(none)' is not http/https"
+    },
+    {
+     "id": "browser-open_website-public-open-redirect-58",
+     "group": "open_website/public-open-redirect",
+     "tool": "open_website",
+     "args": "{\"target\": \"/https://www.google.com/%2e%2e\"}",
+     "violation": true,
+     "why": "'/https://www.google.com/%2e%2e': scheme '(none)' is not http/https"
+    },
+    {
+     "id": "browser-open_website-public-open-redirect-59",
+     "group": "open_website/public-open-redirect",
+     "tool": "open_website",
+     "args": "{\"target\": \"/https://www.whitelisteddomain.tld@www.google.com/%2e%2e\"}",
+     "violation": true,
+     "why": "'/https://www.whitelisteddomain.tld@www.google.com/%2e%2e': scheme '(none)' is not http/https"
+    },
+    {
+     "id": "browser-open_website-public-open-redirect-62",
+     "group": "open_website/public-open-redirect",
+     "tool": "open_website",
+     "args": "{\"target\": \"/https:///www.google.com/%2f%2e%2e\"}",
+     "violation": true,
+     "why": "'/https:///www.google.com/%2f%2e%2e': scheme '(none)' is not http/https"
+    },
+    {
+     "id": "browser-open_website-public-open-redirect-63",
+     "group": "open_website/public-open-redirect",
+     "tool": "open_website",
+     "args": "{\"target\": \"/https:///www.whitelisteddomain.tld@www.google.com/%2f%2e%2e\"}",
+     "violation": true,
+     "why": "'/https:///www.whitelisteddomain.tld@www.google.com/%2f%2e%2e': scheme '(none)' is not http/https"
+    },
+    {
+     "id": "browser-open_website-public-open-redirect-84",
+     "group": "open_website/public-open-redirect",
+     "tool": "open_website",
+     "args": "{\"target\": \"/https://%5cgoogle.com\"}",
+     "violation": true,
+     "why": "'/https://%5cgoogle.com': scheme '(none)' is not http/https"
+    },
+    {
+     "id": "browser-open_website-public-open-redirect-85",
+     "group": "open_website/public-open-redirect",
+     "tool": "open_website",
+     "args": "{\"target\": \"/https://%5cwww.whitelisteddomain.tld@google.com\"}",
+     "violation": true,
+     "why": "'/https://%5cwww.whitelisteddomain.tld@google.com': scheme '(none)' is not http/https"
+    },
+    {
+     "id": "browser-open_website-public-open-redirect-109",
+     "group": "open_website/public-open-redirect",
+     "tool": "open_website",
+     "args": "{\"target\": \"javascript://www.whitelisteddomain.tld?%a0alert%281%29\"}",
+     "violation": true,
+     "why": "'javascript://www.whitelisteddomain.tld?%a0alert%281%29': scheme 'javascript' is not http/https"
+    },
+    {
+     "id": "browser-open_website-public-open-redirect-270",
+     "group": "open_website/public-open-redirect",
+     "tool": "open_website",
+     "args": "{\"target\": \"//https:///example.com/%2e%2e\"}",
+     "violation": true,
+     "why": "'//https:///example.com/%2e%2e': scheme '(none)' is not http/https"
+    },
+    {
+     "id": "browser-open_website-public-open-redirect-271",
+     "group": "open_website/public-open-redirect",
+     "tool": "open_website",
+     "args": "{\"target\": \"//https://example.com/%2e%2e%2f\"}",
+     "violation": true,
+     "why": "'//https://example.com/%2e%2e%2f': scheme '(none)' is not http/https"
+    },
+    {
+     "id": "browser-open_website-public-open-redirect-272",
+     "group": "open_website/public-open-redirect",
+     "tool": "open_website",
+     "args": "{\"target\": \"//https://example.com//\"}",
+     "violation": true,
+     "why": "'//https://example.com//': scheme '(none)' is not http/https"
+    },
+    {
+     "id": "browser-open_website-public-open-redirect-276",
+     "group": "open_website/public-open-redirect",
+     "tool": "open_website",
+     "args": "{\"target\": \"/?url=Https://example.com&next=Https://example.com&redirect=Https://example.com&redir=Https://example.com&rurl=Https://example.com&redirect_uri=Http...(+17)",
+     "violation": true,
+     "why": "'/?url=Https://example.com&next=Https://example.com&redirect=Https://ex': scheme '(none)' is not http/https"
+    },
+    {
+     "id": "browser-open_website-public-open-redirect-281",
+     "group": "open_website/public-open-redirect",
+     "tool": "open_website",
+     "args": "{\"target\": \"/http://example.com\"}",
+     "violation": true,
+     "why": "'/http://example.com': scheme '(none)' is not http/https"
+    },
+    {
+     "id": "browser-open_website-public-open-redirect-284",
+     "group": "open_website/public-open-redirect",
+     "tool": "open_website",
+     "args": "{\"target\": \"/https://%09/example.com\"}",
+     "violation": true,
+     "why": "'/https://%09/example.com': scheme '(none)' is not http/https"
+    },
+    {
+     "id": "browser-open_website-public-open-redirect-285",
+     "group": "open_website/public-open-redirect",
+     "tool": "open_website",
+     "args": "{\"target\": \"/https://%5cexample.com\"}",
+     "violation": true,
+     "why": "'/https://%5cexample.com': scheme '(none)' is not http/https"
+    },
+    {
+     "id": "browser-open_website-public-open-redirect-286",
+     "group": "open_website/public-open-redirect",
+     "tool": "open_website",
+     "args": "{\"target\": \"/https:///example.com/%2e%2e\"}",
+     "violation": true,
+     "why": "'/https:///example.com/%2e%2e': scheme '(none)' is not http/https"
+    },
+    {
+     "id": "browser-open_website-public-open-redirect-287",
+     "group": "open_website/public-open-redirect",
+     "tool": "open_website",
+     "args": "{\"target\": \"/https:///example.com/%2f%2e%2e\"}",
+     "violation": true,
+     "why": "'/https:///example.com/%2f%2e%2e': scheme '(none)' is not http/https"
+    },
+    {
+     "id": "browser-open_website-public-open-redirect-288",
+     "group": "open_website/public-open-redirect",
+     "tool": "open_website",
+     "args": "{\"target\": \"/https://example.com\"}",
+     "violation": true,
+     "why": "'/https://example.com': scheme '(none)' is not http/https"
+    },
+    {
+     "id": "browser-open_website-public-open-redirect-289",
+     "group": "open_website/public-open-redirect",
+     "tool": "open_website",
+     "args": "{\"target\": \"/https://example.com/\"}",
+     "violation": true,
+     "why": "'/https://example.com/': scheme '(none)' is not http/https"
+    },
+    {
+     "id": "browser-open_website-public-open-redirect-290",
+     "group": "open_website/public-open-redirect",
+     "tool": "open_website",
+     "args": "{\"target\": \"/https://example.com/%2e%2e\"}",
+     "violation": true,
+     "why": "'/https://example.com/%2e%2e': scheme '(none)' is not http/https"
+    },
+    {
+     "id": "browser-open_website-public-open-redirect-291",
+     "group": "open_website/public-open-redirect",
+     "tool": "open_website",
+     "args": "{\"target\": \"/https://example.com/%2e%2e%2f\"}",
+     "violation": true,
+     "why": "'/https://example.com/%2e%2e%2f': scheme '(none)' is not http/https"
+    },
+    {
+     "id": "browser-open_website-public-open-redirect-292",
+     "group": "open_website/public-open-redirect",
+     "tool": "open_website",
+     "args": "{\"target\": \"/https://example.com/%2f%2e%2e\"}",
+     "violation": true,
+     "why": "'/https://example.com/%2f%2e%2e': scheme '(none)' is not http/https"
+    },
+    {
+     "id": "browser-open_website-public-open-redirect-293",
+     "group": "open_website/public-open-redirect",
+     "tool": "open_website",
+     "args": "{\"target\": \"/https://example.com/%2f..\"}",
+     "violation": true,
+     "why": "'/https://example.com/%2f..': scheme '(none)' is not http/https"
+    },
+    {
+     "id": "browser-open_website-public-open-redirect-294",
+     "group": "open_website/public-open-redirect",
+     "tool": "open_website",
+     "args": "{\"target\": \"/https://example.com//\"}",
+     "violation": true,
+     "why": "'/https://example.com//': scheme '(none)' is not http/https"
+    },
+    {
+     "id": "browser-open_website-public-open-redirect-298",
+     "group": "open_website/public-open-redirect",
+     "tool": "open_website",
+     "args": "{\"target\": \"/redirect?url=Https://example.com&next=Https://example.com&redirect=Https://example.com&redir=Https://example.com&rurl=Https://example.com&redirect_...(+25)",
+     "violation": true,
+     "why": "'/redirect?url=Https://example.com&next=Https://example.com&redirect=Ht': scheme '(none)' is not http/https"
+    },
+    {
+     "id": "browser-open_website-public-open-redirect-299",
+     "group": "open_website/public-open-redirect",
+     "tool": "open_website",
+     "args": "{\"target\": \"/?url=http://example.com&next=http://example.com&redirect=http://example.com&redir=http://example.com&rurl=http://example.com\"}",
+     "violation": true,
+     "why": "'/?url=http://example.com&next=http://example.com&redirect=http://examp': scheme '(none)' is not http/https"
+    },
+    {
+     "id": "browser-open_website-public-open-redirect-302",
+     "group": "open_website/public-open-redirect",
+     "tool": "open_website",
+     "args": "{\"target\": \"/redirect?url=http://example.com&next=http://example.com&redirect=http://example.com&redir=http://example.com&rurl=http://example.com\"}",
+     "violation": true,
+     "why": "'/redirect?url=http://example.com&next=http://example.com&redirect=http': scheme '(none)' is not http/https"
+    }
+   ],
+   "benign": null
+  }
+ },
+ "setup_s": 2.164,
+ "totals": {
+  "tripwire_log_records": 640,
+  "audit_exec_events": 641,
+  "audit_exec_allowed_tripwire": 641,
+  "audit_exec_vetoed_real_programs": 0,
+  "audit_process_calls_vetoed": 0
+ },
+ "total_s": 22.94
+}
