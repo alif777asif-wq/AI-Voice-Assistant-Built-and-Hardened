@@ -1,0 +1,4 @@
+portfolio/** linguist-documentation
+portfolio_images/** linguist-documentation
+boards/** linguist-documentation
+*.html linguist-documentation
